@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/memoria.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <title>Memoria || Surveillance</title>
+  <link rel="icon" href="../imagens/Icon.png">
+  <script type='text/javascript' src='https://widget.freshworks.com/widgets/72000002928.js' async defer></script>
+</head>
+
+<body">
+  <div class="container">
+
+    <div id="sidebar" class="sidebar">
+      <div class="cont-img">
+        <div class="aba" onclick="sair_side()">
+          <div class="aba-estilo"></div>
+          <div class="aba-estilo"></div>
+          <div class="aba-estilo"></div>
+        </div>
+        <img src="../imagens/Logo.png">
+      </div>
+
+      <div class="cont-text">
+        <div class="inicio-nav">
+          <div class="icon-home">
+            <img src="../imagens/homeBranco.png" alt="">
+          </div>
+          <div class="text-home">
+            <a href="./home.html"><p>Pagina<br>
+              Inicial</p></a>
+          </div>
+        </div>
+
+        <div id="status" class="status-nav">
+          <div class="icon-status">
+            <img src="../imagens/statusAzul.png"">
+          </div>
+          <div class="text-status">
+            <a href="./memoria.html"><p style="color: #515AED;">Status</p></a>
+          </div>
+        </div>
+
+        <div id="historico" class="historico-nav">
+          <div class="icon-historico">
+            <img src="../imagens/historicoBranco.png" alt="">
+          </div>
+          <div class="text-historico">
+            <a href="hIstorico.html"><p>Histórico</p></a>
+          </div>
+        </div>
+
+        <div id="gestao" class="gestao-nav">
+          <div class="icon-gestao">
+            <img src="../imagens/gestaoBranco.png" alt="">
+          </div>
+          <div class="text-gestao">
+            <a href="gestao.html"><p>Gestão de<br>
+            Funcionario</p></a>
+          </div>
+        </div>
+
+        <div class="sair-nav">
+          <div class="icon-sair">
+            <img src="../imagens/sair.png" alt="">
+          </div>
+          <div class="text-sair">
+            <a href="../index.html"><p>Sair</p></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar">
+      <div class="abrir-aba" onclick="entrar_side()">
+        <div class="abrir-estilo"></div>
+        <div class="abrir-estilo"></div>
+        <div class="abrir-estilo"></div>
+      </div>
+      <img src="../imagens/Icon.png" alt="">
+    </div>
+
+    <div class="titulo">
+      <h1 id="titulo">Servidor X - Memória</h1>
+    </div>
+
+    <div id="selectTituloFeed" class="selectTituloFeed">
+      <select onchange="mudarFkMemoria()" id="Selectmemorias" class="SelectMemorias"></select>
+    </div>
+
+    <div class="grafico">
+      <div id="chartJs" class="chartJs">
+        <canvas id="myChart" class="myChart"></canvas>
+      </div>
+    </div>
+
+    <div class="legendaGrafico">
+      <div class="cont-info">
+        <div class="info-atual">
+          <h3>Memoria Disponivel:</h3>  
+
+          <p id="memoriaDisponivel">64GB</p>
+        </div>
+        <div class="info-atual">
+          <h3>Memoria Total:</h3>
+          <p id="memoriaTotal">128GB</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="listaMaquinas">
+      <h3>Máquinas:</h3>
+      <div id="listaMaquinas" class="Maquinas"> 
+       <br>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+<script>
+ 
+
+
+  // ID DAS PAGINAS PARA DEFINIR AS PERMISSÕES
+  const status = document.getElementById("status");
+  const historico = document.getElementById("historico");
+  const gestao = document.getElementById("gestao");
+
+  if(sessionStorage.TELA_GESTAO == "false"){
+    gestao.style.pointerEvents = "none";
+    gestao.style.cursor = "default";
+    gestao.style.opacity = 0.5
+  }
+  
+  if(sessionStorage.TELA_HISTORICO == "false"){
+    historico.style.pointerEvents = "none";
+    historico.style.cursor = "default";
+    historico.style.opacity = 0.5
+  }
+  
+  if(sessionStorage.TELA_STATUS == "false"){
+    status.style.pointerEvents = "none";
+    status.style.cursor = "default";
+    status.style.opacity = 0.5
+  }
+
+  // variaveis que utilizamos para fazer criar o grafico, e executar os selects
+  // só apague se souber o que está fazendo
+
+  var fkmemoria = 1;
+  var dados = [];
+  var dadosHora = [];
+  var fkEmpresa = sessionStorage.ID_EMPRESA;
+  var dadosIdmemoria= []
+  var qtdMemorias = 0
+  var dadosIdEquipamentos = []
+  var qtdEquipamentos = 0
+  var dadosTipoEquipamento = []
+  var fkEquipamento = 0
+  var memoriaTotalNumero = []
+  var memoriaDisponivelNumero =[] 
+
+  // variaveis para insert com data e hora atual
+  var getAno = new Date().getFullYear()
+  var getMes = new Date().getMonth().toFixed()
+  var getDia = new Date().getDay()
+  var getHora = new Date().getHours()
+  var getMinutos = new Date().getMinutes()
+  var getSegundos = new Date().getSeconds(0) 
+  var horaAtualDoSistema = `${getAno}-${getMes}-${getDia} ${getHora}:${getMinutos}:${getSegundos} ` 
+
+  // chamando as funcções para iniciar a pagina com o primeiro grafico ja selecionado
+
+  reqInfoEquipamentos();
+  
+  
+  
+  // funcção para pegar as inforcamoes do banco que serão utilizadas no charJS
+  function reqInfoMemoria() {
+    fetch("/medidas/reqInfoMemoria", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            fkmemoria: fkmemoria,
+            fkEquipamento: fkEquipamento,
+            fkEmpresa : fkEmpresa,
+
+        })
+    }).then(function (resposta) {
+         console.log("ESTOU NO THEN DO entrar()!")
+        if (resposta.ok) {
+            resposta.json().then(json => {
+                // console.log(json);
+                // alert(json[0].memoria_uso)
+                dados = []
+                dadosHora = []
+                memoriaDisponivelNumero = []
+                memoriaTotalNumero = []
+                for (let i = 0; i < json.length; i++) {
+                    dados.push(json[i].memoriaUso / 1073741824).toFixed(2);
+                    dadosHora.push(json[i].dataMedicao)
+                    memoriaDisponivelNumero.push(json[i].memoriaDisponivel/ 1073741824).toFixed(2)
+                    memoriaTotalNumero.push(json[i].memoriaTotal/ 1073741824).toFixed(2)
+                    setLegenda()
+                }
+                
+                // apos pegar a funcao do banco nós chamos a funcao criar grafico, para 
+                // o chart ser criado com as informações corretas
+                criarGrafico()
+                
+           
+            }); 
+        } else {
+            console.log("Houve um erro ao pegar informaçoes!");
+            resposta.text().then(texto => {
+                // console.error(texto);
+               // finalizarAguardar(texto);
+            });
+        }
+    }).catch(function (erro) {
+        // console.log(erro);
+    })
+   
+    return false;
+   
+  }
+// FUNCOES PARA PEGAR DADOS DO BANCO SÓ MEXA SE TIVER CERTEZA DO QUE ESTÁ FAZENDO //
+
+
+   // funcao para requerer a quantidade de memorias que aquele equipamento tem e os respectivos ids das memorias
+ function reqQtdMemorias() {
+  fetch("/medidas/reqQtdMemorias", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+
+      fkmemoria: fkmemoria,
+      fkEquipamento: fkEquipamento,
+      fkEmpresa : fkEmpresa,
+      
+      })
+  }).then(function (resposta2) {
+      // console.log("ESTOU NO THEN DO entrar()!")
+      if (resposta2.ok) {
+          resposta2.json().then(jsonIdMemoria => {
+              // console.log(json);
+              // alert(json[0].memoria_uso)
+              for (let i = 0; i < jsonIdMemoria.length; i++) {
+                  dadosIdmemoria.push(jsonIdMemoria[i].idMemoria);
+              }
+              qtdMemorias = dadosIdmemoria.length
+              exibirMemoriasSelect();
+          }); 
+      } else {
+          console.log("Houve um erro ao pegar informaçoes!");
+          resposta.text().then(texto => {
+              // console.error(texto);
+             // finalizarAguardar(texto);
+          });
+      }
+  }).catch(function (erro) {
+      // console.log(erro);
+  })
+ 
+  return false;
+ 
+}
+
+
+// funcao para pegar os dados da tabela equipamento, mais expecificamente os ids e os tipos de equipamento
+function reqInfoEquipamentos() {
+  fetch("/medidas/reqInfoEquipamentos", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+      fkEmpresa : fkEmpresa
+      })
+  }).then(function (resposta3) {
+      // console.log("ESTOU NO THEN DO entrar()!")
+      if (resposta3.ok) {
+          resposta3.json().then(jsonIdEquipamento => {
+              // console.log(json);
+              // alert(json[0].memoria_uso)
+              for (let i = 0; i < jsonIdEquipamento.length; i++) {
+                 dadosIdEquipamentos.push(jsonIdEquipamento[i].idEquipamento);
+                 dadosTipoEquipamento.push(jsonIdEquipamento[i].tipoEquipamento)
+              }
+              if(fkEquipamento == 0){
+                setFkEquipamento(dadosIdEquipamentos[0]) 
+                qtdEquipamentos = dadosIdEquipamentos.length
+                getEquipamento()
+              }
+              else{
+              qtdEquipamentos = dadosIdEquipamentos.length
+              getEquipamento()
+              }
+              
+                getEquipamento()
+                reqInfoMemoria();
+                reqQtdMemorias();
+              
+
+             }); 
+      } else {
+          console.log("Houve um erro ao pegar informaçoes!");
+          resposta.text().then(texto => {
+              // console.error(texto);
+             // finalizarAguardar(texto);
+          });
+      }
+  }).catch(function (erro) {
+      // console.log(erro);
+  })
+ 
+  return false;
+ 
+}
+
+    // aqui acaba as funções para pegar as informações do banco
+
+   //----- funções para exibir os dados que foram pegos do banco ----
+
+
+ // como o nome diz, funcao para criar o  gráfico do  chartJS (nós utilizamos a função reqInfoMemoria para preencher  os dados do gráfico)
+
+function criarGrafico(){
+  removerGrafico()
+const labels = dadosHora
+const data = {
+  labels: labels,
+  datasets: [{
+    label: 'Memoria em Uso', 
+    backgroundColor: '#19B7F7',
+    borderColor: '#19B7F7',
+    data: dados
+  }]
+};
+
+const config = {
+    type: 'line',
+    data: data,
+    Options: {
+          maintainAspectRatio: false
+        }
+  }
+  Chart.defaults.color = '#FFF';
+  Chart.defaults.borderColor= '#2276E0', 
+  Chart.defaults.font.size = 13;
+  Chart.defaults.font.weight = 100;
+  Chart.defaults.font.family ='Montserrat';
+    
+
+  const myChart = new Chart(
+      document.getElementById('myChart'),
+      config
+    );
+  }
+
+
+ 
+ //funcao para exibir as memorias  de determinado equipamento na combo box e exibir para o usuario  (nós utilizamos a funcao reqQtdMemorias)
+ function exibirMemoriasSelect(){
+   
+  for( var i = 0; i < qtdMemorias; i++){
+   Selectmemorias.innerHTML =  
+   `<option  class="OptionMemorias" value=${dadosIdmemoria[i]}>
+       <button onclick="mudarValue()">
+         Memoria ${dadosIdmemoria[i]}
+       </button>
+     </option>`
+     fkmemoria = dadosIdmemoria[i]
+
+  }
+  removerGrafico();
+  reqInfoMemoria();
+ }
+ // funcao para mostrar ao nosso usuario os equipamentos que a empresa dele tem ( utilizamos a funcao reqInfoEquipamentos para preencher os dados que serão exibidos atraves dessa funcao )
+ function getEquipamento(){
+  listaMaquinas.innerHTML = ''
+  for(var i = 0; i < dadosIdEquipamentos.length; i++){
+  listaMaquinas.innerHTML +=`<button onclick="setFkEquipamento(${i + 1})" class="botaoLista" > ${dadosTipoEquipamento[i]} ${dadosIdEquipamentos[i]}</button> <br> <br>`
+}
+var transferenciaDados = 0
+}
+
+// --- aqui acabam aas funcoes que são utilizadas para exibir informações retiradas do banco ao ususario  ---
+
+// funcao para manutenção das informmações 
+
+// antes de recriar um grafico com chartJS nós devemos apagar o anterior, e esse é o papel dessa função 
+function removerGrafico(){
+  chartJs.innerHTML = ''
+  chartJs.innerHTML= `<canvas  id="myChart"></canvas>`
+  
+  }
+
+ // função utilizada para mudar o equipamento que o usuario quer ter informações(por sua vez muda o valor do fkEquipamento, para manutenção da funcao reqQtdMemorias e reqIfoMemoria) 
+
+ function setFkEquipamento(Valor){
+  if(dadosTipoEquipamento[Valor - 1]== "computador" ){
+    titulo.innerHTML = `Comp ${Valor} - Memoria`
+
+  }
+  else{
+  titulo.innerHTML = `${dadosTipoEquipamento[Valor - 1]} ${Valor} - Memoria`
+  }
+dadosIdEquipamentos = []
+dadosTipoEquipamento = []
+dadosIdmemoria = []
+fkEquipamento = Valor
+dados = []
+dadosHora = []
+
+
+
+removerGrafico()
+reqInfoEquipamentos()
+reqQtdMemorias()
+
+
+
+}
+
+// funcção para mudar as informações da legenda do grafico 
+function setLegenda(){
+  for(let i = 0; i < memoriaDisponivelNumero.length; i++){
+  memoriaDisponivel.innerHTML = `${memoriaDisponivelNumero[i].toFixed(2)}GB`
+  memoriaTotal.innerHTML = `${memoriaTotalNumero[i].toFixed(2)}GB`
+  
+  }
+
+      
+
+}
+
+function sair_side() {
+    sidebar.style.right = "115%"
+    sidebar.style.animation = "sair-side 0.3s linear"
+  }
+
+  function entrar_side() {
+    sidebar.style.right = "50%"
+    sidebar.style.animation = "entrar-side 0.3s linear"
+  }
+  window.fwSettings={
+	'widget_id':72000002928
+	};
+
+  setInterval(() => {
+    reqInfoMemoria();
+
+      
+
+  }, 12000);
+	!function(){if("function"!=typeof window.FreshworksWidget){var n=function(){n.q.push(arguments)};n.q=[],window.FreshworksWidget=n}}() 
+
+</script>
+

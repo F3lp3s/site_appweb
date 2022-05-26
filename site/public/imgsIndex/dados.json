@@ -1,0 +1,7 @@
+[
+  {"nome": "Servidor1", "local": "Disco",   "numero": 85,"status": "Crítico"  ,"data": "02/04/2022", "horario":"12:53"},
+  {"nome": "Servidor1", "local": "CPU",     "numero": 75,"status": "Crítico"  ,"data": "03/04/2022", "horario":"16:21"},
+  {"nome": "Servidor2", "local": "Memória", "numero": 90,"status": "Moderado" ,"data": "10/04/2022", "horario":"13:54"},
+  {"nome": "Caixa1",    "local": "CPU",     "numero": 70,"status": "Moderado" ,"data": "14/04/2022", "horario":"14:13"},
+  {"nome": "Caixa1",    "local": "Disco",   "numero": 85,"status": "Crítico"  ,"data": "20/04/2022", "horario":"12:06"}
+]

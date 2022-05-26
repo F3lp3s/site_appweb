@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/menudashboard.css">
+    <link rel="stylesheet" href="../css/home.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
+    <title>Home || Surveillance</title>
+    <link rel="icon" href="../imagens/Icon.png">
+    <script type='text/javascript' src='https://widget.freshworks.com/widgets/72000002928.js' async defer></script>
+</head>
+<body id="body">
+
+    <div class="main">
+
+        <!----------------------- inicio do menu ---------------->
+        
+        <div id="sidebar" class="sidebar">
+            <div class="cont-img">
+              <div class="aba" onclick="sair_side()">
+                <div class="aba-estilo"></div>
+                <div class="aba-estilo"></div>
+                <div class="aba-estilo"></div>
+              </div>
+              <img src="../imagens/Logo.png">
+            </div>
+      
+            <div class="cont-text">
+              <div class="inicio-nav">
+                <div class="icon-home">
+                  <img src="../imagens/homeAzul.png" alt="">
+                </div>
+                <div class="text-home">
+                  <a href="./home.html"><p style="color: #515AED;">Pagina<br>
+                    Inicial</p></a>
+                </div>
+              </div>
+      
+              <div id="status" class="status-nav">
+                <div class="icon-status">
+                  <img src="../imagens/statusBranco.png" alt="">
+                </div>
+                <div class="text-status">
+                  <a href="./memoria.html"><p>Status</p></a>
+                </div>
+              </div>
+      
+              <div id="historico" class="historico-nav">
+                <div class="icon-historico">
+                  <img src="../imagens/historicoBranco.png" alt="">
+                </div>
+                <div class="text-historico">
+                  <a href="hIstorico.html"><p>Histórico</p></a>
+                </div>
+              </div>
+      
+              <div id="gestao" class="gestao-nav">
+                <div class="icon-gestao">
+                  <img src="../imagens/gestaoBranco.png" alt="">
+                </div>
+                <div class="text-gestao">
+                  <a href="gestao.html"><p>Gestão de<br>
+                  Funcionario</p></a>
+                </div>
+              </div>
+      
+              <div class="sair-nav">
+                <div class="icon-sair">
+                  <img src="../imagens/sair.png" alt="">
+                </div>
+                <div class="text-sair">
+                  <a href="../index.html"><p>Sair</p></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        <!----------------------- fim do menu ---------------->
+
+        <div class="corpo">
+            <div class="container">
+                <h1 id="nomeUsuario" class="usuario-logado usuario">Olá Usuario</h1>
+                
+                <select class="filtro">
+                    <option value="">Servidor</option>
+                    <option value="">Caixa</option>
+                </select>
+                <p class="bem-vindo usuario">Bem vindo</p>
+
+
+                <div class="info-maquinas" id="info_maquinas">
+
+
+                </div>
+                
+                <div class="estados">
+                    <div class="estado-critico">
+                        <h2>Maquinas em críticos:</h2>
+
+                        <div id="equipamentosCriticos" class="maquinas">
+                            
+                        </div>
+
+                    </div>
+                    <hr>
+                    <div class="estado-moderado">
+                        <h2>Maquinas em moderado:</h2>
+
+                        <div id="equipamentosModerados" class="maquinas">
+                            
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
+
+<script>
+
+    const campoNomeUsuario = document.getElementById("nomeUsuario");
+
+    // ID DAS PAGINAS PARA DEFINIR AS PERMISSÕES
+  const status = document.getElementById("status");
+  const historico = document.getElementById("historico");
+  const gestao = document.getElementById("gestao");
+
+  if(sessionStorage.TELA_GESTAO == "false"){
+    gestao.style.pointerEvents = "none";
+    gestao.style.cursor = "default";
+    gestao.style.opacity = 0.5  
+  }
+  
+  if(sessionStorage.TELA_HISTORICO == "false"){
+    historico.style.pointerEvents = "none";
+    historico.style.cursor = "default";
+    historico.style.opacity = 0.5
+  }
+  
+  if(sessionStorage.TELA_STATUS == "false"){
+    status.style.pointerEvents = "none";
+    status.style.cursor = "default";
+    status.style.opacity = 0.5
+  }
+
+
+
+    const criticos = document.getElementById("equipamentosCriticos");
+    const moderados = document.getElementById("equipamentosModerados");
+    
+    const usuario = sessionStorage.NOME_REPRESENTANTE;
+
+    campoNomeUsuario.innerHTML = `Olá ${usuario}`;
+
+    const fkEmpresa = sessionStorage.ID_EMPRESA;
+
+    let teste;
+    
+    lsitarMaquinas();
+
+    function listarProcessador(idEquipamento){
+
+      console.log("TESTEEE AQUOO " + teste[0])
+
+      const metricaCpu = document.getElementById(`metricaCpu${idEquipamento}`);
+      const alertaCpu = document.getElementById(`alertaCpu${idEquipamento}`);
+      const paragrafoEstadoCpu = document.getElementById(`paragrafoEstadoCpu${idEquipamento}`);
+
+
+        fetch(`/medidas/buscarUsoProcessador/${idEquipamento}`).then(function (resposta) {
+            console.log("resposta: ", resposta);
+            console.log("resposta: ", JSON.stringify(resposta));
+
+            if(resposta.ok){
+       
+                if(resposta.statusText == "OK"){
+                    
+                    
+                    resposta.json().then(function (json){
+                      console.log("PROCESSADOR");
+                        console.log(json);
+                        
+
+                          const element = json[0].uso;
+
+                          
+                        
+                          metricaCpu.innerHTML = `${element}%`;
+
+                          if(element > 65 && element <= 75){
+                            alertaCpu.style.backgroundImage = "linear-gradient(#FE9800, #191919 70%)";
+                          } else if(element > 75){
+                            alertaCpu.style.backgroundImage = "linear-gradient(#C20000, #191919 70%)";
+                          } else{
+                            alertaCpu.style.backgroundImage = "linear-gradient(230deg, #00B21D, #1B1C1E 70%)";
+                          }
+
+                          if(element > 65 && element <= 75){
+                            paragrafoEstadoCpu.innerHTML = "Moderado";
+                          } else if(element > 75){
+                            paragrafoEstadoCpu.innerHTML = "Crítico";
+                          } else {
+                            paragrafoEstadoCpu.innerHTML = "OK";
+                          }
+                        
+                          moderados.innerHTML = "";
+                          criticos.innerHTML = "";
+
+                          for (let i = 0; i < teste.length; i++) {
+                            
+                            if(teste[i].idEquipamento == idEquipamento){
+
+                                if(element > 65 && element <= 75){
+                                  moderados.innerHTML += `<p onclick="dashboard(${teste[i].idEquipamento})">${teste[i].tipoEquipamento} - ${i + 1}</p>`;
+                                } else if(element > 75){
+                                  criticos.innerHTML += `<p onclick="dashboard(${teste[i].idEquipamento})">${teste[i].tipoEquipamento} - ${i + 1}</p>`
+                                }
+                                
+                            }
+                          }
+                    });
+            }
+        }
+
+        }).catch(function (erro) {
+            console.log("ERRO: ", erro);
+        })
+    };
+
+    function lsitarMemoria(idEquipamento){
+
+      const metricaRam = document.getElementById(`metricaRam${idEquipamento}`);
+      const alertaRam = document.getElementById(`alertaRam${idEquipamento}`);
+      const paragrafoEstadoRam = document.getElementById(`paragrafoEstadoRam${idEquipamento}`);
+
+
+        fetch(`/medidas/buscarUsoMemoria/${idEquipamento}`).then(function (resposta) {
+            console.log("resposta: ", resposta);
+            console.log("resposta: ", JSON.stringify(resposta));
+
+            if(resposta.ok){
+
+                
+                if(resposta.statusText == "OK"){
+
+                    resposta.json().then(function (json){
+                      console.log("MEMORIAAA");
+                        console.log(json);
+                        
+                          const element = parseInt(json[0].porcentagemUso) ;
+                          
+
+                          metricaRam.innerHTML = `${element}%`;
+
+                          if(element > 90 && element <= 95){
+                            alertaRam.style.backgroundImage = "linear-gradient(#FE9800, #191919 70%)";
+                          } else if(element > 95){
+                            alertaRam.style.backgroundImage = "linear-gradient(#C20000, #191919 70%)";
+                          } else{
+                            alertaRam.style.backgroundImage = "linear-gradient(230deg, #00B21D, #1B1C1E 70%)";
+                          }
+
+                          if(element > 90 && element <= 95){
+                            paragrafoEstadoRam.innerHTML = "Moderado";
+                          } else if(element > 95){
+                            paragrafoEstadoRam.innerHTML = "Crítico";  
+                          } else{
+                            paragrafoEstadoRam.innerHTML = "OK";  
+                          }
+                          
+                          
+                          for (let i = 0; i < teste.length; i++) {
+                            
+                            if(teste[i].idEquipamento == idEquipamento){
+
+                                if(element > 90 && element <= 95){
+                                  moderados.innerHTML += `<p onclick="dashboard(${teste[i].idEquipamento})">${teste[i].tipoEquipamento} - ${i + 1}</p>`;
+                                } else if(element > 95){
+                                  criticos.innerHTML += `<p onclick="dashboard(${teste[i].idEquipamento})">${teste[i].tipoEquipamento} - ${i + 1}</p>`
+                                }
+                                
+                            }
+                          }
+                        
+                    });                    
+                }
+            };
+                
+        }).catch(function (erro) {
+            console.log("ERRO: ", erro);
+        })
+    }
+
+    function listarDisco(idEquipamento){
+
+      const metricaDisco = document.getElementById(`metricaDisco${idEquipamento}`);
+      const alertaDisco = document.getElementById(`alertaDisco${idEquipamento}`);
+      const paragrafoEstadoDisco = document.getElementById(`paragrafoEstadoDisco${idEquipamento}`);
+
+
+        fetch(`/medidas/buscarUsoDisco/${idEquipamento}`).then(function (resposta) {
+            console.log("resposta: ", resposta);
+            console.log("resposta: ", JSON.stringify(resposta));
+
+            if(resposta.ok){
+
+                if(resposta.statusText == "OK"){
+                    
+                    resposta.json().then(function (json){
+                      console.log("DISCOO");
+                        console.log(json);
+                    
+                          const element = parseInt(json[0].porcentagemUso);
+
+                          metricaDisco.innerHTML = `${element}%`;
+
+                          if(element > 65 && element <= 75){
+                            alertaDisco.style.backgroundImage = "linear-gradient(#FE9800, #191919 70%)";
+                          } else if(element > 75){
+                            alertaDisco.style.backgroundImage = "linear-gradient(#C20000, #191919 70%)";
+                          } else{
+                            alertaDisco.style.backgroundImage = "linear-gradient(230deg, #00B21D, #1B1C1E 70%)"; 
+                          }
+
+                          if(element > 65 && element <= 75){
+                            paragrafoEstadoDisco.innerHTML = "Moderado";
+                          } else if(element > 75){
+                            paragrafoEstadoDisco.innerHTML = "Crítico";
+                          } else{
+                            paragrafoEstadoDisco.innerHTML = "OK";
+                          }
+                          
+
+                          // moderados.innerHTML = "";
+                          // criticos.innerHTML = "";
+
+                          for (let i = 0; i < teste.length; i++) {
+                            
+                            if(teste[i].idEquipamento == idEquipamento){
+
+                                if(element > 65 && element <= 75){
+                                  moderados.innerHTML += `<p onclick="dashboard(${teste[i].idEquipamento})">${teste[i].tipoEquipamento} - ${i + 1}</p>`;
+                                } else if(element > 75){
+                                  criticos.innerHTML += `<p onclick="dashboard(${teste[i].idEquipamento})">${teste[i].tipoEquipamento} - ${i + 1}</p>`
+                                }
+
+                            }
+                          }
+                        
+                    });
+                }
+            };
+            
+        }).catch(function (erro) {
+            console.log("ERRO: ", erro);
+        })
+    }
+
+    function lsitarMaquinas() {
+
+        var cor = 'linear-gradient(230deg, #C20000, #191919 70%);';
+
+        fetch(`/medidas/buscarMaquinas/${fkEmpresa}`).then(function (resposta) {
+            console.log("resposta: ", resposta);
+            console.log("resposta: ", resposta);
+
+            if(resposta.ok){
+
+                if(resposta.statusText == "OK"){
+                    resposta.json().then(function (json){
+
+                        teste = json;
+
+                        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", json);
+
+                        for(let i = 0; i < json.length; i ++){
+
+                            const container = document.getElementById("info_maquinas");
+
+                            const equipamento = document.createElement("div");
+                            const tipoMaquina = document.createElement("h2");
+                            const maquina = document.createElement("div");
+                            const tituloCpu = document.createElement("h3");
+                            const tituloMemoria = document.createElement("h3");
+                            const tituloDisco = document.createElement("h3");
+                                                    
+                            // ELEMENTOS DA CPU
+                            const infoEstatisticasCpu = document.createElement("div");
+                            const graficoCpu = document.createElement("div");
+                            const alertaCpu = document.createElement("div");
+                            const contNumeroCpu = document.createElement("div");
+                            const metricaCpu = document.createElement("p");
+                                                    
+                            const statusCpu = document.createElement("div");
+                            const acompanhamentoCpu = document.createElement("h2");
+                            const paragrafoEstadoCpu = document.createElement("p");
+                                                    
+                            // ELEMENTOS DA MEMORIA RAM
+                            const infoEstatisticasRam = document.createElement("div");
+                            const graficoRam = document.createElement("div");
+                            const alertaRam = document.createElement("div");
+                            const contNumeroRam = document.createElement("div");
+                            const metricaRam = document.createElement("p");
+                                                    
+                            const statusRam = document.createElement("div");
+                            const acompanhamentoRam = document.createElement("h2");
+                            const paragrafoEstadoRam = document.createElement("p");
+                                                    
+                            // ELEMENTOS DO DISCO
+                            const infoEstatisticasDisco = document.createElement("div");
+                            const graficoDisco = document.createElement("div");
+                            const alertaDisco = document.createElement("div");
+                            const contNumeroDisco = document.createElement("div");
+                            const metricaDisco = document.createElement("p");
+                                                    
+                            const statusDisco = document.createElement("div");
+                            const acompanhamentoDisco = document.createElement("div");
+                            const paragrafoEstadoDisco = document.createElement("p");
+                                                    
+                            equipamento.className = "equipamento";
+                            equipamento.id = "equipamento";
+                            tipoMaquina.className = "tipo-maquina";
+                            maquina.className = "maquina";
+                                                    
+                            tituloCpu.className = "hardware";
+                            tituloMemoria.className = "hardware";
+                            tituloDisco.className = "hardware";
+                                                    
+                            // CLASSES DOS ELEMENTOS DA CPU
+                            infoEstatisticasCpu.className = "info-estatisticas borda";
+                            graficoCpu.className = "grafico";
+                            alertaCpu.className = "alerta";
+                            alertaCpu.id = `alertaCpu${json[i].idEquipamento}`;
+                            // alertaCpu.style.backgroundImage = "linear-gradient(230deg, #00B21D, #1B1C1E 70%)";
+                            contNumeroCpu.className = "cont-numero";
+                            metricaCpu.className = "metrica";
+                            metricaCpu.id = `metricaCpu${json[i].idEquipamento}`;
+                                                    
+                            statusCpu.className = "status";
+                            acompanhamentoCpu.className = "acompanhamento";
+                            acompanhamentoCpu.id = `acompanhamentoCpu`;
+                            paragrafoEstadoCpu.id = `paragrafoEstadoCpu${json[i].idEquipamento}`;
+                                                    
+                            // CLASSES DOS ELEMENTOS DA RAM
+                            infoEstatisticasRam.className = "info-estatisticas borda";
+                            graficoRam.className = "grafico";
+                            alertaRam.className = "alerta";
+                            alertaRam.id = `alertaRam${json[i].idEquipamento}`;
+                            // alertaRam.style.backgroundImage = "linear-gradient(230deg, #00B21D, #1B1C1E 70%)";
+                            contNumeroRam.className = "cont-numero";
+                            metricaRam.className = "metrica";
+                            metricaRam.id = `metricaRam${json[i].idEquipamento}`;
+                                                    
+                            statusRam.className = "status";
+                            acompanhamentoRam.className = "acompanhamento";
+                            acompanhamentoRam.id = "acompanhamentoRam";
+                            paragrafoEstadoRam.id = `paragrafoEstadoRam${json[i].idEquipamento}`;
+                                                    
+                            // CLASSES DOS ELEMENTOS DO DISCO
+                            infoEstatisticasDisco.className = "info-estatisticas borda";
+                            graficoDisco.className = "grafico";
+                            alertaDisco.className = "alerta";
+                            alertaDisco.id = `alertaDisco${json[i].idEquipamento}`;
+                            // alertaDisco.style.backgroundImage = "linear-gradient(230deg, #00B21D, #1B1C1E 70%)";
+                            contNumeroDisco.className = "cont-numero";
+                            metricaDisco.className = "metrica";
+                            metricaDisco.id = `metricaDisco${json[i].idEquipamento}`;
+                                                    
+                            statusDisco.className = "status";
+                            acompanhamentoDisco.className = "acompanhamento";
+                            acompanhamentoDisco.id = "acompanhamentoDisco";
+                            paragrafoEstadoDisco.className = "paragrafoEstadoDisco";
+                            paragrafoEstadoDisco.id = `paragrafoEstadoDisco${json[i].idEquipamento}`;
+                                                    
+                            // DETERMINANDO OS FILHOS DOS ELEMENTOS
+                            container.appendChild(equipamento);
+                            equipamento.appendChild(tipoMaquina);
+                            equipamento.appendChild(maquina);
+                            maquina.appendChild(tituloCpu);
+                            maquina.appendChild(tituloMemoria);
+                            maquina.appendChild(tituloDisco);
+                                                    
+                            // ELEMENTOS DE INFORMAÇÃO EM RELAÇÂO A CPU
+                            maquina.appendChild(infoEstatisticasCpu);
+                            infoEstatisticasCpu.appendChild(graficoCpu);
+                            graficoCpu.appendChild(alertaCpu);
+                            alertaCpu.appendChild(contNumeroCpu);
+                            contNumeroCpu.appendChild(metricaCpu);
+                                                    
+                            infoEstatisticasCpu.appendChild(statusCpu);
+                            statusCpu.appendChild(acompanhamentoCpu);
+                            statusCpu.appendChild(paragrafoEstadoCpu);
+                                                    
+                            // ELEMENTOS DE INFORMAÇÃO EM RELAÇÂO A RAM
+                            maquina.appendChild(infoEstatisticasRam);
+                            infoEstatisticasRam.appendChild(graficoRam);
+                            graficoRam.appendChild(alertaRam);
+                            alertaRam.append(contNumeroRam);
+                            contNumeroRam.appendChild(metricaRam);
+                                                    
+                            infoEstatisticasRam.appendChild(statusRam);
+                            statusRam.appendChild(acompanhamentoRam);
+                            statusRam.appendChild(paragrafoEstadoRam);
+                                                    
+                            // ELEMENTOS DE INFORMAÇÃO EM RELAÇÂO A DISCO
+                            maquina.appendChild(infoEstatisticasDisco);
+                            infoEstatisticasDisco.appendChild(graficoDisco);
+                            graficoDisco.appendChild(alertaDisco);
+                            alertaDisco.appendChild(contNumeroDisco);
+                            contNumeroDisco.appendChild(metricaDisco);
+                                                    
+                            infoEstatisticasDisco.appendChild(statusDisco);
+                            statusDisco.appendChild(acompanhamentoDisco);
+                            statusDisco.appendChild(paragrafoEstadoDisco);
+
+
+
+                            tipoMaquina.innerHTML = `${json[i].tipoEquipamento.toUpperCase()} - ${i + 1}`;
+                            tituloCpu.innerHTML = `CPU`;
+                            tituloMemoria.innerHTML = `Memoria Ram`;
+                            tituloDisco.innerHTML = `Disco`;
+
+                            acompanhamentoCpu.innerHTML = `Status`;
+                            acompanhamentoRam.innerHTML = `Status`;
+                            acompanhamentoDisco.innerHTML = `Status`;
+                            
+                            listarProcessador(json[i].idEquipamento);
+                            lsitarMemoria(json[i].idEquipamento);
+                            listarDisco(json[i].idEquipamento);
+                        };
+
+                        setInterval(() => {
+                          
+                          json.forEach(element => {
+
+                            listarProcessador(element.idEquipamento);
+                            lsitarMemoria(element.idEquipamento);
+                            listarDisco(element.idEquipamento);
+                          
+                          });
+
+                        }, 11000);
+
+                    });
+                } else {
+                    equipamento.style.display = "none"
+                };
+                
+                console.log("INFOrMAção DOS DADOS AQUI11",dados);
+            };
+            
+        }).catch(function (erro) {
+            console.log("ERRO: ", erro);
+        })
+    }
+
+    function dashboard(idEquipamento){
+
+      sessionStorage.ID_EQUIPAMENTO = idEquipamento;
+
+      window.location = "./memoria.html";
+
+    }
+    window.fwSettings={
+	'widget_id':72000002928
+	};
+	!function(){if("function"!=typeof window.FreshworksWidget){var n=function(){n.q.push(arguments)};n.q=[],window.FreshworksWidget=n}}() 
+
+
+</script>

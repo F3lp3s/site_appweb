@@ -1,0 +1,9 @@
+{
+  "name": "survillance",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./survillance/app.js",
+    "postinstall": "cd site && npm install"
+  }
+}

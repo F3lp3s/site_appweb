@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Survillance || Histórico</title>
+  <link rel="icon" href="../imagens/Icon.png">
+  <link rel="stylesheet" href="../css/historico.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
+  <script type='text/javascript' src='https://widget.freshworks.com/widgets/72000002928.js' async defer></script>
+</head>
+<body>
+  <div class="container">
+
+    <div id="sidebar" class="sidebar">
+      <div class="cont-img">
+        <div class="aba" onclick="sair_side()">
+          <div class="aba-estilo"></div>
+          <div class="aba-estilo"></div>
+          <div class="aba-estilo"></div>
+        </div>
+        <img src="../imagens/Logo.png">
+      </div>
+
+      <div class="cont-text">
+        <div class="inicio-nav">
+          <div class="icon-home">
+            <img src="../imagens/homeBranco.png" alt="">
+          </div>
+          <div class="text-home">
+            <a href="./home.html"><p>Pagina<br>
+              Inicial</p></a>
+          </div>
+        </div>
+
+        <div id="status" class="status-nav">
+          <div class="icon-status">
+            <img src="../imagens/statusBranco.png" alt="">
+          </div>
+          <div class="text-status">
+            <a href="./memoria.html"><p>Status</p></a>
+          </div>
+        </div>
+
+        <div id="historico" class="historico-nav">
+          <div class="icon-historico">
+            <img src="../imagens/historicoAzul.png" alt="">
+          </div>
+          <div class="text-historico">
+            <p style="color: #515AED;">Histórico</p>
+          </div>
+        </div>
+
+        <div id="gestao" class="gestao-nav">
+          <div class="icon-gestao">
+            <img src="../imagens/gestaoBranco.png" alt="">
+          </div>
+          <div class="text-gestao">
+            <a href="gestao.html"><p>Gestão de<br>
+            Funcionario</p></a>
+          </div>
+        </div>
+
+        <div class="sair-nav">
+          <div class="icon-sair">
+            <img src="../imagens/sair.png" alt="">
+          </div>
+          <div class="text-sair">
+            <a href="../index.html"><p>Sair</p></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar">
+      <div class="abrir-aba" onclick="entrar_side()">
+        <div class="abrir-estilo"></div>
+        <div class="abrir-estilo"></div>
+        <div class="abrir-estilo"></div>
+      </div>
+      <img src="../imagens/Icon.png" alt="">
+    </div>
+
+    <div class="titulo">
+      <h1>Histórico</h1>
+    </div>
+
+    <div class="filtro">
+      <input onchange="reqDate()" id="mes_ano" type="date" class="select-filtro" value="">
+    </div>
+    
+    <div id="div_historico" class="historico"></div>
+  </div>
+</body>
+</html>
+
+
+<script>
+
+
+  // ID DAS PAGINAS PARA DEFINIR AS PERMISSÕES
+  const status = document.getElementById("status");
+  const historico = document.getElementById("historico");
+  const gestao = document.getElementById("gestao");
+
+  if(sessionStorage.TELA_GESTAO == "false"){
+    gestao.style.pointerEvents = "none";
+    gestao.style.cursor = "default";
+    gestao.style.color = "#999"
+  }
+  
+  if(sessionStorage.TELA_HISTORICO == "false"){
+    historico.style.pointerEvents = "none";
+    historico.style.cursor = "default";
+    historico.style.color = "#999"
+  }
+  
+  if(sessionStorage.TELA_STATUS == "false"){
+    status.style.pointerEvents = "none";
+    status.style.cursor = "default";
+    status.style.color = "#999"
+  }
+
+  var today  = new Date()
+  var dia = today.getDay()
+  var mes = (new Date().getMonth() + 1)
+  var ano = new Date().getFullYear()
+ var data2 = `${ano}-${mes}-${dia}`
+ 
+ 
+    
+
+  var nome_maquina = [];
+  var local_alerta = [];
+  var numero_alerta = [];
+  var status_alerta = [];
+  var data_alerta = [];
+  var horario_alerta = [];
+  var data = ""
+
+  //---------------------------- variaveis para integracao banco-------------------------------------
+  
+  var fkEmpresa = sessionStorage.ID_EMPRESA
+
+
+reqDate()
+get_historico()
+
+  function get_historico() {
+
+
+    var nome_maquina_bd = ['servidor1', 'servidor1', 'servidor2', 'caixa1', 'caixa1']
+    var local_alerta_bd = ['Disco', 'CPU', 'Memória', 'CPU', 'Disco']
+    var numero_alerta_bd = [85, 75, 90, 70, 85]
+    var status_alerta_bd = ['Crítico', 'Moderado', 'Crítico', 'Moderado', 'Crítico']
+    var data_alerta_bd = ['02/04/2022', '05/04/2022', '05/04/2022', '10/04/2022', '12/04/2022']
+    var horario_alerta_bd = ['12:29', '14:58', '13:49', '17:09', '13:05']
+    
+    for(var i = 0; i < nome_maquina_bd.length; i++){
+      nome_maquina.push(nome_maquina_bd[i])
+    }
+
+    for (var i = 0; i < local_alerta_bd.length; i++){
+      local_alerta.push(local_alerta_bd[i])
+    }
+
+    for (var i = 0; i < numero_alerta_bd.length; i++){
+      numero_alerta.push(numero_alerta_bd[i])
+    }
+
+    for (var i = 0; i < status_alerta_bd.length; i++){
+      status_alerta.push(status_alerta_bd[i])
+    }
+
+    for (var i = 0; i < data_alerta_bd.length; i++){
+      data_alerta.push(data_alerta_bd[i])
+    }
+
+    for (var i = 0; i < horario_alerta_bd.length; i++){
+      horario_alerta.push(horario_alerta_bd[i])
+    }
+
+    historico()
+  }
+
+  function historico() {
+  
+    for (var i = 0; i < nome_maquina.length ; i++) {
+      if(numero_alerta[i] < 80) {
+        var cor = 'linear-gradient(#FE9800, #191919 70%);'
+      } else {
+        var cor = 'linear-gradient(#C20000, #191919 70%);'
+      }
+
+      div_historico.innerHTML += `
+      <div class="alerta">
+        <div class="maquina-alerta"><p>${nome_maquina[i]}:</p></div>
+        <div class="info-alerta">
+          <div class="local-alerta">
+            <p>${local_alerta[i]}</p>
+          </div>
+          <div class="numero-alerta">
+            <div class="cor-alerta" style="background-image: ${cor}">
+              <div class="cont-numero">
+                <p>${numero_alerta[i]}%</p>
+              </div>
+            </div>
+          </div>
+          <div class="cont-informacao">
+            <div class="alinhar-info">
+              <p>Status: ${status_alerta[i]}</p>
+              <p>Data: ${data_alerta[i]}</p>
+              <p>Hora: ${horario_alerta[i]}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      `
+    }
+  }
+
+
+
+
+// --- funcoes da side bar 
+  function sair_side() {
+    sidebar.style.right = "115%"
+    sidebar.style.animation = "sair-side 0.3s linear"
+  }
+
+  function entrar_side() {
+    sidebar.style.right = "50%"
+    sidebar.style.animation = "entrar-side 0.3s linear"
+  }
+  window.fwSettings={
+	'widget_id':72000002928
+	};
+	!function(){if("function"!=typeof window.FreshworksWidget){var n=function(){n.q.push(arguments)};n.q=[],window.FreshworksWidget=n}}() 
+
+
+
+
+
+  //---- 1 passo  informacoes do banco de dados das maquinas no banco de dados
+ 
+  // informacoes da memoria
+  function reqInfoMemoriaHistorico() {
+    fetch("/medidas/reqInfoMemoriaHistorico", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+        fkEmpresa : fkEmpresa,
+        data : data,
+        
+        })
+    }).then(function (resposta2) {
+        // console.log("ESTOU NO THEN DO entrar()!")
+        if (resposta2.ok) {
+            resposta2.json().then(json => {
+                // console.log(json);
+                // alert(json[0].memoria_uso)
+                var memoriaUso = []
+                var memoriaDisponivel = []
+                var dataMedicao = []
+                var fkMemoria = []
+                var tipoEquipamento =[]
+                var idEquipamento =[]
+                for (let i = 0; i < json.length; i++) {
+                    memoriaUso.push(json[i].memoriaUso / 1073741824).toFixed(2);
+                    memoriaDisponivel.push(json[i].memoriaDisponivel / 1073741824).toFixed(2);
+                    dataMedicao.push(json[i].dataMedicao);
+                    fkMemoria.push(json[i].fkMemoria);
+                    tipoEquipamento.push(json[i].tipoEquipamento);
+                    idEquipamento.push(json[i].idEquipamento)
+                }
+                //-------------------- colocar div para exibição de informacoes aqui----------------
+
+                // ----- chamar funcao a baixo
+            
+            }); 
+        } else {
+            console.log("Houve um erro ao pegar informaçoes!");
+            resposta.text().then(texto => {
+                // console.error(texto);
+               // finalizarAguardar(texto);
+            });
+        }
+    }).catch(function (erro) {
+        // console.log(erro);
+    })
+   
+    return false;
+   
+  }
+//  reqDate()
+
+  function reqDate(){
+    if(mes_ano.value == ""){
+     data =  data2
+    reqInfoMemoriaHistorico()
+    reqInfoDiscoHistorico()
+    reqInfoProcessadorHistorico()
+    }
+   else{
+     data = mes_ano.value
+    reqInfoMemoriaHistorico()
+    reqInfoDiscoHistorico()
+    reqInfoProcessadorHistorico()
+    }
+
+    
+  }
+
+  //  informacoes do disco
+  function reqInfoDiscoHistorico() {
+    fetch("/medidas/reqInfoDiscoHistorico", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+        fkEmpresa : fkEmpresa,
+        data : data,
+        
+        })
+    }).then(function (resposta2) {
+        // console.log("ESTOU NO THEN DO entrar()!")
+        if (resposta2.ok) {
+            resposta2.json().then(json => {
+                // console.log(json);
+                // alert(json[0].memoria_uso)
+                var idDisco = []
+                var tamanhoUso = []
+                var tamanhoDisponivel = []
+                var dataMedicao = []
+                var idEquipamento = []
+                for (let i = 0; i < json.length; i++) {
+                  idDisco.push(json[i].idDisco)
+                  tamanhoUso.push(json[i].tamanhoUso)
+                  tamanhoDisponivel.push(json[i].tamanhoDisponivel )
+                  dataMedicao.push(json[i].dataMedicao)
+                  idEquipamento.push(json[i].idEquipamento)
+
+                }
+                //-------------------- colocar div para exibição de informacoes aqui----------------
+
+                // ----- chamar funcao a baixo
+               
+            }); 
+        } else {
+            console.log("Houve um erro ao pegar informaçoes!");
+            resposta.text().then(texto => {
+                // console.error(texto);
+               // finalizarAguardar(texto);
+            });
+        }
+    }).catch(function (erro) {
+        // console.log(erro);
+    })
+   
+    return false;
+   
+  }
+
+  function reqInfoProcessadorHistorico() {
+    fetch("/medidas/reqInfoProcessadorHistorico", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+        fkEmpresa : fkEmpresa,
+        data : data,
+        
+        })
+    }).then(function (resposta2) {
+        // console.log("ESTOU NO THEN DO entrar()!")
+        if (resposta2.ok) {
+            resposta2.json().then(json => {
+                // console.log(json);
+                // alert(json[0].memoria_uso)
+             
+                var idProcessador = []
+                var dataMedicao = []
+                var uso = []
+                var idEquipamento = []
+                for (let i = 0; i < json.length; i++) {
+                    idProcessador.push(json[i].idProcessador);
+                    dataMedicao.push(json[i].dataMedicao);
+                    uso.push(json[i].uso);
+                    idEquipamento.push(json[i].idEquipamento)
+                }
+                //-------------------- colocar div para exibição de informacoes aqui -------------------------
+            }); 
+        } else {
+            console.log("Houve um erro ao pegar informaçoes!");
+            resposta.text().then(texto => {
+                // console.error(texto);
+               // finalizarAguardar(texto);
+            });
+        }
+    }).catch(function (erro) {
+        // console.log(erro);
+    })
+   
+    return false;
+   
+  }
+
+
+
+</script>

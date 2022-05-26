@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Repre</title>
+    <script src="./js/funcoes.js"></script>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/cadastroRepresentante.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
+    <script type='text/javascript' src='https://widget.freshworks.com/widgets/72000002928.js' async defer></script>
+
+</head>
+<body>
+
+
+    <div style="height: 100vh;">
+
+        <div class="container">
+    
+            <div class="icon-voltar">
+                <a href="./index_ver2.html">
+                    <img src="./imagens/voltar.png" alt="botao voltar">
+                </a>
+            </div>
+    
+    
+            <div class="banner-cadastro">
+                <div class="conteiner">
+                    <h2>Cadastre sua empresa!</h2>
+    
+                    <div class="cadastro">
+                        <div class="form">
+    
+                                <label class="lbl-razao" for="razao_input">Razão Social:</label>
+                                <input class="input razao" id="razao_input" type="text">
+                                <br>
+                                <label class="lbl-cnpj" for="cnpj_input">CNPJ:</label>
+                                <input class="input cnpj" id="cnpj_input" type="text" placeholder="">
+                                <br>
+                                <label class="lbl-email" for="email_input">Email do Representante:</label>
+                                <input class="input email" id="email_input" type="text">
+                                <br>
+                                <label class="lbl-representante" for="representante_input">Representante:</label>
+                                <input class="input representante" id="representante_input" type="text">
+                                <br>
+                                <label class="lbl-senha" for="senha_input">Senha:</label>
+                                <input class="input senha" id="senha_input" type="password">
+                                <br>
+                                <label class="lbl-confirmacao" for="confirmacao_senha_input">Confirmar senha:</label>
+                                <input class="input confirmacao" id="confirmacao_senha_input" type="password">
+                                <br>
+                                <div class="logar">
+                                    <button class="btn" onclick="cadastrar()">Cadastrar</button>
+                                    <a class="link" href="login.html">Ja possui cadastro?</a>
+                                </div>
+                        
+                        </div>
+        
+                    </div>
+                    
+                     <div id="div_aguardar" class="loading-div">
+                        <img src="" id="loading-gif">
+                    </div> 
+    
+                </div>
+            </div>
+    
+            <div class="logo">
+                <img src="./imagens/Logo.png" alt="">
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+
+<script>
+
+    function limparFormulario(){
+        document.getElementById("form").reset();
+    }
+
+    function cadastrar(){
+         aguardar();
+
+       
+
+        var razaoVar = razao_input.value;
+        var cnpjVar = cnpj_input.value;
+        var emailVar = email_input.value;
+        var representanteVar = representante_input.value;
+        var senhaVar = senha_input.value;
+        var confirmacaoSenhaVar = confirmacao_senha_input.value;
+
+        if(razaoVar == "" || cnpjVar == "" || emailVar == "" || representanteVar == "" || senhaVar == "" || confirmacaoSenhaVar == ""){
+
+            window.alert("Preencha todos os campos para prosseguir!")
+            if (razaoVar == "") {
+                console.log('Razão social está em branco')
+            }
+            if (cnpjVar == "") {
+                console.log('CNPJ está em branco')
+            }
+
+            if (emailVar == "") {
+                console.log('E-mail está em branco')
+            }
+            if (representanteVar == "") {
+                console.log('Representante está em branco')
+            }
+            if (senhaVar == "") {
+                console.log('senha está em branco')
+            }
+            if (confirmacaoSenhaVar == "") {
+                console.log('confirmacaoSenha está em branco')
+            }
+
+           
+            finalizarAguardar();
+            return false;
+
+        } else if (emailVar.indexOf("@") == -1 || emailVar.indexOf(".com") == -1) {
+            window.alert("Ops, e-mail inválido! Verifique e tente novamente.");
+            finalizarAguardar();
+            return false;
+        }else if (senhaVar != confirmacaoSenhaVar){
+            window.alert("As senhas inseridas devem ser iguais para prosseguir!");
+            finalizarAguardar();
+            return false;
+        }
+        fetch("/empresas/cadastrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                razao: razaoVar,
+                cnpj: cnpjVar,
+                email: emailVar,
+                representante: representanteVar,
+                senha: senhaVar,
+                
+            })
+        }).then(function (resposta) {
+
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                window.alert("Cadastro realizado com sucesso!");
+                window.location = "login.html";
+                limparFormulario();
+                finalizarAguardar();
+            } else {
+                throw ("Houve um erro ao tentar realizar o cadastro!");
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+            finalizarAguardar();
+        });
+    }
+    window.fwSettings={
+	'widget_id':72000002928
+	};
+	!function(){if("function"!=typeof window.FreshworksWidget){var n=function(){n.q.push(arguments)};n.q=[],window.FreshworksWidget=n}}() 
+    </script>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
+    <script src="./js/funcoes.js"></script>
+    <script type='text/javascript' src='https://widget.freshworks.com/widgets/72000002928.js' async defer></script>
+    <title>Login</title>
+</head>
+
+<body>
+
+    <div style="height: 100vh;">
+
+        <div class="container">
+    
+            <div class="icon-voltar">
+                <a href="./index.html">
+                    <img src="./imagens/voltar.png" alt="botao voltar">
+                </a>
+            </div>
+    
+    
+            <div class="banner-cadastro">
+                <div class="conteiner">
+                    <h2>Bem vindo!</h2>
+    
+                    <div class="cadastro">
+                        <div class="form">
+                                <label class="lbl-email" for="email_input">Email do Representante:</label>
+                                <input class="input email" id="email_input" type="text">
+                                <br>
+                                <label class="lbl-senha" for="senha_input">Senha:</label>
+                                <input class="input senha" id="senha_input" type="password">
+                                <br>
+                                <div class="logar">
+                                    <button class="btn" onclick="entrar()">Entrar</button>
+                                    <a class="link" href="cadastroEmpresa.html">Não possui cadastro?</a>
+                                </div>
+                        
+                        </div>
+        
+                    </div>
+                    
+                     <div id="div_aguardar" class="loading-div">
+                        <img src="" id="loading-gif">
+                    </div> 
+    
+                </div>
+            </div>
+    
+            <div class="logo">
+                <img src="./imagens/Logo.png" alt="">
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
+
+<script>
+
+    function limparFormulario(){
+        document.getElementById("form").reset();
+    }
+
+    function entrar() {
+       
+       //aguardar();
+         var emailVar = email_input.value;
+         var senhaVar = senha_input.value;
+ 
+         
+         if (emailVar == "" || senhaVar == "") {
+             window.alert("Preencha todos os campos para prosseguir!");
+             finalizarAguardar();
+             return false;
+         }
+ 
+         if (emailVar.indexOf("@") == -1 || emailVar.indexOf(".com") == -1) {
+             window.alert("Ops, e-mail inválido! Verifique e tente novamente.");
+             
+         }
+ 
+         fetch("/empresas/autenticar", {
+             method: "POST",
+             headers: {
+                 "Content-Type": "application/json"
+             },
+             body: JSON.stringify({
+                 email: emailVar,
+                 senha: senhaVar,    
+             })
+         }).then(function (resposta) {
+             console.log("ESTOU NO THEN DO entrar()!")
+ 
+             if (resposta.ok) {
+                 console.log(resposta);
+ 
+                 resposta.json().then(json => {
+                     console.log(json);
+                     console.log(JSON.stringify(json));
+ 
+                     sessionStorage.EMAIL_REPRESENTANTE = json.email;
+                     sessionStorage.NOME_REPRESENTANTE = json.nome;
+                     sessionStorage.ID_EMPRESA = json.idEmpresa;
+                     sessionStorage.TELA_STATUS = json.status;
+                     sessionStorage.TELA_HISTORICO = json.historico;
+                     sessionStorage.TELA_GESTAO = json.gestao;
+ 
+                     setTimeout(function () {
+                         window.location = "./dashboard/home.html";
+                     }, 1000); // apenas para exibir o loading
+ 
+                 });
+ 
+             } else {
+ 
+                 console.log("Houve um erro ao tentar realizar o login!");
+ 
+                 resposta.text().then(texto => {
+                     console.error(texto);
+                     finalizarAguardar(texto);
+                 });
+             }
+ 
+         }).catch(function (erro) {
+             console.log(erro);
+         })
+         finalizarAguardar();
+         return false;
+     }
+     
+	window.fwSettings={
+	'widget_id':72000002928
+	};
+	!function(){if("function"!=typeof window.FreshworksWidget){var n=function(){n.q.push(arguments)};n.q=[],window.FreshworksWidget=n}}() 
+
+
+</script>

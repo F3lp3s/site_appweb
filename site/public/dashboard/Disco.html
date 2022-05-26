@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/disco.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <title>Disco || Surveillance</title>
+  <link rel="icon" href="../imagens/Icon.png">
+  <script type='text/javascript' src='https://widget.freshworks.com/widgets/72000002928.js' async defer></script>
+</head>
+
+<body">
+  <div class="container">
+
+    <div id="sidebar" class="sidebar">
+      <div class="cont-img">
+        <div class="aba" onclick="sair_side()">
+          <div class="aba-estilo"></div>
+          <div class="aba-estilo"></div>
+          <div class="aba-estilo"></div>
+        </div>
+        <img src="../imagens/Logo.png">
+      </div>
+
+      <div class="cont-text">
+        <div class="inicio-nav">
+          <div class="icon-home">
+            <img src="../imagens/homeBranco.png" alt="">
+          </div>
+          <div class="text-home">
+            <a href="./home.html">
+              <p>Pagina<br>
+                Inicial</p>
+            </a>
+          </div>
+        </div>
+
+        <div id="status" class="status-nav">
+          <div class="icon-status">
+            <img src="../imagens/statusAzul.png">
+          </div>
+          <div class=" text-status">
+            <a href="./memoria.html">
+              <p style="color: #515AED;">Status</p>
+            </a>
+          </div>
+        </div>
+
+        <div id="historico" class="historico-nav">
+          <div class="icon-historico">
+            <img src="../imagens/historicoBranco.png" alt="">
+          </div>
+          <div class="text-historico">
+            <a href="hIstorico.html">
+              <p>Histórico</p>
+            </a>
+          </div>
+        </div>
+
+        <div id="gestao" class="gestao-nav">
+          <div class="icon-gestao">
+            <img src="../imagens/gestaoBranco.png" alt="">
+          </div>
+          <div class="text-gestao">
+            <a href="gestao.html">
+              <p>Gestão de<br>
+                Funcionario</p>
+            </a>
+          </div>
+        </div>
+
+        <div class="sair-nav">
+          <div class="icon-sair">
+            <img src="../imagens/sair.png" alt="">
+          </div>
+          <div class="text-sair">
+            <a href="../index.html">
+              <p>Sair</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar">
+      <div class="abrir-aba" onclick="entrar_side()">
+        <div class="abrir-estilo"></div>
+        <div class="abrir-estilo"></div>
+        <div class="abrir-estilo"></div>
+      </div>
+      <img src="../imagens/Icon.png" alt="">
+    </div>
+
+    <div class="titulo">
+      <h1 id="titulo">Servidor X - Disco</h1>
+    </div>
+
+    <div id="selectTituloFeed" class="selectTituloFeed">
+      <select onchange="mudarFkMemoria()" id="SelectDisco" class="SelectMemorias"></select>
+    </div>
+
+    <div class="grafico">
+      <div id="chartJs" class="chartJs">
+        <canvas id="myChart" class="myChart"></canvas>
+      </div>
+    </div>
+
+    <div class="legendaGrafico">
+      <div class="cont-info">
+        <div class="info-atual">
+          <h3>Disco Disponivel:</h3>
+          <p id="memoriaDisponivel">~~~~</p>
+        </div>
+        <div class="info-atual">
+          <h3>Disco Total:</h3>
+          <p id="memoriaTotal">~~~~</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="listaMaquinas">
+      <h3>Máquinas:</h3>
+      <div id="listaMaquinas" class="Maquinas">
+        <br>
+      </div>
+    </div>
+  </div>
+  </body>
+
+</html>
+<script>
+
+  // ID DAS PAGINAS PARA DEFINIR AS PERMISSÕES
+  const status = document.getElementById("status");
+  const historico = document.getElementById("historico");
+  const gestao = document.getElementById("gestao");
+
+  if(sessionStorage.TELA_GESTAO == "false"){
+    gestao.style.pointerEvents = "none";
+    gestao.style.cursor = "default";
+    gestao.style.opacity = 0.5
+  }
+  
+  if(sessionStorage.TELA_HISTORICO == "false"){
+    historico.style.pointerEvents = "none";
+    historico.style.cursor = "default";
+    historico.style.opacity = 0.5
+  }
+  
+  if(sessionStorage.TELA_STATUS == "false"){
+    status.style.pointerEvents = "none";
+    status.style.cursor = "default";
+    status.style.opacity = 0.5
+  }
+
+
+
+
+  var fkEmpresa = sessionStorage.ID_EMPRESA
+  var dadosIdEquipamento = []
+  var dadosTipoEquipamento = []
+  var fkEquipamento = 0
+  var dadosIdDisco = []
+  var idDisco = 0
+  reqInfoEquipamentos()
+
+  // criarGrafico()
+  function criarGrafico() {
+    removerGrafico()
+    const labels = dadosHora;
+    const data = {
+      labels: labels,
+      datasets: [{
+        label: 'Uso do Disco',
+        backgroundColor: '#19B7F7',
+        borderColor: '#19B7F7',
+        data: tamanhoUso
+      }]
+    };
+
+    const config = {
+      type: 'line',
+      data: data,
+      Options: {
+        maintainAspectRatio: false
+      }
+    };
+    Chart.defaults.color = '#FFF';
+    Chart.defaults.borderColor = '#2276E0',
+      Chart.defaults.font.size = 13;
+    Chart.defaults.font.weight = 100;
+    Chart.defaults.font.family = 'Montserrat';
+
+
+    const myChart = new Chart(
+      document.getElementById('myChart'),
+      config
+    );
+  }
+
+  function sair_side() {
+    sidebar.style.right = "115%"
+    sidebar.style.animation = "sair-side 0.3s linear"
+  }
+
+  function entrar_side() {
+    sidebar.style.right = "50%"
+    sidebar.style.animation = "entrar-side 0.3s linear"
+  }
+
+  /////////////////// funcoes para conectar a pagina ao banco //////////////////////////////////
+
+  function reqInfoEquipamentos() {
+    fetch("/medidas/reqInfoEquipamentos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        fkEmpresa: fkEmpresa
+      })
+    }).then(function (resposta3) {
+      // console.log("ESTOU NO THEN DO entrar()!")
+      if (resposta3.ok) {
+        resposta3.json().then(jsonIdEquipamento => {
+          // console.log(json);
+          // alert(json[0].memoria_uso)
+          for (let i = 0; i < jsonIdEquipamento.length; i++) {
+            dadosIdEquipamento.push(jsonIdEquipamento[i].idEquipamento);
+            dadosTipoEquipamento.push(jsonIdEquipamento[i].tipoEquipamento)
+          }
+          if (fkEquipamento == 0) {
+            setFkEquipamento(dadosIdEquipamento[0])
+            qtdEquipamentos = dadosIdEquipamento.length
+            // getEquipamento()
+          }
+          else {
+            qtdEquipamentos = dadosIdEquipamento.length
+            //getEquipamento()
+          }
+
+          //getEquipamento()
+          //reqInfoMemoria();
+
+          exibirEquipamento();
+
+
+
+        });
+      } else {
+        console.log("Houve um erro ao pegar informaçoes!");
+        resposta.text().then(texto => {
+          // console.error(texto);
+          // finalizarAguardar(texto);
+        });
+      }
+    }).catch(function (erro) {
+      // console.log(erro);
+    })
+
+    return false;
+
+  }
+
+  // funcao para saber quantos discos aquele equipamento em especifico tem 
+  function reqQtdDiscos() {
+    fetch("/medidas/reqQtdDiscos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        fkEmpresa: fkEmpresa,
+        fkEquipamento: fkEquipamento
+
+      })
+    }).then(function (resposta2) {
+      // console.log("ESTOU NO THEN DO entrar()!")
+      if (resposta2.ok) {
+        resposta2.json().then(jsonId => {
+          // console.log(json);
+          // alert(json[0].memoria_uso)
+          dadosIdDisco = []
+          for (let i = 0; i < jsonId.length; i++) {
+            dadosIdDisco.push(jsonId[i].idDisco);
+          }
+          //qtdMemorias = dadosIdDisco.length
+          exibirDiscoSelect();
+          mudarFkMemoria()
+
+        });
+      } else {
+        console.log("Houve um erro ao pegar informaçoes!");
+        resposta.text().then(texto => {
+          // console.error(texto);
+          // finalizarAguardar(texto);
+        });
+      }
+    }).catch(function (erro) {
+      // console.log(erro);
+    })
+
+    return false;
+
+  }
+
+  ////// funcao para pegar as informacoes do grafico do disco
+
+  function reqInfoDisco() {
+    fetch("/medidas/reqInfoDisco", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        idDisco: idDisco,
+        fkEquipamento: fkEquipamento,
+        fkEmpresa: fkEmpresa
+
+      })
+    }).then(function (resposta) {
+      console.log("ESTOU NO THEN DO entrar()!")
+      if (resposta.ok) {
+        resposta.json().then(json => {
+          // console.log(json);
+          // alert(json[0].memoria_uso)
+          // dados = []
+          dadosHora = []
+          tamanhoUso = []
+          tamanhoDisponivel = []
+          for (let i = 0; i < json.length; i++) {
+            dadosHora.push(json[i].dataMedicao)
+            tamanhoUso.push(json[i].tamanhoUso / 1073741824).toFixed(2)
+            tamanhoDisponivel.push(json[i].tamanhoDisponivel / 1073741824).toFixed(2)
+            //  setLegenda()
+          }
+
+          // apos pegar a funcao do banco nós chamos a funcao criar grafico, para 
+          // o chart ser criado com as informações corretas
+          criarGrafico()
+          setLegenda()
+
+        });
+      } else {
+        console.log("Houve um erro ao pegar informaçoes!");
+        resposta.text().then(texto => {
+          // console.error(texto);
+          // finalizarAguardar(texto);
+        });
+      }
+    }).catch(function (erro) {
+      // console.log(erro);
+    })
+
+    return false;
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ////// funcoes para manipulacao do usuario//////
+  function exibirEquipamento() {
+    listaMaquinas.innerHTML = ""
+    for (var i = 0; i < dadosIdEquipamento.length; i++) {
+      listaMaquinas.innerHTML += `<button onclick="setFkEquipamento(${i + 1})" class="botaoLista" >
+       ${dadosTipoEquipamento[i]} ${dadosIdEquipamento[i]}
+      </button> <br> <br>`
+
+    }
+    reqQtdDiscos();
+  }
+  // funcao para o usuario escolher o esquipamento que ele quer checar
+  function setFkEquipamento(Valor) {
+    if (dadosTipoEquipamento[Valor - 1] == "computador") {
+      titulo.innerHTML = `Comp ${Valor} - Memoria`
+
+    }
+    else {
+      titulo.innerHTML = `${dadosTipoEquipamento[Valor - 1]} ${Valor} - Disco`
+    }
+    dadosIdEquipamento = []
+    dadosTipoEquipamento = []
+    dadosIdDisco = []
+    fkEquipamento = Valor
+    dados = []
+    dadosHora = []
+    tamanhoUso = []
+    tamanhoDisponivel = []
+    //removerGrafico()
+    reqInfoEquipamentos()
+    //reqQtdMemorias()
+  }
+
+  ///// funcao para o usuario ver quais discos ele tem
+  function exibirDiscoSelect() {
+    SelectDisco.innerHTML = ""
+    for (var i = 0; i < dadosIdDisco.length; i++) {
+      SelectDisco.innerHTML +=
+        `<option  class="OptionMemorias" value=${dadosIdDisco[i]}>
+       <button onclick="mudarValue(i)">
+         Disco ${dadosIdDisco[i]}
+       </button>
+     </option>`
+
+
+    }
+    //removerGrafico();
+    //reqInfoMemoria();
+  }
+
+  //funcao para o usuario escolher o disco que vai ver
+  function mudarFkMemoria() {
+    if (idDisco == 0) {
+      idDisco = `${dadosIdDisco[0]}`
+    } else {
+      idDisco = SelectDisco.value
+    }
+    reqInfoDisco()
+  }
+
+
+  //funcao para mudar as informacoes da legenda
+  function setLegenda() {
+    for (let i = 0; i < tamanhoUso.length; i++) {
+      memoriaDisponivel.innerHTML = `${tamanhoDisponivel[i].toFixed(2)}GB`
+      memoriaTotal.innerHTML = `${(tamanhoUso[i] + tamanhoDisponivel[i]).toFixed(2)}GB`
+
+    }
+  }
+  // funcao para remover o grafico para poder recrialo 
+  function removerGrafico() {
+    chartJs.innerHTML = ''
+    chartJs.innerHTML = `<canvas  id="myChart"></canvas>`
+
+  }
+
+  setInterval(() => {
+    reqInfoDisco();
+
+
+
+  }, 12000);
+
+
+  window.fwSettings = {
+    'widget_id': 72000002928
+  };
+  !function () { if ("function" != typeof window.FreshworksWidget) { var n = function () { n.q.push(arguments) }; n.q = [], window.FreshworksWidget = n } }()
+
+</script>

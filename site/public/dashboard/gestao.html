@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/gestao.css">
+  <title>Gestão || Surveillance</title>
+  <link rel="icon" href="../imagens/Icon.png">
+  <script type='text/javascript' src='https://widget.freshworks.com/widgets/72000002928.js' async defer></script>
+</head>
+
+<body>
+  <div class="container">
+
+    <div id="sidebar" class="sidebar">
+      <div class="cont-img">
+        <div class="aba" onclick="sair_side()">
+          <div class="aba-estilo"></div>
+          <div class="aba-estilo"></div>
+          <div class="aba-estilo"></div>
+        </div>
+        <img src="../imagens/Logo.png">
+      </div>
+
+      <div class="cont-text">
+        <div class="inicio-nav">
+          <div class="icon-home">
+            <img src="../imagens/homeBranco.png" alt="">
+          </div>
+          <div class="text-home">
+            <a href="./home.html">
+              <p>Pagina<br>
+                Inicial</p>
+            </a>
+          </div>
+        </div>
+
+        <div id="status" class="status-nav">
+          <div class="icon-status">
+            <img src="../imagens/statusBranco.png" alt="">
+          </div>
+          <div class="text-status">
+            <a href="./memoria.html">
+              <p>Status</p>
+            </a>
+          </div>
+        </div>
+
+        <div id="historico" class="historico-nav">
+          <div class="icon-historico">
+            <img src="../imagens/historicoBranco.png" alt="">
+          </div>
+          <div class="text-historico">
+            <a href="hIstorico.html">
+              <p>Histórico</p>
+            </a>
+          </div>
+        </div>
+
+        <div id="gestao" class="gestao-nav">
+          <div class="icon-gestao">
+            <img src="../imagens/gestaoAzul.png" alt="">
+          </div>
+          <div class="text-gestao">
+            <a href="gestao.html">
+              <p style="color: #515AED;">Gestão de<br>
+                Funcionario</p>
+            </a>
+          </div>
+        </div>
+
+        <div class="sair-nav">
+          <div class="icon-sair">
+            <img src="../imagens/sair.png" alt="">
+          </div>
+          <div class="text-sair">
+            <a href="../index.html">
+              <p>Sair</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar">
+      <div class="abrir-aba" onclick="entrar_side()">
+        <div class="abrir-estilo"></div>
+        <div class="abrir-estilo"></div>
+        <div class="abrir-estilo"></div>
+      </div>
+      <img src="../imagens/Icon.png" alt="">
+    </div>
+
+    <div class="titulo">
+      <h1>Gestão de funcionário</h1>
+    </div>
+
+    <div class="gestao">
+      <div class="botoes-gestao">
+        <button onclick="criacao()" class="btn-gestao">Criar novo funcionário</button>
+        <button onclick="abrir()" class="btn-gestao">Excluir funcionário</button>
+      </div>
+      <div class="lista-func">
+        <div class="titulo-lista">
+          <h2>Lista de funcionário:</h2>
+        </div>
+        <div class="lista">
+          <table id="lista">
+            <tr>
+              <th>Funcionários:</th>
+              <th class="lista-id">Id:</th>
+              <th>Status Máquina:</th>
+              <th>Histórico:</th>
+              <th>Gestão de Funcionários:</th>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="removerFunc" class="modal">
+      <div class="modal-conteudo">
+        <div class="modal-inputs">
+          <h3>Excluir Funcionário</h3>
+          
+          <label for="inputId">Id:</label>
+          <input id="inputId">
+          <label for="inputNome">Nome:</label>
+          <input id="inputNome">
+          
+          <button>Excluir Funcionário</button>
+          <button onclick="fechar()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+<script>
+
+  const linkstatus = document.getElementById("status");
+  const linkhistorico = document.getElementById("historico");
+  const linkgestao = document.getElementById("gestao");
+
+  if(sessionStorage.TELA_GESTAO == "false"){
+    linkgestao.style.pointerEvents = "none";
+    linkgestao.style.cursor = "default";
+    linkgestao.style.opacity = 0.5
+  }
+  
+  if(sessionStorage.TELA_HISTORICO == "false"){
+    linkhistorico.style.pointerEvents = "none";
+    linkhistorico.style.cursor = "default";
+    linkhistorico.style.opacity = 0.5
+  }
+  
+  if(sessionStorage.TELA_STATUS == "false"){
+    linkstatus.style.pointerEvents = "none";
+    linkstatus.style.cursor = "default";
+    linkstatus.style.opacity = 0.5
+  }
+// variavies para pegar as permissoes do usuario do banco
+var setStatus = ""
+var setHistorico = ""
+var setGestao = ""
+var setPermissao = ""
+  //variaveis para o funcionamento da pagina para exibir todos os funcionarios  
+  fkEmpresa = (sessionStorage.ID_EMPRESA)
+  listaIdFuncionarios = []
+  listaNomes = []
+  listaIdentificacao = []
+// ------------------------------------
+// para pegar do banco e  setar as permissoes que os funcionarios ja possuem  na web
+  var statusMaquina = []
+  var historico = []
+  var gestao = []
+
+  //------------------------------
+  // funcoes para fazer  o update de permissoes
+  pagina = 0
+  fkFuncionario = 0
+  permissao = ""
+  // chamando funcao para pegar os funcionario
+  
+  reqInfoPermissoes()
+ 
+
+
+
+  //Funcao para preencher a lista com os funcionarios
+  function setFuncionario() {
+
+    var nome_func = ["Funcionario_1", "Funcionario_2", "Funcionario_3", "Funcionario_4"];
+    var id_func = ["01010101010", "02020202020", "03030303030", "04040404040"];
+
+    for (var i = 0; i < listaIdFuncionarios.length; i++) {
+      if ((i + 1) % 2) {
+        lista.innerHTML += `
+          <tr>
+            <td>${listaNomes[i]}</td>
+            <td  class="lista-id">${listaIdFuncionarios[i]}</td>
+            <td><input onchange="setValueCheckBox(status_id${listaIdFuncionarios[i]}, 'statusMaquina',${listaIdFuncionarios[i]})" value="0" type="checkbox" id="status_id${listaIdFuncionarios[i]}"></td>
+
+            <td><input onchange="setValueCheckBox(historico_id${listaIdFuncionarios[i]},'historico',${listaIdFuncionarios[i]})" value="0" type="checkbox" id="historico_id${listaIdFuncionarios[i]}"></td>
+
+            <td><input onchange="setValueCheckBox(gestao_id${listaIdFuncionarios[i]},'gestao',${listaIdFuncionarios[i]})" value="0" type="checkbox" id="gestao_id${listaIdFuncionarios[i]}"></td>  
+          </tr>`
+      } else {
+        lista.innerHTML += `
+          <tr>
+            <td style="background-color: #303d63;">${listaNomes[i]}</td>
+            <td class="lista-id" style="background-color: #303d63;">${listaIdFuncionarios[i]}</td>
+            <td style="background-color: #303d63;">
+            <input onchange="setValueCheckBox(status_id${listaIdFuncionarios[i]}, 'statusMaquina', ${listaIdFuncionarios[i]})"  type="checkbox" value="0" id="status_id${listaIdFuncionarios[i]}"></td>
+
+            <td style="background-color: #303d63;"><input onchange="setValueCheckBox(historico_id${listaIdFuncionarios[i]},'historico', ${listaIdFuncionarios[i]})" type="checkbox" value="0" id="historico_id${listaIdFuncionarios[i]}"></td>
+            <td style="background-color: #303d63;">
+              
+            <input onchange="setValueCheckBox(gestao_id${listaIdFuncionarios[i]},'gestao',${listaIdFuncionarios[i]})" type="checkbox" value="0" id="gestao_id${listaIdFuncionarios[i]}"></td>  
+          </tr>`
+      }
+
+    }
+
+    if (nome_func.length < 15) {
+      var terminar = 16 - nome_func.length;
+      while (terminar > 0) {
+        if ((terminar + 1) % 2) {
+          lista.innerHTML += `
+            <tr>
+              <td></td>
+              <td class="lista-id"></td>
+              <td></td>
+              <td></td>
+              <td></td>  
+            </tr>`
+        } else {
+          lista.innerHTML += `
+            <tr>
+              <td style="background-color: #303d63;"></td>
+              <td class="lista-id" style="background-color: #303d63;"></td>
+              <td style="background-color: #303d63;"></td>
+              <td style="background-color: #303d63;"></td>
+              <td style="background-color: #303d63;"></td>  
+            </tr>`
+        }
+        terminar -= 1
+      }
+    }
+    getStatusCheckbox()
+  }
+//funcao para mudar o valor do id e manda pro banco
+// o parametro "id" serve para saber qual o value que sera mudado
+// o parametro "numeroPagina" serve para saber qual e a pagina que o usuario tera permissao, ou perdera permissao
+// e o parametro "setfkFuncionario"  e para saber que e o funcionario que esta recebendo as modificacoes
+var fkColaborador = ""
+function setValueCheckBox(id,Pagina, setFkFuncionario){
+  if(id.value == "1"){
+      id.value = 0
+  }else{
+      id.value= 1
+  }
+   // fkEmpresa ja possui 
+   updatePagina = Pagina
+   fkColaborador = setFkFuncionario
+   setPermissao = id.value
+    updatePermiBanco()
+}
+// funcao para colocar a check box como true 
+function setCheckboxTrue(checkbox){
+  checkbox.checked = true;
+}
+//funcao para verificar a situacao do checkbox
+
+function getStatusCheckbox(){
+  for(var i = 0; i < listaIdFuncionarios.length; i ++){
+    if(statusMaquina[i] == 1){
+       checkbox = document.querySelector(`#status_id${listaIdFuncionarios[i]}`);
+      setCheckboxTrue(checkbox);
+      const myInput = document.querySelector(`#status_id${listaIdFuncionarios[i]}`)
+      myInput.value = "1" 
+    }
+    if(historico[i] == 1){
+      checkbox = document.querySelector(`#historico_id${listaIdFuncionarios[i]}`);
+      setCheckboxTrue(checkbox)
+      const myInput = document.querySelector(`#historico_id${listaIdFuncionarios[i]}`)
+      myInput.value = "1" 
+    }
+    if(gestao[i] == 1){
+      checkbox = document.querySelector(`#gestao_id${listaIdFuncionarios[i]}`);
+      setCheckboxTrue(checkbox)
+
+      const myInput = document.querySelector(`#gestao_id${listaIdFuncionarios[i]}`)
+      myInput.value = "1" 
+
+    }
+  }
+ }
+
+  //funcoes de animacao da sidebar
+  function sair_side() {
+    sidebar.style.right = "115%"
+    sidebar.style.animation = "sair-side 0.3s linear"
+  }
+
+  function entrar_side() {
+    sidebar.style.right = "50%"
+    sidebar.style.animation = "entrar-side 0.3s linear"
+  }
+  // ------------------------------------------------------
+//funcao para marcar os checkds necessarios
+
+function ativarCheckbox(el) {
+  el.checked = true;
+}
+
+
+  //funcao para pegar os funcionarios do banco
+  function reqInfoFunc() {
+    fetch("/medidas/reqInfoFunc", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        fkEmpresa: fkEmpresa
+
+      })
+    }).then(function (resposta) {
+      console.log("ESTOU NO THEN DO entrar()!")
+      if (resposta.ok) {
+        resposta.json().then(json => {
+          listaIdFuncionarios = []
+          listaNomes = []
+          listaIdentificacao = []
+          for (let i = 0; i < json.length; i++) {
+            listaIdFuncionarios.push(json[i].idColaborador);
+            listaNomes.push(json[i].nome)
+            listaIdentificacao.push(json[i].identificacao)
+
+          }
+          console.log(listaIdentificacao)
+          setFuncionario()
+          
+        });
+      } else {
+        console.log("Houve um erro ao pegar informaçoes!");
+        resposta.text().then(texto => {
+          // console.error(texto);
+          // finalizarAguardar(texto);
+        });
+      }
+    }).catch(function (erro) {
+      // console.log(erro);
+    })
+
+    return false;
+
+  }
+
+  //funcao para selecionar as permissoes ja dadas aos usuarios
+  function reqInfoPermissoes(){
+    fetch("/medidas/reqInfoPermissoes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        fkEmpresa: fkEmpresa
+
+      })
+    }).then(function (resposta) {
+      console.log("ESTOU NO THEN DO entrar()!")
+      if (resposta.ok) {
+        resposta.json().then(json => {
+          statusMaquina= []
+          historico = []
+          gestao = []
+          for (let i = 0; i < json.length; i++) {
+            statusMaquina.push(json[i].statusMaquina)
+            historico.push(json[i].historico)
+            gestao.push(json[i].gestao)
+          }
+          reqInfoFunc()
+          
+        });
+      } else {
+        console.log("Houve um erro ao pegar informaçoes!");
+        resposta.text().then(texto => {
+          // console.error(texto);
+          // finalizarAguardar(texto);
+        });
+      }
+    }).catch(function (erro) {
+      // console.log(erro);
+    })
+
+    return false;
+  }
+  //------------funcoes para jogar informacoes no banco------
+
+  function updatePermiBanco(){
+    fetch("/medidas/updatePermiBanco", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        updatePagina : updatePagina,
+        fkColaborador : fkColaborador,
+        setPermissao : setPermissao,
+        fkEmpresa: fkEmpresa
+
+      })
+    }).then(function (resposta) {
+      console.log("ESTOU NO THEN DO entrar()!")
+      if (resposta.ok) {
+        resposta.json().then(json => {
+          console.log("entrou")
+          //   listaIdFuncionarios = []
+          //   listaNomes = []
+          //   listaIdentificacao = []
+          //   for (let i = 0; i < json.length; i++) {
+          //     listaIdFuncionarios.push(json[i].idColaborador);
+          //     listaNomes.push(json[i].nome)
+          //     listaIdentificacao.push(json[i].identificacao)
+          // }
+
+        });
+      } else {
+        console.log("Houve um erro ao pegar informaçoes!");
+        resposta.text().then(texto => {
+          // console.error(texto);
+          // finalizarAguardar(texto);
+        });
+      }
+    }).catch(function (erro) {
+      // console.log(erro);
+    })
+
+    return false;
+
+  }
+
+  function abrir() {
+    removerFunc.style.display = "flex"
+  }
+
+  function fechar() {
+    removerFunc.style.display = "none"
+  }
+
+  window.onclick = function(event) {
+  if (event.target == removerFunc) {
+    removerFunc.style.display = "none";
+  }
+}
+
+  function criacao() {
+    window.location = "../cadastroFuncionario.html"
+  }
+
+  window.fwSettings={
+	'widget_id':72000002928
+	};
+	!function(){if("function"!=typeof window.FreshworksWidget){var n=function(){n.q.push(arguments)};n.q=[],window.FreshworksWidget=n}}() 
+
+  
+</script>

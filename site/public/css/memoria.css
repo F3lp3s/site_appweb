@@ -1,0 +1,622 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Montserrat;
+  background-color: #1f1f1f;
+  color: #f1f1f1;
+}
+
+.container {
+  display: grid;
+  height: 100vh;
+  grid-template-columns: 0.99fr 1.21fr 1.1fr 1.5fr 1.1fr;
+  grid-template-rows: 0.4fr 1fr 0.6fr 1fr 0.15fr;
+  grid-template-areas:
+    "sidebar titulo         titulo         filtro         listaMaquinas"
+    "sidebar grafico        grafico        grafico        listaMaquinas"
+    "sidebar grafico        grafico        grafico        listaMaquinas"
+    "sidebar legendaGrafico legendaGrafico legendaGrafico listaMaquinas"
+    "sidebar legendaGrafico legendaGrafico legendaGrafico listaMaquinas";
+}
+
+
+
+
+
+.sidebar {
+  background-image: linear-gradient(150deg, #171717 50%, #11138a 120%);
+  grid-area: sidebar;
+  box-shadow: 0.9vw 0 5px #000;
+}
+
+.sidebar .cont-img {
+  width: 100%;
+  height: 35%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.cont-img .aba {
+  display: none;
+}
+
+.sidebar .cont-img img {
+  width: 70%;
+  image-rendering: auto;
+}
+
+.sidebar .cont-text {
+  display: grid;
+  height: 65%;
+  grid-template-columns: 0.5fr 1fr 1fr 0.5fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-areas:
+    ". inicio     inicio    ."
+    ". status     status    ."
+    ". historico  historico ."
+    ". gestao     gestao    ."
+    ". .          .         ."
+    ". sair       sair      .";
+  font-weight: 700;
+}
+
+a {
+  text-decoration: none;
+}
+
+.cont-text .inicio-nav {
+  grid-area: inicio;
+}
+
+.inicio-nav .icon-home {
+  float: left;
+  height: 100%;
+  width: 25%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inicio-nav .icon-home img {
+  width: 70%;
+  image-rendering: auto;
+}
+
+.inicio-nav .text-home {
+  width: 70%;
+  margin-left: 5%;
+  height: 100%;
+  float: right;
+  display: flex;
+  align-items: center;
+}
+
+.inicio-nav .text-home p {
+  font-size: 1.1vw;
+  color: #f1f1f1;
+}
+
+.cont-text .status-nav {
+  grid-area: status;
+}
+
+.status-nav .icon-status {
+  float: left;
+  height: 100%;
+  width: 25%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-nav .icon-status img {
+  width: 70%;
+  image-rendering: auto;
+}
+
+.status-nav .text-status {
+  width: 70%;
+  margin-left: 2%;
+  height: 100%;
+  float: right;
+  display: flex;
+  align-items: center;
+}
+
+.status-nav .text-status p {
+  font-size: 1.1vw;
+  color: #f1f1f1;
+}
+
+.cont-text .historico-nav {
+  grid-area: historico;
+}
+
+.historico-nav .icon-historico {
+  float: left;
+  height: 100%;
+  width: 25%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.historico-nav .icon-historico img {
+  width: 70%;
+  image-rendering: auto;
+}
+
+.historico-nav .text-historico {
+  width: 70%;
+  margin-left: 5%;
+  height: 100%;
+  float: right;
+  display: flex;
+  align-items: center;
+}
+
+.historico-nav .text-historico p {
+  font-size: 1.1vw;
+  color: #f1f1f1;
+}
+
+.cont-text .gestao-nav {
+  grid-area: gestao;
+}
+
+.gestao-nav .icon-gestao {
+  float: left;
+  height: 100%;
+  width: 25%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gestao-nav .icon-gestao img {
+  width: 70%;
+  image-rendering: auto;
+}
+
+.gestao-nav .text-gestao {
+  width: 70%;
+  margin-left: 5%;
+  height: 100%;
+  float: right;
+  display: flex;
+  align-items: center;
+}
+
+.gestao-nav .text-gestao p {
+  font-size: 1.1vw;
+  color: #f1f1f1;
+}
+
+.cont-text .sair-nav {
+  grid-area: sair
+}
+
+.sair-nav .icon-sair {
+  float: left;
+  height: 100%;
+  width: 25%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sair-nav .icon-sair img {
+  width: 70%;
+  image-rendering: auto;
+}
+
+.sair-nav .text-sair {
+  width: 70%;
+  margin-left: 5%;
+  height: 100%;
+  float: right;
+  display: flex;
+  align-items: center;
+}
+
+.sair-nav .text-sair p {
+  font-size: 1.1vw;
+  color: #f1f1f1;
+}
+
+
+
+
+
+.navbar{
+  display: none;
+}
+.titulo {
+
+  grid-area: titulo;
+}
+
+.textoTitulo {
+  font-size: 3.5vw;
+  margin-left: 5vw;
+  margin-top: 2vh;
+  width: 90%;
+  height: 100%;
+  grid-area: textoTitulo;
+  color: white;
+}
+
+.selectTituloFeed {
+  /* background-color: yellow;  */
+  /* grid-area: selectTituloFeed; */
+  grid-area: filtro;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* .selectTituloFeed{ */
+/* width: 30%; */
+/* background-color: white; */
+/* margin-top: ; */
+/* } */
+.titulo h1 {
+  font-weight: lighter;
+  font-size: 3vw;
+  margin: 0;
+  margin-left: 3vw;
+}
+
+.SelectMemorias {
+  background-image: linear-gradient(230deg, #171717 50%, #11138a 120%);
+  color: white;
+  width: 60%;
+  height: 40%;
+  margin-bottom: 5%;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 10px 5px 5px #000;
+  font-size: 1.1vw;
+}
+
+/* .selectMemorias option {
+  margin-left: 25px;
+  font-size: 1.1vw;
+} */
+
+.grafico {
+  grid-area: grafico;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chartJs {
+  width: 80%;
+  height: 50%;
+  /* background-color: pink; */
+  padding: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.legendaGrafico {
+  width: 90%;
+  height: 80%;
+  margin-top: 5vh;
+  margin-left: 5%;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-area: legendaGrafico;
+}
+
+.cont-info {
+  background-image: linear-gradient(110deg, #171717 60%, #11138a 120%);
+  height: 70%;
+  width: 90%;
+  font-size: 1.5vw;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0.7vw 1vh 5px #000;
+}
+
+.info-atual {
+  width: 50%;
+  text-align: center;
+  float: left;
+}
+
+.legendaGrafico h3 {
+  margin: 0;
+}
+
+.info-atual p {
+  margin: 0;
+}
+
+/* ----- lista maquinas ------ */
+
+.listaMaquinas {
+  height: 92%;
+  width: 91%;
+  grid-area: listaMaquinas;
+  margin-top: 10%;
+  background-image: linear-gradient(150deg, #171717 50%, #11138a 120%);
+  border-radius: 10px;
+  box-shadow: 10px 5px 5px #000;
+}
+
+.listaMaquinas h3 {
+  font-size: 2vw;
+  margin-left: 1.7vw;
+  margin: 2%;
+}
+
+.Maquinas {
+  font-size: 1vw;
+  margin-left: 10%;
+}
+
+.botaoLista {
+  background-color: transparent;
+  width: 80%;
+  height: 5%;
+  font-size: 1.5vw;
+  color: #f1f1f1;
+  border: none;
+  font-family: Montserrat;
+  text-align: left;
+}
+
+::-webkit-scrollbar {
+  width: 0.5vw;
+}
+
+::-webkit-scrollbar-track {
+  background: #1f1f1f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #f1f1f1;
+  border-radius: 1vw;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #f1f1f1;
+}
+
+@media only screen and (max-width: 900px) {
+  .info-alerta {
+    height: 60%;
+  }
+
+  .inicio-nav .text-home p {
+    font-size: 1.7vw;
+  }
+
+  .status-nav .text-status p {
+    font-size: 1.7vw;
+  }
+
+  .historico-nav .text-historico p {
+    font-size: 1.7vw;
+  }
+
+  .gestao-nav .text-gestao p {
+    font-size: 1.7vw;
+  }
+
+  .sair-nav .text-sair p {
+    font-size: 1.7vw;
+  }
+
+  .legendaGrafico {
+    font-size: 2vw;
+  }
+
+  .chartJs {
+    width: 100%;
+    padding: 8.5%;
+  }
+
+  .chartJs {
+    width: 90%;
+    padding: 8%;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .sidebar .cont-text {
+    grid-template-columns: 0.2fr 1fr 1fr 0.3fr;
+  }
+  
+  .cont-numero p {
+    font-size: 1.4vw;
+  }
+
+  .inicio-nav .text-home p {
+    font-size: 2vw;
+  }
+
+  .status-nav .text-status p {
+    font-size: 2vw;
+  }
+
+  .historico-nav .text-historico p {
+    font-size: 2vw;
+  }
+
+  .gestao-nav .text-gestao p {
+    font-size: 1.8vw;
+  }
+
+  .sair-nav .text-sair p {
+    font-size: 2vw;
+  }
+
+  .legendaGrafico p{
+    font-size: 2.5vw;
+  }
+
+  .legendaGrafico h3{
+    font-size: 2.5vw;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .container{
+    height: 150vh;
+    grid-template-columns: 0.1fr 1fr 1fr 0.1fr;
+    grid-template-rows: 0.1fr 0.3fr 0.5fr 0.5fr 0.7fr 1fr;
+    grid-template-areas: 
+    "navbar navbar         navbar         navbar"
+    "titulo titulo         filtro         filtro"
+    ".      grafico        grafico        .     "
+    ".      grafico        grafico        .     "
+    ".      legendaGrafico legendaGrafico .     "
+    ".      listaMaquinas  listaMaquinas  .     ";
+  }
+
+  .sidebar{
+    background-image: linear-gradient(150deg ,#171717 50%, #11138a 120%);
+    box-shadow: 0.9vw 0 5px #000;
+    position: fixed;
+    height: 100%;
+    width: 50%;
+    z-index: 1;
+  }
+
+  .cont-img .aba{
+    position: absolute;
+    display: block;
+    width: 15%;
+    height: 6.5%;
+    top: 0%; left: 2%;
+  }
+
+  @keyframes sair-side {
+    0% {right: 50%;}
+    100% {right: 115%;}
+  }
+
+  .aba .aba-estilo{
+    width: 80%;
+    height: 9%;
+    background-color: #f1f1f1;
+    margin-top: 20%;
+    border-radius: 10px;
+  }
+
+  .inicio-nav .icon-home img{
+    width:80%;
+  }
+  
+  .inicio-nav .text-home p{
+    font-size: 2.8vw;
+  }
+
+  .status-nav .icon-status img{
+    width:80%;
+  }
+
+  .status-nav .text-status p{
+    font-size: 2.8vw;
+  }
+
+  .historico-nav .icon-historico img{
+    width:80%;
+  }
+
+  .historico-nav .text-historico p{
+    font-size: 2.8vw;
+  }
+
+  .gestao-nav .icon-gestao img{
+    width:80%;
+  }
+  
+  .gestao-nav .text-gestao p{
+    font-size: 2.8vw;
+  }
+
+  .sair-nav .icon-sair img{
+    width:80%;
+  }
+
+  .sair-nav .text-sair p{
+    font-size: 2.8vw;
+  }
+
+  .navbar{
+    display: block;
+    grid-area: navbar;
+    background-color: #171717;
+    box-shadow: 0 1vh 1px #000;
+  }
+
+  .abrir-aba{
+    width: 7%;
+    height: 85%;
+    margin-left: 1%;
+    float: left;
+  }
+
+  .abrir-estilo{
+    width: 85%;
+    height: 10%;
+    background-color: #f1f1f1;
+    margin-top: 19%;
+    margin-left: 5%;
+    border-radius: 10px;
+  }
+
+  @keyframes entrar-side{
+    0% {right: 115%;}
+    100% {right: 50%;}
+  }
+
+  .navbar img{
+    width: 11%;
+    float: right;
+  }
+
+  .titulo h1{
+    font-size: 4.5vw;
+    margin: 2%;
+  }
+  
+  .legendaGrafico h3{
+    font-size: 3vw;
+  }
+
+  .chartJs {
+    width: 100%;
+    height: 50%;
+    padding: 0%;
+  }
+
+  .info-atual{
+    font-size: 2.5vw;
+  }
+
+  .listaMaquinas{
+    margin: 0;
+    width: 50%;
+    margin-left: 25%;
+  }
+
+  .listaMaquinas h3{
+    font-size: 4vw;
+  }
+
+  .botaoLista{
+    font-size: 3.2vw;
+    text-align: center;
+  }
+}

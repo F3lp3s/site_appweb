@@ -1,0 +1,317 @@
+body{
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;  
+  scroll-behavior: smooth;
+}
+
+
+
+
+
+/* Header */
+.header{
+  width: 100%;
+  height: 20vh;
+  background-image: linear-gradient(70deg, #1f1f1f 60%, #6037F0);
+  display: flex;
+  border-bottom: 2px solid black;
+}
+.header .logo{
+  width: 20%;
+  height: 100%;
+}
+.header .logo img{
+  width:62%;
+  margin-left: 16%;
+}
+
+.header .navbar{
+  width: 80%;
+  height: 100%;
+}
+.header .navbar ul{
+  color: #b3b3b3;
+}
+.header .navbar li{
+  list-style: none;
+  float: left;
+  margin-left: 9%;
+  margin-top: 3%;
+  justify-content: space-evenly;
+  font-size: 130%;
+  cursor: pointer;
+}
+.header .navbar a{
+  text-decoration: none;
+  color: #f1f1f1;
+}
+.header .navbar a:hover{
+  text-decoration: underline;
+}
+
+
+
+
+
+/* Banner */
+.banner{
+  width: 100%;
+  height: 70vh;
+  background-image: url('../imgsIndex/Background.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.banner .conteiner{
+  color: white;
+  width: 50%;
+  height: 100%;
+  float: right;
+}
+.banner .conteiner .slogan{
+  width: 100%;
+  height: 21%;
+  font-weight: bolder;
+  font-size: 250%;
+  margin-top: 20%;
+  text-align: center;
+}
+.banner .conteiner .sub-slogan{
+  width: 80%;
+  height: 20%;
+  font-size: 120%;
+  text-align: center;
+  margin-left: 10%;
+  margin-top: 5%;
+  background-color: #1f1f1f;
+  border-radius: 10px;
+  opacity: 0.8;
+}
+.fix-banner{
+  width: 100%;
+  height: 25vh;
+  background-image: linear-gradient(#1f1f1f, #042141 50%);
+}
+
+
+
+
+
+/* servicos */
+.informacoes{
+  width: 100%;
+  height: 200vh;
+  margin-top: -7%;
+  border-radius: 3%;
+  position: absolute;
+  background-image: linear-gradient(#132c47 , #f1f1f1, #132c47);
+  z-index: 1;
+}
+.informacoes .servicos{
+  width: 100%;
+  height: 40%;
+}
+.informacoes .servicos .titulo-servicos{
+  width: 20%;
+  height: 7%;
+  text-align: center;
+  margin: 2% 0 0 40%;
+  border-radius: 10px;
+  box-shadow: inset 0 0 1em rgb(7 7 10), 0 0 1em #1c3b5c;
+  background-color: #355c8582;
+  color: #FFF;
+} 
+.descricao{
+  width: 100%;
+  height: 35%;
+  position: absolute;
+}
+.desc-servico{
+  width: 70%;
+  height: 30%;
+  margin-left: 15%;
+  margin-top: 1%;
+  outline: 2px solid #042141;
+  padding-top: 1%;
+  padding-left: 1%;
+}
+.desc-servico .text-desc{
+  width: 70%;
+  height: 100%;
+  float: left;
+  font-weight: 900;
+}
+.desc-servico .img-serv{
+  width: 30%;
+  height: 100%;
+  float: left;
+}
+.desc-servico .img-serv img{
+  margin-left: 25%;
+}
+.desc-servico .img-serv-uniq{
+  width: 20%;
+  height: 90%;
+  float: left;
+  margin-left: 5%;
+  margin-top: 1%;
+}
+
+
+
+
+/* ideais */
+.ideais{
+  width: 100%;
+  height: 50%;
+}
+.titulo-ideal{
+  width: 20%;
+  height: 7%;
+  text-align: center;
+  margin: 2% 0 0 40%;
+  border-radius: 10px;
+
+  box-shadow: inset 0 0 1em rgb(129 129 241), 0 0 1em #7192b5;
+  background-color: #6888a982;
+  color: #000;
+}
+.ideais .card-ideal{
+  width: 30%;
+  height: 80%;
+  float: left;
+  border-radius: 10px;
+  margin: 5% 0 0 2.3%;
+  outline: 2px solid #042141;
+}
+.ideais .img-card{
+  width: 50%;
+  height: 35%;
+  margin-top: 5%;
+  margin-left: 27%;
+}
+.card-ideal .img-card img{
+  width: 90%;
+}
+.desc-ideal{
+  width: 90%;
+  height: 50%;
+  margin-top: 5%;
+  margin-left: 5%;
+  text-align: center;
+  font-weight: 900;
+}
+
+
+/* quem somos */
+.quem-somos{
+  width: 100%;
+  height: 90vh;
+  margin-top: 82%;
+  background-image: linear-gradient(360deg, #1f1f1f, #042141);
+}
+.log-quem{
+  width: 35%;
+  height: 100%;
+  float: left;
+}
+.log-quem img{
+  margin-top: 45%;
+  margin-left: 10%;
+  width: 70%;
+}
+.desc-quem-somos{
+  width: 60%;
+  height: 100%;
+  color: #f1f1f1;
+  float: left;
+}
+.segurar-texto{
+  width: 80%;
+  height: 30%;
+  margin-top: 30%;
+  padding: 5%;
+  text-align: left;
+  outline: 2px solid black;
+}
+
+
+
+
+
+
+/* footer */
+.footer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-image: url('../imgsIndex/footer.jpg');
+  border-top:2px solid black
+}
+
+
+
+.redes-sociais{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  height: 10vh; 
+}
+
+.rede{
+  display: flex;
+  width: 10%;
+  margin-right: 2%;
+  width: 15%;
+}
+
+.redes-sociais img{
+  width: 30%;
+  margin-right: 5%;
+}
+
+.redes-sociais p{
+  color: #FFF;
+}
+.rede a{
+  cursor: pointer;
+}
+
+
+
+
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #1f1f1f; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #2D6DF8; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #042141; 
+}
+
+
+
+/* ---------------- Inicio das configurações do CSS de CpuMaquina---------------- */
+
+.PaginaInteiraCpu{
+width: 100vw;
+height: 100vh;
+background-color: #000;
+}
