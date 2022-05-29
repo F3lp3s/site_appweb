@@ -149,9 +149,9 @@ function reqQtdDiscos(fkEmpresa, fkEquipamento) {
 
 function reqInfoDisco(idDisco, fkEquipamento,fkEmpresa) {
     var instrucao = `
-    select top(16) dataMedicao, tamanhoUso, tamanhoDisponivel from medicaoDisco join disco on fkDisco = idDisco
+    select top(1) dataMedicao, tamanhoUso, tamanhoDisponivel from medicaoDisco join disco on fkDisco = idDisco 
     join equipamento on fkEquipamento = idEquipamento join
-            empresa on fkEmpresa = idEmpresa where fkEmpresa =${fkEmpresa} and fkEquipamento = ${fkEquipamento} and idDisco =${idDisco} ;
+            empresa on fkEmpresa = idEmpresa where fkEmpresa =${fkEmpresa} and fkEquipamento = ${fkEquipamento} and idDisco =${idDisco} order by idDiscoMedicao desc;
 
 
     `;

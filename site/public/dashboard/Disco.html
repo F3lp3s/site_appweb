@@ -160,17 +160,19 @@
 
 
 
-  var fkEmpresa = sessionStorage.ID_EMPRESA
+  var fkEmpresa = sessionStorage.ID_EMPRESA 
   var dadosIdEquipamento = []
   var dadosTipoEquipamento = []
   var fkEquipamento = 0
+  var checkfkEquipamento = 0
   var dadosIdDisco = []
   var idDisco = 0
-  reqInfoEquipamentos()
+
+  reqInfoEquipamentos();
 
   // criarGrafico()
   function criarGrafico() {
-    removerGrafico()
+    removerGrafico();
     const labels = dadosHora;
     const data = {
       labels: labels,
@@ -231,7 +233,7 @@
           // alert(json[0].memoria_uso)
           for (let i = 0; i < jsonIdEquipamento.length; i++) {
             dadosIdEquipamento.push(jsonIdEquipamento[i].idEquipamento);
-            dadosTipoEquipamento.push(jsonIdEquipamento[i].tipoEquipamento)
+            dadosTipoEquipamento.push(jsonIdEquipamento[i].tipoEquipamento);
           }
           if (fkEquipamento == 0) {
             setFkEquipamento(dadosIdEquipamento[0])
@@ -329,20 +331,32 @@
           // console.log(json);
           // alert(json[0].memoria_uso)
           // dados = []
-          dadosHora = []
-          tamanhoUso = []
-          tamanhoDisponivel = []
+          if (checkfkEquipamento != fkEquipamento) {
+            dadosHora = []
+            tamanhoUso = [];
+            tamanhoDisponivel = [];
+            checkfkEquipamento = fkEquipamento;
+            criarGrafico();
+          }
+
           for (let i = 0; i < json.length; i++) {
-            dadosHora.push(json[i].dataMedicao)
+            datasSeparacao = json[i].dataMedicao.split(" ");
+            dadosHora.push(datasSeparacao[1])
             tamanhoUso.push(json[i].tamanhoUso / 1073741824).toFixed(2)
             tamanhoDisponivel.push(json[i].tamanhoDisponivel / 1073741824).toFixed(2)
             //  setLegenda()
           }
 
+          if (tamanhoUso.length > 16) {
+            dadosHora.shift();
+            tamanhoUso.shift();
+            tamanhoDisponivel.shift();
+          }
+
           // apos pegar a funcao do banco nós chamos a funcao criar grafico, para 
           // o chart ser criado com as informações corretas
-          criarGrafico()
-          setLegenda()
+          criarGrafico();
+          setLegenda();
 
         });
       } else {
@@ -395,6 +409,7 @@
     }
     reqQtdDiscos();
   }
+  
   // funcao para o usuario escolher o esquipamento que ele quer checar
   function setFkEquipamento(Valor) {
     if (dadosTipoEquipamento[Valor - 1] == "computador") {
