@@ -135,3 +135,94 @@ body{
 .logo img{
     width: 60%;
 }
+
+@media only screen and (max-width: 900px) {
+.cadastro{
+    width: 70%;
+}
+
+    .form .lbl-email{
+    font-size: 1.8vw;
+}
+    .form .lbl-email{
+        font: 1.8;
+    }
+    .form .btn{
+        width: 70%;
+    }
+    .logo{
+        margin-left: 5%;
+    }
+}
+
+
+@media only screen and (max-width: 900px) {
+    .cadastro{
+        width: 70%;
+    }
+    
+        .form .lbl-email{
+        font-size: 1.8vw;
+    }
+        .form .lbl-email{
+            font: 1.8;
+        }
+        .form .btn{
+            width: 70%;
+        }
+        .logo{
+            margin-left: 5%;
+            grid-area: logo;
+        }
+    }
+    @media only screen and (max-width: 500px) {
+        .container{
+            padding: 2%;
+            width: 90%;
+            height: 92%;
+            margin: auto;
+            display: grid;
+            row-gap: 6%;
+            grid-template-columns: auto ;
+            grid-template-rows: 0.6fr  1fr;
+            grid-template-areas: 
+            "icone  logo "
+            
+            "banner banner "
+        }
+        .icon-voltar > a > img{
+            width: 20%;
+            margin-top: 20%;
+            align-items: center;
+        }
+        
+        .logo img{
+            width: 45%;
+            align-items: center;
+            margin-left: 3%;
+        }
+        .form .lbl-email{
+            font-size: 2vw;
+        }
+        .form .btn{
+            width: 50%;
+            margin-left: 22vw;
+        }
+        .logar{
+            display: flex;
+        }
+        .logar .link{
+            margin-top: 8%;
+            color: #FFF;
+            font-size: 1.8vh;
+            margin-left: 22vw;
+        }
+        .banner-cadastro .conteiner > h2{
+            font-size: 4vw;
+            text-align: center;
+            /* background-color: red; */
+            width: 64vw;
+        }
+    }
+    @media only screen and (max-width: 400px) {
+    }
