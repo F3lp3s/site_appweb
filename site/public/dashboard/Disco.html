@@ -195,10 +195,10 @@
       // }
      
       for (var a = 0; a < tamanhoUso.length; a++) {
-        dados1.datasets[0].data.push(tamanhoUso[tamanhoUso.length - 1])
+        dados1.datasets[0].data.push(tamanhoUso[tamanhoUso.length - 1].toFixed(2))
         dados1.labels.push(dadosHora[dadosHora.length - 1])
       }
-      setTimeout(() => atualizarGraficoDisco(dados1, tamanhoUso), 3000);
+
       console.log(dados1)
       const config = {
         type: 'line',
@@ -214,15 +214,15 @@
       Chart.defaults.font.family = 'Montserrat';
 
 
-      const myChart = new Chart(
+      window.myChart = new Chart(
         document.getElementById('myChart'),
         config
       );
       checkGrafico = 1
+      console.log(dados1)
+      setTimeout(() => atualizarGraficoDisco(dados1, tamanhoUso), 3000);
     }
-     
-    
-  
+
     
   }
   function atualizarGraficoDisco(dados1, tamanhoUso) {
@@ -250,22 +250,25 @@
           console.log(dados1)
           for (let i = 0; i < json.length; i++) {
             datasSeparacao = json[i].dataMedicao.split(" ");
-            dados1.datasets[0].data.push(datasSeparacao[1])
-            dados1.labels.push(json[i].tamanhoUso / 1073741824).toFixed(2)
+            console.log(dados1.datasets[0].data);
+            dados1.labels.push(datasSeparacao[1])
+            console.log((json[i].tamanhoUso / 1073741824).toFixed(2))
+            dados1.datasets[0].data.push((json[i].tamanhoUso / 1073741824).toFixed(2))
 
             //  setLegenda()
           }
           // if para checar se o vetor tem 16 posicoes e atualizar o gráfico 
-          
+          if(dados1.labels.length == 16) {
             dados1.labels.shift();
             dados1.datasets[0].data.shift()
-          
+          }
         //  dados.labels.push(dadosHoraAtualizado[0])
           
 
           // setar legenda correta
+          window.myChart.update()
           setLegenda();
-          proximaAtualizacao = setTimeout(() => atualizarGraficoDisco(dados, tamanhoUso), 2000);
+          proximaAtualizacao = setTimeout(() => atualizarGraficoDisco(dados1, tamanhoUso), 5000);
 
 
         });
@@ -452,25 +455,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   ////// funcoes para manipulacao do usuario//////
   function exibirEquipamento() {
     listaMaquinas.innerHTML = ""
@@ -496,7 +480,7 @@
     dadosTipoEquipamento = []
     dadosIdDisco = []
     fkEquipamento = Valor
-    dados = []
+    // dados = []
     dadosHora = []
     tamanhoUso = []
     tamanhoDisponivel = []
@@ -547,14 +531,6 @@
     chartJs.innerHTML = `<canvas  id="myChart"></canvas>`
 
   }
-
-  setInterval(() => {
-    criarGrafico()
-
-
-
-
-  }, 5000);
 
 
   window.fwSettings = {
