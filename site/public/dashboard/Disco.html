@@ -179,7 +179,7 @@
     
     if (checkGrafico == 0) {
       //onst labels = []
-      const dados = {
+      const dados1 = {
         labels: [],
         datasets: [{
           label: 'Uso do Disco',
@@ -193,14 +193,16 @@
       //     dados.datasets[0].data.push(tamanhoUso[tamanhoUso.length - 1])
       //    labels.push(dadosHora[dadosHora.length - 1])
       // }
+     
       for (var a = 0; a < tamanhoUso.length; a++) {
-        dados.datasets[0].data.push(tamanhoUso[tamanhoUso.length - 1])
-        dados.labels.push(dadosHora[dadosHora.length - 1])
+        dados1.datasets[0].data.push(tamanhoUso[tamanhoUso.length - 1])
+        dados1.labels.push(dadosHora[dadosHora.length - 1])
       }
-
+      setTimeout(() => atualizarGraficoDisco(dados1, tamanhoUso), 3000);
+      console.log(dados1)
       const config = {
         type: 'line',
-        data: dados,
+        data: dados1,
         Options: {
           maintainAspectRatio: false
         }
@@ -220,10 +222,11 @@
     }
      
     
-    setTimeout(() => atualizarGraficoDisco(dados, tamanhoUso), 3000);
+  
     
   }
-  function atualizarGraficoDisco(dados, tamanhoUso) {
+  function atualizarGraficoDisco(dados1, tamanhoUso) {
+    console.log(dados1)
     fetch("/medidas/atualizarGraficoDisco", {
       method: "POST",
       headers: {
@@ -241,28 +244,28 @@
         resposta.json().then(json => {
           // console.log(json);
           // alert(json[0].memoria_uso)
-          // dados = []
+     
           dadosHoraAtualizado = []
           tamanhoUsoAtualizado = []
-
+          console.log(dados1)
           for (let i = 0; i < json.length; i++) {
             datasSeparacao = json[i].dataMedicao.split(" ");
-            dadosHoraAtualizado.push(datasSeparacao[1])
-            tamanhoUsoAtualizado.push(json[i].tamanhoUso / 1073741824).toFixed(2)
+            dados1.datasets[0].data.push(datasSeparacao[1])
+            dados1.labels.push(json[i].tamanhoUso / 1073741824).toFixed(2)
 
             //  setLegenda()
           }
           // if para checar se o vetor tem 16 posicoes e atualizar o gráfico 
-          //if (tamanhoUso.length == 17) {
-            dados.labels.shift()
-            dados.datasets.data.shift()
-          //}
-          dados.labels.push(dadosHoraAtualizado)
-          dados.datasets[0].data.push(tamanhoUsoAtualizado[0])
+          
+            dados1.labels.shift();
+            dados1.datasets[0].data.shift()
+          
+        //  dados.labels.push(dadosHoraAtualizado[0])
+          
 
           // setar legenda correta
           setLegenda();
-          proximaAtualizacao = setTimeout(() => atualizarGrafico(dados, tamanhoUso), 2000);
+          proximaAtualizacao = setTimeout(() => atualizarGraficoDisco(dados, tamanhoUso), 2000);
 
 
         });
