@@ -324,6 +324,26 @@ function reqInfoDisco(req, res) {
         );
 }
 
+function atualizarGraficoDisco(req, res) {
+    var idDisco = req.body.idDisco;
+    var fkEquipamento = req.body.fkEquipamento
+    var fkEmpresa = req.body.fkEmpresa
+    medidaModel.atualizarGraficoDisco(idDisco,fkEquipamento,fkEmpresa)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado);
+            } else {
+                res.status(204).send("Nenhum resultado encontrado!")
+            }
+        }).catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao realizar a consulta! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
 
 /// funcoes para a pagina de cpu
 
@@ -385,4 +405,5 @@ module.exports = {
     reqInfoDisco,
     reqQtdCpu,
     reqInfoCpu,
+    atualizarGraficoDisco
 }   

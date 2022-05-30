@@ -92,6 +92,10 @@ router.post("/reqInfoCpu", function (req, res) {
     medidaController.reqInfoCpu(req, res);
 });
 
+router.post("/atualizarGraficoDisco", function (req, res) {
+    medidaController.atualizarGraficoDisco(req, res);
+});
+
 
 
 module.exports = router;

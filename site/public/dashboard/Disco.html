@@ -134,24 +134,26 @@
 </html>
 <script>
 
+  dadosHoraAtualizado = []
+  tamanhoUsoAtualizado = []
   // ID DAS PAGINAS PARA DEFINIR AS PERMISSÕES
   const status = document.getElementById("status");
   const historico = document.getElementById("historico");
   const gestao = document.getElementById("gestao");
 
-  if(sessionStorage.TELA_GESTAO == "false"){
+  if (sessionStorage.TELA_GESTAO == "false") {
     gestao.style.pointerEvents = "none";
     gestao.style.cursor = "default";
     gestao.style.opacity = 0.5
   }
-  
-  if(sessionStorage.TELA_HISTORICO == "false"){
+
+  if (sessionStorage.TELA_HISTORICO == "false") {
     historico.style.pointerEvents = "none";
     historico.style.cursor = "default";
     historico.style.opacity = 0.5
   }
-  
-  if(sessionStorage.TELA_STATUS == "false"){
+
+  if (sessionStorage.TELA_STATUS == "false") {
     status.style.pointerEvents = "none";
     status.style.cursor = "default";
     status.style.opacity = 0.5
@@ -160,7 +162,7 @@
 
 
 
-  var fkEmpresa = sessionStorage.ID_EMPRESA 
+  var fkEmpresa = sessionStorage.ID_EMPRESA
   var dadosIdEquipamento = []
   var dadosTipoEquipamento = []
   var fkEquipamento = 0
@@ -171,38 +173,115 @@
   reqInfoEquipamentos();
 
   // criarGrafico()
+  var checkGrafico = 0;
   function criarGrafico() {
-    removerGrafico();
-    const labels = dadosHora;
-    const data = {
-      labels: labels,
-      datasets: [{
-        label: 'Uso do Disco',
-        backgroundColor: '#19B7F7',
-        borderColor: '#19B7F7',
-        data: tamanhoUso
-      }]
-    };
+    //  removerGrafico();
+    
+    if (checkGrafico == 0) {
+      //onst labels = []
+      const dados = {
+        labels: [],
+        datasets: [{
+          label: 'Uso do Disco',
+          backgroundColor: '#19B7F7',
+          borderColor: '#19B7F7',
+          data: []
+        }]
+      };
 
-    const config = {
-      type: 'line',
-      data: data,
-      Options: {
-        maintainAspectRatio: false
+      //    for (var a = 0; a < tamanhoUso.length; a++) {
+      //     dados.datasets[0].data.push(tamanhoUso[tamanhoUso.length - 1])
+      //    labels.push(dadosHora[dadosHora.length - 1])
+      // }
+      for (var a = 0; a < tamanhoUso.length; a++) {
+        dados.datasets[0].data.push(tamanhoUso[tamanhoUso.length - 1])
+        dados.labels.push(dadosHora[dadosHora.length - 1])
       }
-    };
-    Chart.defaults.color = '#FFF';
-    Chart.defaults.borderColor = '#2276E0',
-      Chart.defaults.font.size = 13;
-    Chart.defaults.font.weight = 100;
-    Chart.defaults.font.family = 'Montserrat';
+
+      const config = {
+        type: 'line',
+        data: dados,
+        Options: {
+          maintainAspectRatio: false
+        }
+      };
+      Chart.defaults.color = '#FFF';
+      Chart.defaults.borderColor = '#2276E0',
+        Chart.defaults.font.size = 13;
+      Chart.defaults.font.weight = 100;
+      Chart.defaults.font.family = 'Montserrat';
 
 
-    const myChart = new Chart(
-      document.getElementById('myChart'),
-      config
-    );
+      const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+      );
+      checkGrafico = 1
+    }
+     
+    
+    setTimeout(() => atualizarGraficoDisco(dados, tamanhoUso), 3000);
+    
   }
+  function atualizarGraficoDisco(dados, tamanhoUso) {
+    fetch("/medidas/atualizarGraficoDisco", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        idDisco: idDisco,
+        fkEquipamento: fkEquipamento,
+        fkEmpresa: fkEmpresa
+
+      })
+    }).then(function (resposta) {
+      console.log("ESTOU NO THEN DO entrar()!")
+      if (resposta.ok) {
+        resposta.json().then(json => {
+          // console.log(json);
+          // alert(json[0].memoria_uso)
+          // dados = []
+          dadosHoraAtualizado = []
+          tamanhoUsoAtualizado = []
+
+          for (let i = 0; i < json.length; i++) {
+            datasSeparacao = json[i].dataMedicao.split(" ");
+            dadosHoraAtualizado.push(datasSeparacao[1])
+            tamanhoUsoAtualizado.push(json[i].tamanhoUso / 1073741824).toFixed(2)
+
+            //  setLegenda()
+          }
+          // if para checar se o vetor tem 16 posicoes e atualizar o gráfico 
+          //if (tamanhoUso.length == 17) {
+            dados.labels.shift()
+            dados.datasets.data.shift()
+          //}
+          dados.labels.push(dadosHoraAtualizado)
+          dados.datasets[0].data.push(tamanhoUsoAtualizado[0])
+
+          // setar legenda correta
+          setLegenda();
+          proximaAtualizacao = setTimeout(() => atualizarGrafico(dados, tamanhoUso), 2000);
+
+
+        });
+      } else {
+        console.log("Houve um erro ao pegar informaçoes!");
+        resposta.text().then(texto => {
+          // console.error(texto);
+          // finalizarAguardar(texto);
+        });
+      }
+    }).catch(function (erro) {
+      // console.log(erro);
+    })
+
+    return false;
+
+  }
+
+
 
   function sair_side() {
     sidebar.style.right = "115%"
@@ -331,13 +410,7 @@
           // console.log(json);
           // alert(json[0].memoria_uso)
           // dados = []
-          if (checkfkEquipamento != fkEquipamento) {
-            dadosHora = []
-            tamanhoUso = [];
-            tamanhoDisponivel = [];
-            checkfkEquipamento = fkEquipamento;
-            criarGrafico();
-          }
+
 
           for (let i = 0; i < json.length; i++) {
             datasSeparacao = json[i].dataMedicao.split(" ");
@@ -347,16 +420,13 @@
             //  setLegenda()
           }
 
-          if (tamanhoUso.length > 16) {
-            dadosHora.shift();
-            tamanhoUso.shift();
-            tamanhoDisponivel.shift();
-          }
 
           // apos pegar a funcao do banco nós chamos a funcao criar grafico, para 
           // o chart ser criado com as informações corretas
           criarGrafico();
+
           setLegenda();
+
 
         });
       } else {
@@ -409,7 +479,7 @@
     }
     reqQtdDiscos();
   }
-  
+
   // funcao para o usuario escolher o esquipamento que ele quer checar
   function setFkEquipamento(Valor) {
     if (dadosTipoEquipamento[Valor - 1] == "computador") {
@@ -476,11 +546,12 @@
   }
 
   setInterval(() => {
-    reqInfoDisco();
+    criarGrafico()
 
 
 
-  }, 12000);
+
+  }, 5000);
 
 
   window.fwSettings = {
