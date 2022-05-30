@@ -52,7 +52,7 @@ function buscarUsoMemoria(idEquipamento){
     var instrucao = `
     select top(1) round(memoriaUso / 1000000000, 0) uso, round(memoriaTotal / 1000000000, 0) total, round((memoriaUso / memoriaTotal) * 100, 0) porcentagemUso
     from medicaoMemoria join memoria on fkMemoria = idMemoria
-    join equipamento on fkEquipamento = idEquipamento where idEquipamento = ${idEquipamento} order by idMedicaoMemoria desc;`;
+    join equipamento on fkEquipamento = idEquipamento where idEquipamento = ${idEquipamento} order by idMedicaoMemoria desc;`
 
     console.log("Executanto a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
