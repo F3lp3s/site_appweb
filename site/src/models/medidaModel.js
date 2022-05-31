@@ -52,7 +52,7 @@ function buscarUsoMemoria(idEquipamento){
     var instrucao = `
     select top(1) round(memoriaUso / 1000000000, 0) uso, round(memoriaTotal / 1000000000, 0) total, round((memoriaUso / memoriaTotal) * 100, 0) porcentagemUso
     from medicaoMemoria join memoria on fkMemoria = idMemoria
-    join equipamento on fkEquipamento = idEquipamento where idEquipamento = ${idEquipamento} order by idMedicaoMemoria desc;`
+    join equipamento on fkEquipamento = idEquipamento where idEquipamento = ${idEquipamento} order by idMedicaoMemoria desc;`;
 
     console.log("Executanto a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
@@ -73,7 +73,7 @@ function buscarUsoProcessador(idEquipamento){
 
 function buscarUsoDisco(idEquipamento){
     var instrucao = `
-    select top (1) round(tamanhoUso / 1000000000, 0) uso, round(tamanhoTotal / 1000000000, 0) total, round((tamanhoUso / tamanhoTotal) * 100, 0) porcentagemUso
+    select top (1) round(tamanhoUso / 1000000000, 0) uso, round(tamanhoTotal / 1000000000, 0) total, round((tamanhoUso / tamanhoTotal) * 100, -2) porcentagemUso
     from medicaoDisco join disco on fkDisco = idDisco
     join equipamento on fkEquipamento = idEquipamento where idEquipamento = ${idEquipamento} order by idDiscoMedicao desc;`
 
@@ -151,7 +151,7 @@ function reqInfoDisco(idDisco, fkEquipamento,fkEmpresa) {
     var instrucao = `
     select top(16) dataMedicao, tamanhoUso, tamanhoDisponivel from medicaoDisco join disco on fkDisco = idDisco 
     join equipamento on fkEquipamento = idEquipamento join
-            empresa on fkEmpresa = idEmpresa where fkEmpresa =${fkEmpresa} and fkEquipamento = ${fkEquipamento} and idDisco =${idDisco} order by idDiscoMedicao desc;
+            empresa on fkEmpresa = idEmpresa where fkEmpresa =${fkEmpresa} and fkEquipamento = ${fkEquipamento}  order by idDiscoMedicao desc;
 
 
     `;

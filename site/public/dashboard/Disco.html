@@ -166,18 +166,19 @@
   var dadosIdEquipamento = []
   var dadosTipoEquipamento = []
   var fkEquipamento = 0
-  var checkfkEquipamento = 0
   var dadosIdDisco = []
   var idDisco = 0
 
   reqInfoEquipamentos();
 
   // criarGrafico()
-  var checkGrafico = 0;
+  var checkfkEquipamento = 0;
   function criarGrafico() {
     //  removerGrafico();
-    
-    if (checkGrafico == 0) {
+    if(checkfkEquipamento != fkEquipamento){
+      removerGrafico()
+    }
+  
       //onst labels = []
       const dados1 = {
         labels: [],
@@ -193,7 +194,11 @@
       //     dados.datasets[0].data.push(tamanhoUso[tamanhoUso.length - 1])
       //    labels.push(dadosHora[dadosHora.length - 1])
       // }
-     
+     if(checkfkEquipamento != fkEquipamento){
+      dados1.datasets[0].data = []
+      dados1.labels = []
+      checkfkEquipamento = fkEquipamento
+     }
       for (var a = 0; a < tamanhoUso.length; a++) {
         dados1.datasets[0].data.push(tamanhoUso[tamanhoUso.length - 1].toFixed(2))
         dados1.labels.push(dadosHora[dadosHora.length - 1])
@@ -221,9 +226,9 @@
       checkGrafico = 1
       console.log(dados1)
       setTimeout(() => atualizarGraficoDisco(dados1, tamanhoUso), 3000);
-    }
-
     
+
+
   }
   function atualizarGraficoDisco(dados1, tamanhoUso) {
     console.log(dados1)
@@ -258,7 +263,7 @@
             //  setLegenda()
           }
           // if para checar se o vetor tem 16 posicoes e atualizar o gráfico 
-          if(dados1.labels.length == 16) {
+          if(dados1.labels.length >= 16) {
             dados1.labels.shift();
             dados1.datasets[0].data.shift()
           }
@@ -416,7 +421,10 @@
           // console.log(json);
           // alert(json[0].memoria_uso)
           // dados = []
-
+          datasSeparacao = []
+          dadosHora = []
+          tamanhoUso = []
+          tamanhoDisponivel = []
 
           for (let i = 0; i < json.length; i++) {
             datasSeparacao = json[i].dataMedicao.split(" ");
@@ -499,8 +507,6 @@
          Disco ${dadosIdDisco[i]}
        </button>
      </option>`
-
-
     }
     //removerGrafico();
     //reqInfoMemoria();
