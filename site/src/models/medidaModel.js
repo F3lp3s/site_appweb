@@ -113,14 +113,14 @@ function updatePermiBanco(updatePagina, fkFuncionario,setPermissao, fkEmpresa) {
 
 function reqInfoMemoriaHistorico(fkEmpresa,data) {
     var instrucao = `
-    select memoriaUso,memoriaDisponivel, dataMedicao, fkMemoria,  tipoEquipamento, idEquipamento from medicaoMemoria join memoria on idMedicaoMemoria = fkMemoria
+    select memoriaUso,memoriaDisponivel, dataMedicao, fkMemoria, tipoEquipamento, idEquipamento from medicaoMemoria join memoria on idMedicaoMemoria = fkMemoria
  join Equipamento on fkEquipamento = idEquipamento where equipamento.fkEmpresa = ${fkEmpresa} and dataMedicao >= '${data}';
  `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
 function reqInfoDiscoHistorico(fkEmpresa,data) {
-    var instrucao = `select top(16) idDiscoMedicao, tamanhoUso, tamanhoDisponivel, dataMedicao, idDisco, idEquipamento from medicaoDisco join disco  on fkDisco = idDisco
+    var instrucao = `select top(16) idDiscoMedicao, tamanhoUso, tipoEquipamento,tamanhoDisponivel, dataMedicao, idDisco, idEquipamento from medicaoDisco join disco  on fkDisco = idDisco
     join Equipamento on fkEquipamento = idEquipamento where equipamento.fkEmpresa =
   ${fkEmpresa} and dataMedicao >= '${data}';
  `;
