@@ -145,9 +145,9 @@
 
 
 reqDate()
-get_historico()
+// get_historico()
 
-  function get_historico() {
+  function getHistorico() {
 
 
     var nome_maquina_bd = ['servidor1', 'servidor1', 'servidor2', 'caixa1', 'caixa1']
@@ -181,10 +181,10 @@ get_historico()
       horario_alerta.push(horario_alerta_bd[i])
     }
 
-    historico()
+    setHistorico()
   }
 
-  function historico() {
+  function setHistorico() {
   
     for (var i = 0; i < nome_maquina.length ; i++) {
       if(numero_alerta[i] < 80) {
@@ -277,7 +277,42 @@ get_historico()
                     idEquipamento.push(json[i].idEquipamento)
                 }
                 //-------------------- colocar div para exibição de informacoes aqui----------------
+                for (var i = 0; i < memoriaUso.length ; i++) {
+                  if((memoriaUso[i] * 100) / memoriaDisponivel[i]) {
+                    var alerta = "Moderado"
+                    var cor = 'linear-gradient(#FE9800, #191919 70%);'
+                  } else {
+                    var alerta = "Crítico"
+                    var cor = 'linear-gradient(#C20000, #191919 70%);'
+                  }
 
+                  var separacao = dataMedicao[i].split(" ")
+
+                  div_historico.innerHTML += `
+                  <div class="alerta">
+                    <div class="maquina-alerta"><p>${tipoEquipamento[i]}:</p></div>
+                    <div class="info-alerta">
+                      <div class="local-alerta">
+                        <p>Memoria</p>
+                      </div>
+                      <div class="numero-alerta">
+                        <div class="cor-alerta" style="background-image: ${cor}">
+                          <div class="cont-numero">
+                            <p>${(memoriaUso[i] * 100) / memoriaDisponivel[i]}%</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="cont-informacao">
+                        <div class="alinhar-info">
+                          <p>Status: ${alerta}</p>
+                          <p>Data: ${separacao[0]}</p>
+                          <p>Hora: ${separacao[1]}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  `
+                }
                 // ----- chamar funcao a baixo
             
             }); 
@@ -346,7 +381,42 @@ get_historico()
 
                 }
                 //-------------------- colocar div para exibição de informacoes aqui----------------
+                for (var i = 0; i < tamanhoUso.length ; i++) {
+                  if((tamanhoUso[i] * 100) / tamanhoDisponivel[i]) {
+                    var alerta = "Moderado"
+                    var cor = 'linear-gradient(#FE9800, #191919 70%);'
+                  } else {
+                    var alerta = "Crítico"
+                    var cor = 'linear-gradient(#C20000, #191919 70%);'
+                  }
 
+                  var separacao = dataMedicao[i].split(" ")
+
+                  div_historico.innerHTML += `
+                  <div class="alerta">
+                    <div class="maquina-alerta"><p>NONE</p></div>
+                    <div class="info-alerta">
+                      <div class="local-alerta">
+                        <p>Disco</p>
+                      </div>
+                      <div class="numero-alerta">
+                        <div class="cor-alerta" style="background-image: ${cor}">
+                          <div class="cont-numero">
+                            <p>${(tamanhoUso[i] * 100) / tamanhoDisponivel[i]}%</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="cont-informacao">
+                        <div class="alinhar-info">
+                          <p>Status: ${alerta}</p>
+                          <p>Data: ${separacao[0]}</p>
+                          <p>Hora: ${separacao[1]}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  `
+              }
                 // ----- chamar funcao a baixo
                
             }); 
@@ -394,6 +464,42 @@ get_historico()
                     idEquipamento.push(json[i].idEquipamento)
                 }
                 //-------------------- colocar div para exibição de informacoes aqui -------------------------
+                for (var i = 0; i < uso.length ; i++) {
+                  if((tamanhoUso[i] * 100) / tamanhoDisponivel[i]) {
+                    var alerta = "Moderado"
+                    var cor = 'linear-gradient(#FE9800, #191919 70%);'
+                  } else {
+                    var alerta = "Crítico"
+                    var cor = 'linear-gradient(#C20000, #191919 70%);'
+                  }
+
+                  var separacao = dataMedicao[i].split(" ")
+
+                  div_historico.innerHTML += `
+                  <div class="alerta">
+                    <div class="maquina-alerta"><p>NONE</p></div>
+                    <div class="info-alerta">
+                      <div class="local-alerta">
+                        <p>Disco</p>
+                      </div>
+                      <div class="numero-alerta">
+                        <div class="cor-alerta" style="background-image: ${cor}">
+                          <div class="cont-numero">
+                            <p>${(tamanhoUso[i] * 100) / tamanhoDisponivel[i]}%</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="cont-informacao">
+                        <div class="alinhar-info">
+                          <p>Status: ${alerta}</p>
+                          <p>Data: ${separacao[0]}</p>
+                          <p>Hora: ${separacao[1]}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  `
+              }
             }); 
         } else {
             console.log("Houve um erro ao pegar informaçoes!");

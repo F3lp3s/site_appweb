@@ -626,15 +626,17 @@ body {
   .banner .conteiner .slogan{
     margin-top: 5%;
     font-size: 5vw;
-    color: #00ffea;
+    color: #ffffff;
   }
 
   .banner .conteiner .sub-slogan{
-    margin-top: 3%;
-    margin-left: 0;
-    width: 100%;
-    padding: 5% 5% 0 5%;
+    display: flex;
+    width: 90%;
     font-size: 2.9vw;
+    align-items: center;
+    text-align: center;
+    padding: 0 10% 0 10%;
+    margin-left: -3%;
   }
 
   .titulo{
@@ -690,6 +692,18 @@ body {
     width: 90%;
   }
 
+  .contato h3{
+    font-size: 3vw;
+  }
+
+  .contato label{
+    font-size: 2.7vw;
+  }
+
+  #textarea{
+    height: 70%;
+  }
+
   .text-sobre{
     text-align: center;
   }
@@ -714,4 +728,17 @@ body {
     width: 60%;
     margin-right: 5%;
   }
+}
+
+@media only screen and (max-width: 400px) {
+  .container{
+    grid-template-rows: 0.2fr 1.2fr 1.1fr 1.1fr 0.7fr 1.1fr 0.4fr;
+  }
+
+  .banner .conteiner img{
+    width: 70%;
+    margin-left: 15%;
+  }
+
+  
 }

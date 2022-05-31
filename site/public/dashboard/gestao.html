@@ -194,15 +194,12 @@ var setPermissao = ""
   //Funcao para preencher a lista com os funcionarios
   function setFuncionario() {
 
-    var nome_func = ["Funcionario_1", "Funcionario_2", "Funcionario_3", "Funcionario_4"];
-    var id_func = ["01010101010", "02020202020", "03030303030", "04040404040"];
-
     for (var i = 0; i < listaIdFuncionarios.length; i++) {
       if ((i + 1) % 2) {
         lista.innerHTML += `
           <tr>
             <td>${listaNomes[i]}</td>
-            <td  class="lista-id">${listaIdFuncionarios[i]}</td>
+            <td class="lista-id">${listaIdFuncionarios[i]}</td>
             <td><input onchange="setValueCheckBox(status_id${listaIdFuncionarios[i]}, 'statusMaquina',${listaIdFuncionarios[i]})" value="0" type="checkbox" id="status_id${listaIdFuncionarios[i]}"></td>
 
             <td><input onchange="setValueCheckBox(historico_id${listaIdFuncionarios[i]},'historico',${listaIdFuncionarios[i]})" value="0" type="checkbox" id="historico_id${listaIdFuncionarios[i]}"></td>
@@ -445,6 +442,38 @@ function ativarCheckbox(el) {
     return false;
 
   }
+  // ------ Remover funcionario do banco ------ //
+  // function removerFunc() {
+  //   fetch("/medidas/removerFunc", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify({
+  //       updatePagina : updatePagina,
+  //       fkColaborador : fkColaborador,
+  //       setPermissao : setPermissao,
+  //       fkEmpresa: fkEmpresa
+
+  //     })
+  //   }).then(function (resposta) {
+  //     console.log("ESTOU NO THEN DO entrar()!")
+  //     if (resposta.ok) {
+  //       resposta.json().then(json => {
+  //         console.log("entrou")
+
+
+  //       });
+  //     } else {
+  //       console.log("Houve um erro ao pegar informaçoes!");
+  //       resposta.text().then(texto => {});
+  //     }
+  //   }).catch(function (erro) {
+  //     console.log(erro);
+  //   })
+
+  //   return false;
+  // }
 
   function abrir() {
     removerFunc.style.display = "flex"
