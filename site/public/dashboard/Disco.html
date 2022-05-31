@@ -173,9 +173,10 @@
 
   // criarGrafico()
   var checkfkEquipamento = 0;
+  var checkDisco = 0;
   function criarGrafico() {
     //  removerGrafico();
-    if(checkfkEquipamento != fkEquipamento){
+    if(checkfkEquipamento != fkEquipamento || checkDisco != idDisco){
       removerGrafico()
     }
   
@@ -194,10 +195,11 @@
       //     dados.datasets[0].data.push(tamanhoUso[tamanhoUso.length - 1])
       //    labels.push(dadosHora[dadosHora.length - 1])
       // }
-     if(checkfkEquipamento != fkEquipamento){
+     if(checkfkEquipamento != fkEquipamento || checkDisco != idDisco){
       dados1.datasets[0].data = []
       dados1.labels = []
       checkfkEquipamento = fkEquipamento
+      checkDisco = idDisco
      }
       for (var a = 0; a < tamanhoUso.length; a++) {
         dados1.datasets[0].data.push(tamanhoUso[tamanhoUso.length - 1].toFixed(2))
