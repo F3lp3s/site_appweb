@@ -30,12 +30,21 @@ function cadastrar(nome, identificacao, email, cargo, senha, fkEmpresa) {
 
 }
 
+function cadastrarPermissao(email, senha){
+
+    var instrucao = `
+       insert into permissao(statusMaquina, historico, gestao, fkEmpresa, fkColaboradorPermissao)
+       select 0, 0, 0, fkEmpresa, idColaborador from colaborador where email = '${email}' and senha = '${senha}';`
+
+   return database.executar(instrucao);
+
+}
 
 
 
 
 module.exports = {
     cadastrar,
-    listar
-
+    listar,
+    cadastrarPermissao
 };
