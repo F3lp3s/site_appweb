@@ -295,7 +295,7 @@ reqDate()
 
                   div_historico.innerHTML += `
                   <div class="alerta">
-                    <div class="maquina-alerta"><p>${tipoEquipamento[i]}:</p></div>
+                    <div class="maquina-alerta"><p>${tipoEquipamento[i]}${idEquipamento[i]}:</p></div>
                     <div class="info-alerta">
                       <div class="local-alerta">
                         <p>Memoria</p>
@@ -303,7 +303,7 @@ reqDate()
                       <div class="numero-alerta">
                         <div class="cor-alerta" style="background-image: ${cor}">
                           <div class="cont-numero">
-                            <p>${(memoriaUso[i] * 100) / memoriaDisponivel[i]}%</p>
+                            <p>${((memoriaUso[i] * 100) / (memoriaUso[i] + memoriaDisponivel[i])).toFixed(1)}%</p>
                           </div>
                         </div>
                       </div>
@@ -372,18 +372,19 @@ reqDate()
             resposta2.json().then(json => {
                 // console.log(json);
                 // alert(json[0].memoria_uso)
-                var idDisco = []
-                var tamanhoUso = []
-                var tamanhoDisponivel = []
-                var dataMedicao = []
-                var idEquipamento = []
+                var idDisco = [];
+                var tamanhoUso = [];
+                var tamanhoDisponivel = [];
+                var dataMedicao = [];
+                var idEquipamento = [];
+                var tipoEquipamento = [];
                 for (let i = 0; i < json.length; i++) {
                   idDisco.push(json[i].idDisco)
                   tamanhoUso.push(json[i].tamanhoUso)
                   tamanhoDisponivel.push(json[i].tamanhoDisponivel )
                   dataMedicao.push(json[i].dataMedicao)
                   idEquipamento.push(json[i].idEquipamento)
-
+                  tipoEquipamento.push(json[i].tipoEquipamento)
                 }
                 //-------------------- colocar div para exibição de informacoes aqui----------------
                 for (var i = 0; i < tamanhoUso.length ; i++) {
@@ -399,7 +400,7 @@ reqDate()
 
                   div_historico.innerHTML += `
                   <div class="alerta">
-                    <div class="maquina-alerta"><p>NONE</p></div>
+                    <div class="maquina-alerta"><p>${tipoEquipamento[i]}${idDisco[i]}</p></div>
                     <div class="info-alerta">
                       <div class="local-alerta">
                         <p>Disco</p>
@@ -407,7 +408,7 @@ reqDate()
                       <div class="numero-alerta">
                         <div class="cor-alerta" style="background-image: ${cor}">
                           <div class="cont-numero">
-                            <p>${(tamanhoUso[i] * 100) / tamanhoDisponivel[i]}%</p>
+                            <p>${((tamanhoUso[i] * 100) / tamanhoDisponivel[i]).toFixed(1)}%</p>
                           </div>
                         </div>
                       </div>

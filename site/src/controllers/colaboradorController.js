@@ -33,8 +33,23 @@ function cadastrar(req, res) {
       } else {
         colaboradorModel.cadastrar(nome, identificacao, email,cargo, senha,fkEmpresa)
             .then(
-                function (resultado) {
-                    res.json(resultado);
+                function () {
+                    colaboradorModel.cadastrarPermissao(email, senha)
+                        .then(
+                            function (resultado){
+                                res.json(resultado);
+                            }
+
+                        ).catch(
+                            function (erro) {
+                                console.log(erro);
+                                console.log(
+                                    "\nHouve um erro ao realizar o cadastro! Erro: ",
+                                    erro.sqlMessage
+                                );
+                                res.status(500).json(erro.sqlMessage);
+                            }
+                        )
                 }
             ).catch(
                 function (erro) {
@@ -70,6 +85,4 @@ function listar(req,res){
 module.exports = {
     cadastrar,
     listar,
-   
-   
 }

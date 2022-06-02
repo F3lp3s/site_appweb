@@ -86,8 +86,39 @@ function cadastrar(req, res) {
     } else {
         empresaModel.cadastrar(razao, cnpj, email,representante, senha)
             .then(
-                function (resultado) {
-                    res.json(resultado);
+                function () {
+                    empresaModel.cadastrarComoColaborador(email, senha)
+                        .then(
+                            function (){
+                                empresaModel.cadastrarPermissao(email, senha)
+                                    .then(
+                                        function (resultado){
+                                            res.json(resultado);
+                                        }
+
+                                    ).catch(
+                                        function (erro) {
+                                            console.log(erro);
+                                            console.log(
+                                                "\nHouve um erro ao realizar o cadastro! Erro: ",
+                                                erro.sqlMessage
+                                            );
+                                            res.status(500).json(erro.sqlMessage);
+                                        }
+
+                                    )
+                            }
+                        ).catch(
+                            function (erro) {
+                                console.log(erro);
+                                console.log(
+                                    "\nHouve um erro ao realizar o cadastro! Erro: ",
+                                    erro.sqlMessage
+                                );
+                                res.status(500).json(erro.sqlMessage);
+                            }
+
+                        )
                 }
             ).catch(
                 function (erro) {
@@ -110,7 +141,5 @@ module.exports = {
     entrar,
     cadastrar,
     listar,
-    testar,
- 
-   
+    testar
 }
