@@ -123,10 +123,17 @@
   }
 
   var today  = new Date()
-  var dia = today.getDay()
-  var mes = (new Date().getMonth() + 1)
-  var ano = new Date().getFullYear()
- var data2 = `${ano}-${mes}-${dia}`
+  var dia = today.getDay() - 2
+  var mes = today.getMonth() + 1
+  var ano = today.getFullYear()
+  if (dia < 10) {
+    dia = `0${dia}`
+  }
+  if (mes < 10) {
+    mes = `0${mes}`
+  }
+  var data2 = `${ano}-${mes}-${dia}`
+  mes_ano.value = data2
  
  
     
@@ -145,83 +152,6 @@
 
 
 reqDate()
-// get_historico()
-
-  function getHistorico() {
-
-
-    var nome_maquina_bd = ['servidor1', 'servidor1', 'servidor2', 'caixa1', 'caixa1']
-    var local_alerta_bd = ['Disco', 'CPU', 'Memória', 'CPU', 'Disco']
-    var numero_alerta_bd = [85, 75, 90, 70, 85]
-    var status_alerta_bd = ['Crítico', 'Moderado', 'Crítico', 'Moderado', 'Crítico']
-    var data_alerta_bd = ['02/04/2022', '05/04/2022', '05/04/2022', '10/04/2022', '12/04/2022']
-    var horario_alerta_bd = ['12:29', '14:58', '13:49', '17:09', '13:05']
-    
-    for(var i = 0; i < nome_maquina_bd.length; i++){
-      nome_maquina.push(nome_maquina_bd[i])
-    }
-
-    for (var i = 0; i < local_alerta_bd.length; i++){
-      local_alerta.push(local_alerta_bd[i])
-    }
-
-    for (var i = 0; i < numero_alerta_bd.length; i++){
-      numero_alerta.push(numero_alerta_bd[i])
-    }
-
-    for (var i = 0; i < status_alerta_bd.length; i++){
-      status_alerta.push(status_alerta_bd[i])
-    }
-
-    for (var i = 0; i < data_alerta_bd.length; i++){
-      data_alerta.push(data_alerta_bd[i])
-    }
-
-    for (var i = 0; i < horario_alerta_bd.length; i++){
-      horario_alerta.push(horario_alerta_bd[i])
-    }
-
-    setHistorico()
-  }
-
-  function setHistorico() {
-  
-    for (var i = 0; i < nome_maquina.length ; i++) {
-      if(numero_alerta[i] < 80) {
-        var cor = 'linear-gradient(#FE9800, #191919 70%);'
-      } else {
-        var cor = 'linear-gradient(#C20000, #191919 70%);'
-      }
-
-      div_historico.innerHTML += `
-      <div class="alerta">
-        <div class="maquina-alerta"><p>${nome_maquina[i]}:</p></div>
-        <div class="info-alerta">
-          <div class="local-alerta">
-            <p>${local_alerta[i]}</p>
-          </div>
-          <div class="numero-alerta">
-            <div class="cor-alerta" style="background-image: ${cor}">
-              <div class="cont-numero">
-                <p>${numero_alerta[i]}%</p>
-              </div>
-            </div>
-          </div>
-          <div class="cont-informacao">
-            <div class="alinhar-info">
-              <p>Status: ${status_alerta[i]}</p>
-              <p>Data: ${data_alerta[i]}</p>
-              <p>Hora: ${horario_alerta[i]}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      `
-    }
-  }
-
-
-
 
 // --- funcoes da side bar 
   function sair_side() {
@@ -333,6 +263,8 @@ reqDate()
 //  reqDate()
 
   function reqDate(){
+    div_historico.innerHTML = ``
+  
     if(mes_ano.value == ""){
      data =  data2
     reqInfoMemoriaHistorico()

@@ -164,15 +164,7 @@
   var fkEquipamento = 0
   var memoriaTotalNumero = []
   var memoriaDisponivelNumero =[] 
-
-  // variaveis para insert com data e hora atual
-  var getAno = new Date().getFullYear()
-  var getMes = new Date().getMonth().toFixed()
-  var getDia = new Date().getDay()
-  var getHora = new Date().getHours()
-  var getMinutos = new Date().getMinutes()
-  var getSegundos = new Date().getSeconds(0) 
-  var horaAtualDoSistema = `${getAno}-${getMes}-${getDia} ${getHora}:${getMinutos}:${getSegundos} ` 
+  var checkfkEquipamento = []
 
   // chamando as funcções para iniciar a pagina com o primeiro grafico ja selecionado
 
@@ -205,12 +197,15 @@
                 memoriaTotalNumero = []
                 for (let i = 0; i < json.length; i++) {
                     dados.push(json[i].memoriaUso / 1073741824).toFixed(2);
-                    dadosHora.push(json[i].dataMedicao)
-                    memoriaDisponivelNumero.push(json[i].memoriaDisponivel/ 1073741824).toFixed(2)
-                    memoriaTotalNumero.push(json[i].memoriaTotal/ 1073741824).toFixed(2)
-                    setLegenda()
+                    datasSeparacao = json[i].dataMedicao.split(" ");
+                    dadosHora.push(datasSeparacao[1])
+                    memoriaDisponivelNumero.push((json[i].memoriaDisponivel/ 1073741824))
+                    memoriaTotalNumero.push((json[i].memoriaTotal/ 1073741824))
+                    
                 }
                 
+                criarGrafico();
+                setLegenda();
                 // apos pegar a funcao do banco nós chamos a funcao criar grafico, para 
                 // o chart ser criado com as informações corretas
                 
@@ -301,14 +296,13 @@ function reqInfoEquipamentos() {
                 getEquipamento()
               }
               else{
-              qtdEquipamentos = dadosIdEquipamentos.length
-              getEquipamento()
+                qtdEquipamentos = dadosIdEquipamentos.length
+                getEquipamento()
               }
               
-                getEquipamento()
+                getEquipamento();
                 reqInfoMemoria();
                 reqQtdMemorias();
-              
 
              }); 
       } else {
@@ -334,21 +328,30 @@ function reqInfoEquipamentos() {
  // como o nome diz, funcao para criar o  gráfico do  chartJS (nós utilizamos a função reqInfoMemoria para preencher  os dados do gráfico)
 
 function criarGrafico(){
-  removerGrafico()
-const labels = dadosHora
-const data = {
-  labels: labels,
+
+  if(checkfkEquipamento != fkEquipamento){
+      removerGrafico()
+    }
+
+const dadosGrafico = {
+  labels: [],
   datasets: [{
     label: 'Memoria em Uso', 
     backgroundColor: '#19B7F7',
     borderColor: '#19B7F7',
-    data: dados
+    data: []
   }]
 };
 
+for (var i = 0; i < dados.length; i++){
+  dadosGrafico.labels.push(dadosHora[i]);
+  dadosGrafico.datasets[0].data.push(dados[i]);
+  checkfkEquipamento = fkEquipamento
+}
+
 const config = {
     type: 'line',
-    data: data,
+    data: dadosGrafico,
     Options: {
           maintainAspectRatio: false
         }
@@ -360,13 +363,16 @@ const config = {
   Chart.defaults.font.family ='Montserrat';
     
 
-  const myChart = new Chart(
+  window.myChart = new Chart(
       document.getElementById('myChart'),
       config
-    );
+  );
+  setTimeout(() => atualizarGraficoMemoria(dadosGrafico), 5000)  
   }
 
-
+  function atualizarGraficoMemoria() {
+    
+  }
  
  //funcao para exibir as memorias  de determinado equipamento na combo box e exibir para o usuario  (nós utilizamos a funcao reqQtdMemorias)
  function exibirMemoriasSelect(){
@@ -381,8 +387,8 @@ const config = {
      fkmemoria = dadosIdmemoria[i]
 
   }
-  removerGrafico();
-  reqInfoMemoria();
+
+  // reqInfoMemoria();
  }
  // funcao para mostrar ao nosso usuario os equipamentos que a empresa dele tem ( utilizamos a funcao reqInfoEquipamentos para preencher os dados que serão exibidos atraves dessa funcao )
  function getEquipamento(){
@@ -423,7 +429,7 @@ dadosHora = []
 
 
 
-removerGrafico()
+
 reqInfoEquipamentos()
 reqQtdMemorias()
 
@@ -457,12 +463,6 @@ function sair_side() {
 	'widget_id':72000002928
 	};
 
-  setInterval(() => {
-    reqInfoMemoria();
-
-      
-
-  }, 12000);
 	!function(){if("function"!=typeof window.FreshworksWidget){var n=function(){n.q.push(arguments)};n.q=[],window.FreshworksWidget=n}}() 
 
 </script>

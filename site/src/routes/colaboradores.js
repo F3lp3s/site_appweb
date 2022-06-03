@@ -19,6 +19,10 @@ router.post("/autenticar", function (req, res) {
     colaboradorController.entrar(req, res);
 });
 
+router.delete("/removerFuncionario", function(req, res) {
+    colaboradorController.removerFuncionario(req, res);
+})
+
 
 
 module.exports = router;
