@@ -63,7 +63,7 @@ function buscarMaquinas(fkEmpresa){
 
 function buscarUsoMemoria(idEquipamento){
     var instrucao = `
-    select top(1) round(memoriaUso / 1000000000, 0) uso, round(memoriaTotal / 1000000000, 0) total, round((memoriaUso / memoriaTotal) * 100, 0) porcentagemUso
+    select top(1) round(memoriaUso / 1000000000, 0) uso, round(memoriaTotal / 1000000000, 0) total, round((memoriaUso * 1.0 / memoriaTotal * 1.0) * 100, 0) porcentagemUso
     from medicaoMemoria join memoria on fkMemoria = idMemoria
     join equipamento on fkEquipamento = idEquipamento where idEquipamento = ${idEquipamento} order by idMedicaoMemoria desc;`;
 
@@ -86,7 +86,7 @@ function buscarUsoProcessador(idEquipamento){
 
 function buscarUsoDisco(idEquipamento){
     var instrucao = `
-    select top (1) round(tamanhoUso / 1000000000, 0) uso, round(tamanhoTotal / 1000000000, 0) total, round((tamanhoUso / tamanhoTotal) * 100, 2) porcentagemUso
+    select top (1) round(tamanhoUso / 1000000000, 0) uso, round(tamanhoTotal / 1000000000, 0) total, round((tamanhoUso * 1.0 / tamanhoTotal * 1.0) * 100, 0) porcentagemUso
     from medicaoDisco join disco on fkDisco = idDisco
     join equipamento on fkEquipamento = idEquipamento where idEquipamento = ${idEquipamento} order by idDiscoMedicao desc;`
 
