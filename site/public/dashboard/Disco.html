@@ -264,7 +264,8 @@
             dados1.labels.push(datasSeparacao[1])
             console.log((json[i].tamanhoUso / 1073741824).toFixed(2))
             dados1.datasets[0].data.push((json[i].tamanhoUso / 1073741824).toFixed(2))
-
+            memoriaDisponivel.innerHTML = `${(json[i].tamanhoDisponivel).toFixed(2)}GB`
+            memoriaTotal.innerHTML = `${(json[i].tamanhoUso + json[i].tamanhoDisponivel).toFixed(2)}`
             //  setLegenda()
           }
           // if para checar se o vetor tem 16 posicoes e atualizar o gráfico 

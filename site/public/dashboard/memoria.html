@@ -348,6 +348,13 @@ const dadosGrafico = {
   }]
 };
 
+
+if(checkfkEquipamento != fkEquipamento){
+  dadosGrafico.datasets[0].data = []
+  dadosGrafico.labels = []
+  checkfkEquipamento = fkEquipamento
+}
+
 for (var i = 0; i < dados.length; i++){
   dadosGrafico.labels.push(dadosHora[i]);
   dadosGrafico.datasets[0].data.push(dados[i]);
@@ -375,8 +382,64 @@ const config = {
   setTimeout(() => atualizarGraficoMemoria(dadosGrafico), 5000)  
   }
 
-  function atualizarGraficoMemoria() {
-    
+  function atualizarGraficoMemoria(dadosGrafico) {
+    fetch("/medidas/atualizarGraficoMemoria", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        fkmemoria: fkmemoria,
+        fkEquipamento: fkEquipamento,
+        fkEmpresa: fkEmpresa
+
+      })
+    }).then(function (resposta) {
+      console.log("ESTOU NO THEN DO entrar()!")
+      if (resposta.ok) {
+        resposta.json().then(json => {
+          // console.log(json);
+          // alert(json[0].memoria_uso)
+     
+          dadosHoraAtualizado = []
+          tamanhoUsoAtualizado = []
+          for (let i = 0; i < json.length; i++) {
+            dadosGrafico.datasets[0].data.push(json[i].memoriaUso / 1073741824).toFixed(2);
+            datasSeparacao = json[i].dataMedicao.split(" ");
+            dadosGrafico.labels.push(datasSeparacao[1])
+            memoriaDisponivel.innerHTML = `${json[i].memoriaDisponivel / 1073741824}GB`
+            memoriaTotal.innerHTML = `${json[i].memoriaTotal / 1073741824}GB`
+            // memoriaDisponivelNumero.push((json[i].memoriaDisponivel/ 1073741824))
+            // memoriaTotalNumero.push((json[i].memoriaTotal/ 1073741824))
+            //  setLegenda()
+          }
+          // if para checar se o vetor tem 16 posicoes e atualizar o gráfico 
+          if(dadosGrafico.labels.length >= 16) {
+            dadosGrafico.labels.shift();
+            dadosGrafico.datasets[0].data.shift()
+          }
+        //  dados.labels.push(dadosHoraAtualizado[0])
+          
+
+          // setar legenda correta
+          window.myChart.update()
+          setLegenda();
+          proximaAtualizacao = setTimeout(() => atualizarGraficoMemoria(dadosGrafico), 5000);
+
+
+        });
+      } else {
+        console.log("Houve um erro ao pegar informaçoes!");
+        resposta.text().then(texto => {
+          // console.error(texto);
+          // finalizarAguardar(texto);
+        });
+      }
+    }).catch(function (erro) {
+      // console.log(erro);
+    })
+
+    return false;
   }
  
  //funcao para exibir as memorias  de determinado equipamento na combo box e exibir para o usuario  (nós utilizamos a funcao reqQtdMemorias)

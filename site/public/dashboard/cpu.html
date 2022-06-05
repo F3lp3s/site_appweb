@@ -166,25 +166,40 @@
   var frequencia = []
   var processos = []
   var threads = []
+  var checkfkEquipamento = []
   reqInfoEquipamentos()
 
   function criarGrafico(){
-    removerGrafico()
-    const labels = dadosHora
+
+    if(checkfkEquipamento != fkEquipamento) {
+      removerGrafico()
+    }
   
-    const data = {
-      labels: labels,
+    const datosGrafico = {
+      labels: [],
       datasets: [{
         label: 'porcentagem de uso do processador', 
         backgroundColor: '#19B7F7',
         borderColor: '#19B7F7',
-        data: uso
+        data: []
       }]
     };
+
+    if(checkfkEquipamento != fkEquipamento){
+      datosGrafico.datasets[0].data = []
+      datosGrafico.labels = []
+      checkfkEquipamento = fkEquipamento
+    }
+    
+    for(var i = 0; i < dadosHora.length; i++) {
+      datosGrafico.labels.push(dadosHora[i]); 
+      datosGrafico.datasets[0].data.push(uso[i]);
+      checkfkEquipamento = fkEquipamento;
+    }
   
     const config = {
         type: 'line',
-        data: data,
+        data: datosGrafico,
         Options: {
           maintainAspectRatio: false
         }
@@ -196,10 +211,68 @@
       Chart.defaults.font.family ='Montserrat';
       
 
-    const myChart = new Chart(
+    window.myChart = new Chart(
         document.getElementById('myChart'),
         config
       );
+      setTimeout(() => atualizarGraficoCpu(datosGrafico), 3000);
+  }
+
+  function atualizarGraficoCpu(datosGrafico) {
+    fetch("/medidas/atualizarGraficoCpu", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        idCpu: idCpu,
+        fkEquipamento: fkEquipamento,
+        fkEmpresa: fkEmpresa
+
+      })
+    }).then(function (resposta) {
+      console.log("ESTOU NO THEN DO entrar()!")
+      if (resposta.ok) {
+        resposta.json().then(json => {
+          
+          
+          for (let i = 0; i < json.length; i++) {
+            datasSeparacao = json[i].dataMedicao.split(" ");
+            datosGrafico.labels.push(datasSeparacao[1])
+            datosGrafico.datasets[0].data.push(json[i].uso)
+            div_frequencia.innerHTML = `${json[i].frequencia}GHz`
+            div_processos.innerHTML = `${json[i].processos}`
+            div_threads.innerHTML = `${json[i].threads}`
+            //  setLegenda()
+          }
+          // if para checar se o vetor tem 16 posicoes e atualizar o gráfico 
+          if(datosGrafico.labels.length > 16) {
+            datosGrafico.labels.shift();
+            datosGrafico.datasets[0].data.shift();
+          }
+        //  dados.labels.push(dadosHoraAtualizado[0])
+          
+
+          // setar legenda correta
+          window.myChart.update()
+          setLegenda();
+          proximaAtualizacao = setTimeout(() => atualizarGraficoCpu(datosGrafico), 5000);
+
+
+        });
+      } else {
+        console.log("Houve um erro ao pegar informaçoes!");
+        resposta.text().then(texto => {
+          // console.error(texto);
+          // finalizarAguardar(texto);
+        });
+      }
+    }).catch(function (erro) {
+      // console.log(erro);
+    })
+
+    return false;
+
   }
 
   function sair_side() {
@@ -348,7 +421,8 @@ function reqInfoCpu() {
         processos = []
         threads = []
         for (let i = 0; i < json.length; i++) {
-          dadosHora.push(json[i].dataMedicao)
+          arrumarHora = json[i].dataMedicao.split(" ")
+          dadosHora.push(arrumarHora[1])
           uso.push(json[i].uso)
           frequencia.push(json[i].frequencia)
           processos.push(json[i].processos)
@@ -453,14 +527,6 @@ function removerGrafico() {
   chartJs.innerHTML = `<canvas  id="myChart"></canvas>`
 
 }
-
-
-setInterval(() => {
-  reqInfoCpu();
-
-    
-
-}, 12000);
 
 window.fwSettings={
 'widget_id':72000002928

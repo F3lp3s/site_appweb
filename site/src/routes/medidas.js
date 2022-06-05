@@ -96,6 +96,14 @@ router.post("/atualizarGraficoDisco", function (req, res) {
     medidaController.atualizarGraficoDisco(req, res);
 });
 
+router.post("/atualizarGraficoMemoria", function (req, res) {
+    medidaController.atualizarGraficoMemoria(req, res);
+});
+
+router.post("/atualizarGraficoCpu", function (req, res) {
+    medidaController.atualizarGraficoCpu(req,res);
+})
+
 
 
 module.exports = router;

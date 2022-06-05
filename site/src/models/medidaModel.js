@@ -15,7 +15,20 @@ function reqInfoMemoria(fkmemoria, fkEquipamento,fkEmpresa) {
     select top(16) idMedicaoMemoria, dataMedicao, memoriaUso, memoriaDisponivel, memoriaTotal from MedicaoMemoria join memoria on fkMemoria= idMemoria
 	join  equipamento on idEquipamento = fkEquipamento
     join empresa on idEmpresa = fkEmpresa
- where fkMemoria = ${fkmemoria} and fkEquipamento = ${fkEquipamento}  and fkEmpresa = ${fkEmpresa} ;
+ where fkMemoria = ${fkmemoria} and fkEquipamento = ${fkEquipamento}  and fkEmpresa = ${fkEmpresa};
+
+
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
+function atualizarGraficoMemoria(fkmemoria, fkEquipamento,fkEmpresa) {
+    var instrucao = `
+    select top(1) idMedicaoMemoria, dataMedicao, memoriaUso, memoriaDisponivel, memoriaTotal from MedicaoMemoria join memoria on fkMemoria= idMemoria
+	join  equipamento on idEquipamento = fkEquipamento
+    join empresa on idEmpresa = fkEmpresa
+ where fkMemoria = ${fkmemoria} and fkEquipamento = ${fkEquipamento}  and fkEmpresa = ${fkEmpresa} order by idMedicaoMemoria desc;
 
 
     `;
@@ -26,7 +39,7 @@ function reqInfoMemoria(fkmemoria, fkEquipamento,fkEmpresa) {
 function reqQtdMemorias(fkEmpresa, fkEquipamento) {
     var instrucao = `
     select idMemoria from memoria join equipamento on idMemoria = idEquipamento 
-    where fkEmpresa = ${fkEmpresa} and fkEquipamento = ${fkEquipamento};
+    where fkEmpresa = ${fkEmpresa} and fkEquipamento = ${fkEquipamento} order by idMedicaoMemoria desc;
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
@@ -193,6 +206,18 @@ function reqInfoCpu(idCpu, fkEquipamento,fkEmpresa) {
     return database.executar(instrucao);
 }
 
+function atualizarGraficoCpu(idCpu, fkEquipamento,fkEmpresa) {
+    var instrucao = `
+    select top(1)   dataMedicao, uso, frequencia,processos,threads from medicaoProcessador join processador on fkProcessador = processador.idProcessador
+    join equipamento on fkEquipamento = idEquipamento join
+            empresa on fkEmpresa = idEmpresa where fkEmpresa =${fkEmpresa} and fkEquipamento = ${fkEquipamento} and processador.idProcessador =${idCpu} order by dataMedicao desc;
+
+
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
 module.exports = {
     reqInfoMemoria,
     buscarMemoria,
@@ -212,5 +237,7 @@ module.exports = {
     reqInfoDisco,
     reqQtdCpu,
     reqInfoCpu,
-    atualizarGraficoDisco
+    atualizarGraficoDisco,
+    atualizarGraficoMemoria,
+    atualizarGraficoCpu
 }

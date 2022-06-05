@@ -344,6 +344,25 @@ function atualizarGraficoDisco(req, res) {
         );
 }
 
+function atualizarGraficoMemoria(req, res) {
+    var fkmemoria = req.body.fkmemoria;
+    var fkEquipamento = req.body.fkEquipamento
+    var fkEmpresa = req.body.fkEmpresa
+    medidaModel.atualizarGraficoMemoria(fkmemoria,fkEquipamento,fkEmpresa)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado);
+            } else {
+                res.status(204).send("Nenhum resultado encontrado!")
+            }
+        }).catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao realizar a consulta! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
 
 /// funcoes para a pagina de cpu
 
@@ -385,6 +404,26 @@ function reqInfoCpu(req, res) {
         );
 }
 
+function atualizarGraficoCpu(req, res) {
+    var idCpu = req.body.idCpu;
+    var fkEquipamento = req.body.fkEquipamento
+    var fkEmpresa = req.body.fkEmpresa
+    medidaModel.atualizarGraficoCpu(idCpu,fkEquipamento,fkEmpresa)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado);
+            } else {
+                res.status(204).send("Nenhum resultado encontrado!")
+            }
+        }).catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao realizar a consulta! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
 
 module.exports = {
     reqInfoMemoria,
@@ -405,5 +444,7 @@ module.exports = {
     reqInfoDisco,
     reqQtdCpu,
     reqInfoCpu,
-    atualizarGraficoDisco
+    atualizarGraficoDisco,
+    atualizarGraficoMemoria,
+    atualizarGraficoCpu
 }   
