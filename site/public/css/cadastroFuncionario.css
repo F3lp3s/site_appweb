@@ -225,7 +225,7 @@ body {
 
     .container h2 {
         width: 40vw;
-        margin-left: 20vw;
+        margin-left: 22vw;
         /* background-color: red; */
     }
 
@@ -260,8 +260,114 @@ body {
         gap: 5%;
         color: #FFF;
         height: 100%;
+        font-size: 5vw;
     }
     .btn{
-        margin-left: 12vw;
+        margin-left: 14vw;
     }
+    .lbl-identificacao{
+        margin-left: 2vw;
+    }
+    .lbl-senha{
+        margin-left: 1vw;
+        text-align: center;
+    }
+    .lbl-cargo{
+        margin-left: 5vw;
+    }
+    .lbl-confirmacao{
+        margin-left: 3vw;
+    }
+    
+
+
+}
+@media only screen and (max-width: 400px) {
+    .container {
+        padding: 2%;
+        width: 90%;
+        height: 92%;
+        margin: auto;
+        display: grid;
+        row-gap: 6%;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto;
+        grid-template-areas:
+            "icone   logo  logo"
+            "banner banner banner"
+    }
+
+    .icon-voltar>a>img {
+        width: 3vw;
+        height: 3vh;
+        /* background-color: red; */
+    }
+
+    .logo>img {
+        width: 25vw;
+        margin-left: 2vw;
+    }
+
+    .form {
+        margin-left: 15vw;
+    }
+
+    .container h2 {
+        width: 40vw;
+        margin-left: 22vw;
+        /* background-color: red; */
+    }
+
+    .lbl-nome {
+        margin-left: 17vw;
+    }
+
+    .lbl-email {
+        margin-left: 17vw
+    }
+
+    .logar > .btn {
+        /* background-color: red; */
+        width: 15vw;
+        /* margin-left: 10vw; */
+    }
+    .form {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto 1fr;
+        grid-template-areas:
+            "lbl-nome           lbl-nome           "
+            "nome               nome               "
+            "lbl-email          lbl-email          "
+            "email              email              "
+            "lbl-identificacao  lbl-cargo          "
+            "identificacao      cargo              "
+            "lbl-senha          lbl-confirmacao    "
+            "senha              confirmacao        "
+            "logar                  logar              "
+            "login              login              ";
+        gap: 5%;
+        color: #FFF;
+        height: 100%;
+        font-size: 5vw;
+    }
+    .btn{
+        margin-left: 14vw;
+    }
+    .lbl-identificacao{
+        margin-left: 2vw;
+    }
+    .lbl-senha{
+        margin-left: 1vw;
+        text-align: center;
+    }
+    .lbl-cargo{
+        margin-left: 5vw;
+    }
+    .lbl-confirmacao{
+        margin-left: 3vw;
+    }
+    
+
+
 }
