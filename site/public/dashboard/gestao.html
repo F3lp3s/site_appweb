@@ -47,6 +47,11 @@
               <p>Status</p>
             </a>
           </div>
+          <div class="componentes">
+            <p> <a href="../dashboard/cpu.html">Cpu</a> </p>
+            <p> <a href="../dashboard/Disco.html">Disco </a></p>
+            <p> <a href="../dashboard/memoria.html">Memoria Ram </a></p>
+          </div>
         </div>
 
         <div id="historico" class="historico-nav">
@@ -127,11 +132,11 @@
           <h3>Excluir Funcionário</h3>
           
           <label for="inputId">Id:</label>
-          <input id="inputId">
+          <input id="inputId" type="number">
           <label for="inputNome">Nome:</label>
           <input id="inputNome">
           
-          <button>Excluir Funcionário</button>
+          <button onclick="validacaoExclusao()">Excluir Funcionário</button>
           <button onclick="fechar()">Cancelar</button>
         </div>
       </div>
@@ -223,8 +228,8 @@ var setPermissao = ""
 
     }
 
-    if (nome_func.length < 15) {
-      var terminar = 16 - nome_func.length;
+    if (listaIdFuncionarios.length < 15) {
+      var terminar = 16 - listaIdFuncionarios.length;
       while (terminar > 0) {
         if ((terminar + 1) % 2) {
           lista.innerHTML += `
@@ -443,37 +448,47 @@ function ativarCheckbox(el) {
 
   }
   // ------ Remover funcionario do banco ------ //
-  // function removerFunc() {
-  //   fetch("/medidas/removerFunc", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     },
-  //     body: JSON.stringify({
-  //       updatePagina : updatePagina,
-  //       fkColaborador : fkColaborador,
-  //       setPermissao : setPermissao,
-  //       fkEmpresa: fkEmpresa
+  function validacaoExclusao() {
+    if (inputId.value == "") {
+      alert("inputId vazio");
+    } else if (inputNome.value == "") {
+      alert("inputNome vazio");
+    } else {
+      removerFuncionario();
+    }
+  }
 
-  //     })
-  //   }).then(function (resposta) {
-  //     console.log("ESTOU NO THEN DO entrar()!")
-  //     if (resposta.ok) {
-  //       resposta.json().then(json => {
-  //         console.log("entrou")
+  function removerFuncionario() {
 
+    // var infos = inputId
 
-  //       });
-  //     } else {
-  //       console.log("Houve um erro ao pegar informaçoes!");
-  //       resposta.text().then(texto => {});
-  //     }
-  //   }).catch(function (erro) {
-  //     console.log(erro);
-  //   })
+    fetch(`/colaboradores/removerFuncionario`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        idFunc: inputId.value,
+        nomeFunc: inputNome.value,
+        fkEmpresa: fkEmpresa
+      })
+    }).then(function (resposta) {
+      if (resposta.ok) {
+        resposta.json().then(json => {
+          console.log("entrou")
+          location.reload()
+        
+        })
+      } else {
+        console.log("Houve um erro ao pegar informaçoes!");
+        resposta.text().then(texto => {});
+      }
+    }).catch(function (erro) {
+      console.log(erro);
+    })
 
-  //   return false;
-  // }
+    return false;
+  }
 
   function abrir() {
     removerFunc.style.display = "flex"

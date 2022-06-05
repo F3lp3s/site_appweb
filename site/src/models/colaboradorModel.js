@@ -40,11 +40,16 @@ function cadastrarPermissao(email, senha){
 
 }
 
-
-
+function removerFuncionario(idFunc, nomeFunc, fkEmpresa) {
+    var instrucao1 = `delete from permissao where fkColaboradorPermissao = ${idFunc} and fkEmpresa = ${fkEmpresa}`
+    var instrucao2 = `delete from colaborador where idColaborador = ${idFunc} and nome = '${nomeFunc}'`
+    database.executar(instrucao1);
+    return database.executar(instrucao2);
+}
 
 module.exports = {
     cadastrar,
     listar,
-    cadastrarPermissao
+    cadastrarPermissao,
+    removerFuncionario  
 };

@@ -48,7 +48,13 @@
               <p style="color: #515AED;">Status</p>
             </a>
           </div>
+          <div class="componentes">
+            <p> <a href="../dashboard/cpu.html">Cpu</a> </p>
+            <p> <a href="../dashboard/Disco.html">Disco </a></p>
+            <p> <a href="../dashboard/memoria.html">Memoria Ram </a></p>
+          </div>
         </div>
+        
 
         <div id="historico" class="historico-nav">
           <div class="icon-historico">
@@ -191,16 +197,13 @@
         }]
       };
 
-      //    for (var a = 0; a < tamanhoUso.length; a++) {
-      //     dados.datasets[0].data.push(tamanhoUso[tamanhoUso.length - 1])
-      //    labels.push(dadosHora[dadosHora.length - 1])
-      // }
      if(checkfkEquipamento != fkEquipamento || checkDisco != idDisco){
       dados1.datasets[0].data = []
       dados1.labels = []
       checkfkEquipamento = fkEquipamento
       checkDisco = idDisco
      }
+     
       for (var a = 0; a < tamanhoUso.length; a++) {
         dados1.datasets[0].data.push(tamanhoUso[tamanhoUso.length - 1].toFixed(2))
         dados1.labels.push(dadosHora[dadosHora.length - 1])

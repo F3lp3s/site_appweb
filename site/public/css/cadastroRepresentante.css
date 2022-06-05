@@ -16,8 +16,8 @@ body{
     grid-template-columns: auto ;
     grid-template-rows: auto 1fr;
     grid-template-areas: 
-    "icone  icone   icone"
-    "banner banner .     "
+    "icone  icone   icone icone  icone"
+    "banner banner banner banner .     "
 }
 
 .icon-voltar{
@@ -169,4 +169,259 @@ body{
 
 .logo img{
     width: 70%;
+    grid: logo;
+}
+@media only screen and (max-width: 700px) {
+    
+.container{
+    padding: 2%;
+    width: 90%;
+    height: 92%;
+    margin: auto;
+    display: grid;
+    row-gap: 6%;
+    grid-template-columns: auto ;
+    grid-template-rows: auto;
+    grid-template-areas: 
+    "icone  icone   icone"
+    "banner banner .     "
+}
+.logo{
+    width: 40vw;
+}
+a .link{
+    width: 20vw;
+    /* height: 10vh; */
+    font-size: 20vw;
+    /* background-color: red; */
+}
+}
+@media only screen and (max-width: 500px) {
+    .form{
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto 1fr;
+        grid-template-areas:
+            "lbl-razao          lbl-razao          "
+            "razao              razao              "
+            "lbl-cnpj           lbl-cnpj           "
+            "cnpj               cnpj               "
+            "lbl-email          lbl-email          "
+            "email              email              "
+            "lbl-representante  lbl-representante  "
+            "representante      representante      "
+            "lbl-senha          lbl-confirmacao    "
+            "senha              confirmacao        "
+            "logar              logar                 "
+            "login              login              ";
+        gap: 3%;
+        color: #FFF;
+        height: 100%;
+    }
+  .container{
+    padding: 2%;
+    width: 90%;
+    height: 92%;
+    margin: auto;
+    display: grid;
+    row-gap: 6%;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: 
+    "icone   logo  logo"
+    "banner banner banner"
+}
+
+.icon-voltar > a > img{
+    width: 3vw;
+    height: 3vh;
+    /* background-color: red; */
+}
+.logo > img{
+    width: 25vw;
+    margin-left: 6.5vw;
+}
+.banner-cadastro .conteiner {
+    font-size: 2.5vw;
+    color: #FFF;
+    margin-left: 20vw;
+}
+.banner-cadastro .conteiner > h2{
+    margin-left: 11vw;
+}
+.lbl-razao{
+    text-align: center;
+}
+.lbl-cnpj{
+    text-align: center;
+}
+.lbl-email{
+    text-align: center;
+}
+.lbl-representante{
+    
+    text-align: center;
+}
+.lbl-senha{
+    text-align: center;
+}
+.lbl-confirmacao{
+    text-align: center;
+}
+
+.form{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+        "lbl-razao          lbl-razao          "
+        "razao              razao              "
+        "lbl-cnpj           lbl-cnpj           "
+        "cnpj               cnpj               "
+        "lbl-email          lbl-email          "
+        "email              email              "
+        "lbl-representante  lbl-representante  "
+        "representante      representante      "
+        "lbl-senha          lbl-confirmacao    "
+        "senha              confirmacao        "
+        "logar              logar                 "
+        "login              login              ";
+    gap: 3%;
+    color: #FFF;
+    height: 100%;
+}
+.logar{
+    margin-left: 12vw;
+}
+.logar > a{
+    margin-left: 6vw;
+}
+.logar > .btn{
+    margin-left: 1vw;
+    width: 20vw;
+    height: auto;
+    /* font-size: 10vw; */
+}
+a.link{
+    width: auto;
+    /* height: 10vh; */
+    /* font-size: 20vw; */
+  
+}
+
+}
+@media only screen and (max-width: 400px) {
+    .form{
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto 1fr;
+        grid-template-areas:
+            "lbl-razao          lbl-razao          "
+            "razao              razao              "
+            "lbl-cnpj           lbl-cnpj           "
+            "cnpj               cnpj               "
+            "lbl-email          lbl-email          "
+            "email              email              "
+            "lbl-representante  lbl-representante  "
+            "representante      representante      "
+            "lbl-senha          lbl-confirmacao    "
+            "senha              confirmacao        "
+            "logar              logar                 "
+            "login              login              ";
+        gap: 3%;
+        color: #FFF;
+        height: 100%;
+        font-size: 5vw;
+    }
+  .container{
+    padding: 2%;
+    width: 90%;
+    height: 92%;
+    margin: auto;
+    display: grid;
+    row-gap: 6%;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: 
+    "icone   logo  logo"
+    "banner banner banner"
+}
+
+.icon-voltar > a > img{
+    width: 3vw;
+    height: 3vh;
+    /* background-color: red; */
+}
+.logo > img{
+    width: 25vw;
+    margin-left: 6.5vw;
+}
+.banner-cadastro .conteiner {
+    font-size: 2.5vw;
+    color: #FFF;
+    margin-left: 20vw;
+}
+.banner-cadastro .conteiner > h2{
+    margin-left: 11vw;
+}
+.lbl-razao{
+    text-align: center;
+}
+.lbl-cnpj{
+    text-align: center;
+}
+.lbl-email{
+    text-align: center;
+}
+.lbl-representante{
+    
+    text-align: center;
+}
+.lbl-senha{
+    text-align: center;
+}
+.lbl-confirmacao{
+    text-align: center;
+}
+
+.form{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+        "lbl-razao          lbl-razao          "
+        "razao              razao              "
+        "lbl-cnpj           lbl-cnpj           "
+        "cnpj               cnpj               "
+        "lbl-email          lbl-email          "
+        "email              email              "
+        "lbl-representante  lbl-representante  "
+        "representante      representante      "
+        "lbl-senha          lbl-confirmacao    "
+        "senha              confirmacao        "
+        "logar              logar                 "
+        "login              login              ";
+    gap: 3%;
+    color: #FFF;
+    height: 100%;
+}
+.logar{
+    margin-left: 12vw;
+}
+.logar > a{
+    margin-left: 6vw;
+}
+.logar > .btn{
+    margin-left: 1vw;
+    width: 20vw;
+    height: auto;
+    /* font-size: 10vw; */
+}
+a.link{
+    width: auto;
+    /* height: 10vh; */
+    /* font-size: 20vw; */
+  
+}
+
 }
