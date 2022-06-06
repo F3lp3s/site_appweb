@@ -89,7 +89,7 @@
 
         var nomeVar = nome_input.value;
         var emailVar = email_input.value;
-        var identificacaoVar = identificacao_input.value;
+        var identificacaoVar = Number(identificacao_input.value);
         var cargoVar = cargo_input.value;
         var senhaVar = senha_input.value;
         var confirmacaoSenhaVar = confirmacao_senha_input.value;
@@ -117,7 +117,6 @@
             if (confirmacaoSenhaVar == "") {
                 console.log('Confirmação de senha está em branco')
             }
-
            
             finalizarAguardar();
             return false;
@@ -130,6 +129,9 @@
             window.alert("As senhas inseridas devem ser iguais para prosseguir!");
             finalizarAguardar();
             return false;
+        } else if(isNaN(identificacaoVar)){
+            window.alert('Ops!, o campo Indentificação deve conter somente numero')
+            return false
         }
         fetch("/colaboradores/cadastrar", {
             method: "POST",

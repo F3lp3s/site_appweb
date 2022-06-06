@@ -88,7 +88,7 @@
        
 
         var razaoVar = razao_input.value;
-        var cnpjVar = cnpj_input.value;
+        var cnpjVar = Number(cnpj_input.value);
         var emailVar = email_input.value;
         var representanteVar = representante_input.value;
         var senhaVar = senha_input.value;
@@ -117,7 +117,6 @@
                 console.log('confirmacaoSenha está em branco')
             }
 
-           
             finalizarAguardar();
             return false;
 
@@ -129,6 +128,9 @@
             window.alert("As senhas inseridas devem ser iguais para prosseguir!");
             finalizarAguardar();
             return false;
+        } else if(isNaN(cnpjVar)){
+            window.alert('Ops,o campo CNPJ deve conter somente numeros')
+            return false
         }
         fetch("/empresas/cadastrar", {
             method: "POST",
