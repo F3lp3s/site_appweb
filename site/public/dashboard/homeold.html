@@ -536,15 +536,13 @@
 
                         setInterval(() => {
 
+                          moderados.innerHTML = "";
+                          criticos.innerHTML = "";
+                          
                           json.forEach(element => {
-
-                            moderados.innerHTML = "";
-                            criticos.innerHTML = "";
-
                             listarProcessador(element.idEquipamento);
                             lsitarMemoria(element.idEquipamento);
                             listarDisco(element.idEquipamento);
-                          
                           });
 
                         }, 11000);
