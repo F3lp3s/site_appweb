@@ -473,7 +473,7 @@
   function exibirEquipamento() {
     listaMaquinas.innerHTML = ""
     for (var i = 0; i < dadosIdEquipamento.length; i++) {
-      listaMaquinas.innerHTML += `<button onclick="setFkEquipamento(${i + 1})" class="botaoLista" >
+      listaMaquinas.innerHTML += `<button onclick="setFkEquipamento(${dadosIdEquipamento[i]})" class="botaoLista" >
        ${dadosTipoEquipamento[i]} ${dadosIdEquipamento[i]}
       </button> <br> <br>`
 
@@ -488,7 +488,7 @@
 
     }
     else {
-      titulo.innerHTML = `${dadosTipoEquipamento[Valor - 1]} ${Valor} - Disco`
+      titulo.innerHTML = `${dadosTipoEquipamento[Valor - 2]} ${Valor} - Disco`
     }
     dadosIdEquipamento = []
     dadosTipoEquipamento = []
