@@ -94,7 +94,7 @@
       <h1 id="titulo">Servidor X - Memória</h1>
     </div>
 
-    <div id="selectTituloFeed" class="selectTituloFeed">
+    <div style="display: none ;" id="selectTituloFeed" class="selectTituloFeed">
       <select onchange="mudarFkMemoria()" id="Selectmemorias" class="SelectMemorias"></select>
     </div>
 
@@ -462,7 +462,7 @@ const config = {
  function getEquipamento(){
   listaMaquinas.innerHTML = ''
   for(var i = 0; i < dadosIdEquipamentos.length; i++){
-  listaMaquinas.innerHTML +=`<button onclick="setFkEquipamento(${i + 1})" class="botaoLista" > ${dadosTipoEquipamento[i]} ${dadosIdEquipamentos[i]}</button> <br> <br>`
+  listaMaquinas.innerHTML +=`<button onclick="setFkEquipamento(${dadosIdEquipamentos[i]})" class="botaoLista" > ${dadosTipoEquipamento[i]} ${dadosIdEquipamentos[i]}</button> <br> <br>`
 }
 var transferenciaDados = 0
 }
@@ -486,7 +486,7 @@ function removerGrafico(){
 
   }
   else{
-  titulo.innerHTML = `${dadosTipoEquipamento[Valor - 1]} ${Valor} - Memoria`
+  titulo.innerHTML = `${dadosTipoEquipamento[Valor -2 ]} ${Valor} - Memoria`
   }
 dadosIdEquipamentos = []
 dadosTipoEquipamento = []

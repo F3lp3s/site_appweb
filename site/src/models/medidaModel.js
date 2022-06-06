@@ -15,7 +15,7 @@ function reqInfoMemoria(fkmemoria, fkEquipamento,fkEmpresa) {
     select top(16) idMedicaoMemoria, dataMedicao, memoriaUso, memoriaDisponivel, memoriaTotal from MedicaoMemoria join memoria on fkMemoria= idMemoria
 	join  equipamento on idEquipamento = fkEquipamento
     join empresa on idEmpresa = fkEmpresa
- where fkMemoria = ${fkmemoria} and fkEquipamento = ${fkEquipamento}  and fkEmpresa = ${fkEmpresa};
+ where  fkEquipamento = ${fkEquipamento}  and fkEmpresa = ${fkEmpresa};
 
 
     `;
@@ -28,7 +28,7 @@ function atualizarGraficoMemoria(fkmemoria, fkEquipamento,fkEmpresa) {
     select top(1) idMedicaoMemoria, dataMedicao, memoriaUso, memoriaDisponivel, memoriaTotal from MedicaoMemoria join memoria on fkMemoria= idMemoria
 	join  equipamento on idEquipamento = fkEquipamento
     join empresa on idEmpresa = fkEmpresa
- where fkMemoria = ${fkmemoria} and fkEquipamento = ${fkEquipamento}  and fkEmpresa = ${fkEmpresa} order by idMedicaoMemoria desc;
+ where fkEquipamento = ${fkEquipamento}  and fkEmpresa = ${fkEmpresa};
 
 
     `;
@@ -39,7 +39,7 @@ function atualizarGraficoMemoria(fkmemoria, fkEquipamento,fkEmpresa) {
 function reqQtdMemorias(fkEmpresa, fkEquipamento) {
     var instrucao = `
     select idMemoria from memoria join equipamento on idMemoria = idEquipamento 
-    where fkEmpresa = ${fkEmpresa} and fkEquipamento = ${fkEquipamento} order by idMedicaoMemoria desc;
+    where fkEmpresa = ${fkEmpresa} and fkEquipamento = ${fkEquipamento} ;
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
