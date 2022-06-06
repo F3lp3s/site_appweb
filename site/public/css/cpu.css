@@ -451,6 +451,10 @@ color: rgb(14, 16, 124);
     width: 100%;
     padding: 8.5%;
   }
+
+  .componentes{
+    font-size: 1.5vw;
+  }
 }
 
 @media only screen and (max-width: 700px) {
@@ -653,5 +657,11 @@ color: rgb(14, 16, 124);
 
   .grafico {
     width: 100%;
+  }
+
+  .componentes{
+    font-size: 3vw;
+    left: 20vw;
+    width: 30vw;
   }
 }

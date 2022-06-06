@@ -563,6 +563,10 @@ color: rgb(14, 16, 124);
     font-size: 1.5vw;
   }
 
+  .componentes{
+    font-size: 1.5vw;
+  }
+
 }
 
 @media only screen and (max-width: 700px) {
@@ -771,6 +775,12 @@ color: rgb(14, 16, 124);
 
   .lista table td input{
     margin-left: 40%;
+  }
+
+  .componentes{
+    font-size: 3vw;
+    left: 20vw;
+    width: 30vw;
   }
 
 }

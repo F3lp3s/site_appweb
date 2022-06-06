@@ -131,6 +131,43 @@ a {
   color: #f1f1f1;
 }
 
+.componentes{
+  /* z-index: 3;  */
+  width: 15vw;
+  height: auto;
+  background-image:linear-gradient(230deg, #171717 50%, #11138a 120%); 
+  border-radius: 0.8vh;
+  border: #000, solid;
+  margin-left: 8vw;
+  text-align: center;
+  /* display: flex; */
+  position: absolute;
+  font-size: 1vw;
+  /* margin-bottom: 20vh; */
+  top: 40vh;
+  display: none;
+  margin-top: 3.5vh;
+}
+.componentes:hover{
+display: block ;
+}
+.status-nav .text-status:hover + .componentes{
+  display: block;
+}
+.componentes a{
+  color: #f1f1f1  ;
+  width: 100%;
+}
+
+.status-nav .text-status p {
+  font-size: 1.1vw;
+  color: #f1f1f1;
+ 
+}
+.componentes a:hover{
+color: rgb(14, 16, 124);
+}
+
 .cont-text .historico-nav{
   grid-area: historico;
 }
@@ -524,6 +561,10 @@ animation: stop 2s linear infinite reverse;
   .listaMaquinas h3{
     font-size: 1.8vw;
   }
+
+  componentes{
+    font-size: 1.5vw;
+  }
 }
 
 @media only screen and (max-width: 500px) {
@@ -688,5 +729,11 @@ animation: stop 2s linear infinite reverse;
 
   .linksMaquinas p {
     font-size: 2.8vw;
+  }
+
+  .componentes{
+    font-size: 3vw;
+    left: 20vw;
+    width: 30vw;
   }
 }
