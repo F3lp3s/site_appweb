@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/cadastroRepresentante.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
-    <script type='text/javascript' src='https://widget.freshworks.com/widgets/72000002928.js' async defer></script>
+    <script type='text/javascript' src='https://widget.freshworks.com/widgets/73000003332.js' async defer></script>
 
 </head>
 <body>
@@ -20,7 +20,7 @@
         <div class="container">
     
             <div class="icon-voltar">
-                <a href="./index_ver2.html">
+                <a href="./index.html">
                     <img src="./imagens/voltar.png" alt="botao voltar">
                 </a>
             </div>
@@ -43,7 +43,7 @@
                                 <input class="input email" id="email_input" type="text">
                                 <br>
                                 <label class="lbl-representante" for="representante_input">Representante:</label>
-                                <input class="input representante" id="representante_input" type="text">
+                                <input class="input representante" id="representante_input" maxlength="14" type="number">
                                 <br>
                                 <label class="lbl-senha" for="senha_input">Senha:</label>
                                 <input class="input senha" id="senha_input" type="password">
@@ -53,7 +53,7 @@
                                 <br>
                                 <div class="logar">
                                     <button class="btn" onclick="cadastrar()">Cadastrar</button>
-                                    <a class="link" href="login.html">Ja possui cadastro?</a>
+                                    <a class="link" href="./login.html">Ja possui cadastro?</a>
                                 </div>
                         
                         </div>
@@ -161,7 +161,8 @@
         });
     }
     window.fwSettings={
-	'widget_id':72000002928
+	'widget_id':73000003332
 	};
 	!function(){if("function"!=typeof window.FreshworksWidget){var n=function(){n.q.push(arguments)};n.q=[],window.FreshworksWidget=n}}() 
+   
     </script>
