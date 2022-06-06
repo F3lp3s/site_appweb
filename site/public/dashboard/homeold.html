@@ -208,8 +208,8 @@
                             paragrafoEstadoCpu.innerHTML = "OK";
                           }
                         
-                          moderados.innerHTML = "";
-                          criticos.innerHTML = "";
+                          // moderados.innerHTML = "";
+                          // criticos.innerHTML = "";
 
                           for (let i = 0; i < teste.length; i++) {
                             
@@ -257,7 +257,7 @@
 
                           metricaRam.innerHTML = `${element}%`;
 
-                          if(element > 90 && element <= 95){
+                          if(element > 65 && element <= 75){
                             alertaRam.style.backgroundImage = "linear-gradient(#FE9800, #191919 70%)";
                           } else if(element > 95){
                             alertaRam.style.backgroundImage = "linear-gradient(#C20000, #191919 70%)";
@@ -265,9 +265,9 @@
                             alertaRam.style.backgroundImage = "linear-gradient(230deg, #00B21D, #1B1C1E 70%)";
                           }
 
-                          if(element > 90 && element <= 95){
+                          if(element > 65 && element <= 75){
                             paragrafoEstadoRam.innerHTML = "Moderado";
-                          } else if(element > 95){
+                          } else if(element > 75){
                             paragrafoEstadoRam.innerHTML = "Crítico";  
                           } else{
                             paragrafoEstadoRam.innerHTML = "OK";  
@@ -278,9 +278,9 @@
                             
                             if(teste[i].idEquipamento == idEquipamento){
 
-                                if(element > 90 && element <= 95){
+                                if(element > 65 && element <= 75){
                                   moderados.innerHTML += `<p onclick="dashboard(${teste[i].idEquipamento})">${teste[i].tipoEquipamento} - ${i + 1}</p>`;
-                                } else if(element > 95){
+                                } else if(element > 75){
                                   criticos.innerHTML += `<p onclick="dashboard(${teste[i].idEquipamento})">${teste[i].tipoEquipamento} - ${i + 1}</p>`
                                 }
                                 
@@ -535,8 +535,11 @@
                         };
 
                         setInterval(() => {
-                          
+
                           json.forEach(element => {
+
+                            moderados.innerHTML = "";
+                            criticos.innerHTML = "";
 
                             listarProcessador(element.idEquipamento);
                             lsitarMemoria(element.idEquipamento);
@@ -544,7 +547,7 @@
                           
                           });
 
-                        }, 3000);
+                        }, 11000);
 
                     });
                 } else {
