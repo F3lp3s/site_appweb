@@ -190,7 +190,7 @@ body{
             align-items: center;
         }
         h2{
-            margin-left: 3vw;
+            margin-left: 4vw;
         }
         .logo img{
             width: 45%;
@@ -199,17 +199,17 @@ body{
         }
         .form .lbl-email{
             font-size: 2vw;
-            margin-left: 8vw
+            margin-left: 10vw
         }
         .form .lbl-senha{
             font-size: 2vw;
-            margin-left: 8vw
+            margin-left: 10vw
         }
         #email_input{
-            margin-left: 8vw;
+            margin-left: 10vw;
         }
         #senha_input{
-            margin-left: 8vw;
+            margin-left: 10vw;
         }
         .form .btn{
             width: 50%;
@@ -221,14 +221,26 @@ body{
         .logar .link{
             margin-top: 8%;
             color: #FFF;
-            font-size: 1.8vh;
-            margin-left: 22.5vw;
+            font-size: 3vw;
+            margin-left: 20.5vw;
         }
         .banner-cadastro .conteiner > h2{
             font-size: 4vw;
             text-align: center;
             /* background-color: red; */
             width: 64vw;
+        }
+
+        .form .lbl-email{
+            font-size: 3vw;
+        }
+
+        .form .lbl-senha{
+            font-size: 3vw;
+        }
+
+        .form .input{
+            font-size: 3vw;
         }
     }
  

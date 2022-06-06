@@ -20,6 +20,10 @@ body {
         "banner banner .     "
 }
 
+.container h2{
+    font-size: 2vw
+}
+
 .icon-voltar {
     grid-area: icone;
 }
@@ -278,8 +282,6 @@ body {
     .lbl-confirmacao{
         margin-left: 3vw;
     }
-    
-
 
 }
 @media only screen and (max-width: 400px) {
@@ -298,13 +300,13 @@ body {
     }
 
     .icon-voltar>a>img {
-        width: 3vw;
+        width: 4vw;
         height: 3vh;
         /* background-color: red; */
     }
 
     .logo>img {
-        width: 25vw;
+        width: 32vw;
         margin-left: 2vw;
     }
 
@@ -312,18 +314,19 @@ body {
         margin-left: 15vw;
     }
 
-    .container h2 {
+    .banner-cadastro .container h2{
         width: 40vw;
         margin-left: 22vw;
+        font-size: 10vw;
         /* background-color: red; */
     }
 
     .lbl-nome {
-        margin-left: 17vw;
+        margin-left: 16vw;
     }
 
     .lbl-email {
-        margin-left: 17vw
+        margin-left: 16vw
     }
 
     .logar > .btn {
@@ -352,7 +355,8 @@ body {
         font-size: 5vw;
     }
     .btn{
-        margin-left: 14vw;
+        margin-left: 15vw;
+        padding: 1%;
     }
     .lbl-identificacao{
         margin-left: 2vw;
