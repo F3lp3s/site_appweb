@@ -213,40 +213,42 @@ reqDate()
                 }
                 //-------------------- colocar div para exibição de informacoes aqui----------------
                 for (var i = 0; i < memoriaUso.length ; i++) {
-                  if((memoriaUso[i] * 100) / memoriaDisponivel[i]) {
-                    var alerta = "Moderado"
-                    var cor = 'linear-gradient(#FE9800, #191919 70%);'
-                  } else {
-                    var alerta = "Crítico"
-                    var cor = 'linear-gradient(#C20000, #191919 70%);'
-                  }
+                  if((memoriaUso[i] * 100) / memoriaDisponivel[i] > 60) {
+                    if((memoriaUso[i] * 100) / memoriaDisponivel[i] < 85) {
+                      var alerta = "Moderado"
+                      var cor = 'linear-gradient(#FE9800, #191919 70%);'
+                    } else {
+                      var alerta = "Crítico"
+                      var cor = 'linear-gradient(#C20000, #191919 70%);'
+                    }
 
-                  var separacao = dataMedicao[i].split(" ")
+                    var separacao = dataMedicao[i].split(" ")
 
-                  div_historico.innerHTML += `
-                  <div class="alerta">
-                    <div class="maquina-alerta"><p>${tipoEquipamento[i]}${idEquipamento[i]}:</p></div>
-                    <div class="info-alerta">
-                      <div class="local-alerta">
-                        <p>Memoria</p>
-                      </div>
-                      <div class="numero-alerta">
-                        <div class="cor-alerta" style="background-image: ${cor}">
-                          <div class="cont-numero">
-                            <p>${((memoriaUso[i] * 100) / (memoriaUso[i] + memoriaDisponivel[i])).toFixed(1)}%</p>
+                    div_historico.innerHTML += `
+                    <div class="alerta">
+                      <div class="maquina-alerta"><p>${tipoEquipamento[i]}${idEquipamento[i]}:</p></div>
+                      <div class="info-alerta">
+                        <div class="local-alerta">
+                          <p>Memoria</p>
+                        </div>
+                        <div class="numero-alerta">
+                          <div class="cor-alerta" style="background-image: ${cor}">
+                            <div class="cont-numero">
+                              <p>${((memoriaUso[i] * 100) / (memoriaUso[i] + memoriaDisponivel[i])).toFixed(1)}%</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="cont-informacao">
+                          <div class="alinhar-info">
+                            <p>Status: ${alerta}</p>
+                            <p>Data: ${separacao[0]}</p>
+                            <p>Hora: ${separacao[1]}</p>
                           </div>
                         </div>
                       </div>
-                      <div class="cont-informacao">
-                        <div class="alinhar-info">
-                          <p>Status: ${alerta}</p>
-                          <p>Data: ${separacao[0]}</p>
-                          <p>Hora: ${separacao[1]}</p>
-                        </div>
-                      </div>
                     </div>
-                  </div>
-                  `
+                    `
+                  }  
                 }
                 // ----- chamar funcao a baixo
             
@@ -320,40 +322,42 @@ reqDate()
                 }
                 //-------------------- colocar div para exibição de informacoes aqui----------------
                 for (var i = 0; i < tamanhoUso.length ; i++) {
-                  if((tamanhoUso[i] * 100) / tamanhoDisponivel[i]) {
-                    var alerta = "Moderado"
-                    var cor = 'linear-gradient(#FE9800, #191919 70%);'
-                  } else {
-                    var alerta = "Crítico"
-                    var cor = 'linear-gradient(#C20000, #191919 70%);'
-                  }
+                  if((tamanhoUso[i] * 100) / tamanhoDisponivel[i] > 60) {
+                    if((tamanhoUso[i] * 100) / tamanhoDisponivel[i] < 85) {
+                      var alerta = "Moderado"
+                      var cor = 'linear-gradient(#FE9800, #191919 70%);'
+                    } else {
+                      var alerta = "Crítico"
+                      var cor = 'linear-gradient(#C20000, #191919 70%);'
+                    }
 
-                  var separacao = dataMedicao[i].split(" ")
+                    var separacao = dataMedicao[i].split(" ")
 
-                  div_historico.innerHTML += `
-                  <div class="alerta">
-                    <div class="maquina-alerta"><p>${tipoEquipamento[i]}${idDisco[i]}</p></div>
-                    <div class="info-alerta">
-                      <div class="local-alerta">
-                        <p>Disco</p>
-                      </div>
-                      <div class="numero-alerta">
-                        <div class="cor-alerta" style="background-image: ${cor}">
-                          <div class="cont-numero">
-                            <p>${((tamanhoUso[i] * 100) / tamanhoDisponivel[i]).toFixed(1)}%</p>
+                    div_historico.innerHTML += `
+                    <div class="alerta">
+                      <div class="maquina-alerta"><p>${tipoEquipamento[i]}${idDisco[i]}</p></div>
+                      <div class="info-alerta">
+                        <div class="local-alerta">
+                          <p>Disco</p>
+                        </div>
+                        <div class="numero-alerta">
+                          <div class="cor-alerta" style="background-image: ${cor}">
+                            <div class="cont-numero">
+                              <p>${((tamanhoUso[i] * 100) / tamanhoDisponivel[i]).toFixed(1)}%</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="cont-informacao">
+                          <div class="alinhar-info">
+                            <p>Status: ${alerta}</p>
+                            <p>Data: ${separacao[0]}</p>
+                            <p>Hora: ${separacao[1]}</p>
                           </div>
                         </div>
                       </div>
-                      <div class="cont-informacao">
-                        <div class="alinhar-info">
-                          <p>Status: ${alerta}</p>
-                          <p>Data: ${separacao[0]}</p>
-                          <p>Hora: ${separacao[1]}</p>
-                        </div>
-                      </div>
                     </div>
-                  </div>
-                  `
+                    `
+                }   
               }
                 // ----- chamar funcao a baixo
                
@@ -403,40 +407,42 @@ reqDate()
                 }
                 //-------------------- colocar div para exibição de informacoes aqui -------------------------
                 for (var i = 0; i < uso.length ; i++) {
-                  if((tamanhoUso[i] * 100) / tamanhoDisponivel[i]) {
-                    var alerta = "Moderado"
-                    var cor = 'linear-gradient(#FE9800, #191919 70%);'
-                  } else {
-                    var alerta = "Crítico"
-                    var cor = 'linear-gradient(#C20000, #191919 70%);'
-                  }
+                  if((tamanhoUso[i] * 100) / tamanhoDisponivel[i] > 60) {
+                    if((tamanhoUso[i] * 100) / tamanhoDisponivel[i] < 85) {
+                      var alerta = "Moderado"
+                      var cor = 'linear-gradient(#FE9800, #191919 70%);'
+                    } else {
+                      var alerta = "Crítico"
+                      var cor = 'linear-gradient(#C20000, #191919 70%);'
+                    }
 
-                  var separacao = dataMedicao[i].split(" ")
+                    var separacao = dataMedicao[i].split(" ")
 
-                  div_historico.innerHTML += `
-                  <div class="alerta">
-                    <div class="maquina-alerta"><p>NONE</p></div>
-                    <div class="info-alerta">
-                      <div class="local-alerta">
-                        <p>Disco</p>
-                      </div>
-                      <div class="numero-alerta">
-                        <div class="cor-alerta" style="background-image: ${cor}">
-                          <div class="cont-numero">
-                            <p>${(tamanhoUso[i] * 100) / tamanhoDisponivel[i]}%</p>
+                    div_historico.innerHTML += `
+                    <div class="alerta">
+                      <div class="maquina-alerta"><p>NONE</p></div>
+                      <div class="info-alerta">
+                        <div class="local-alerta">
+                          <p>Disco</p>
+                        </div>
+                        <div class="numero-alerta">
+                          <div class="cor-alerta" style="background-image: ${cor}">
+                            <div class="cont-numero">
+                              <p>${(tamanhoUso[i] * 100) / tamanhoDisponivel[i]}%</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="cont-informacao">
+                          <div class="alinhar-info">
+                            <p>Status: ${alerta}</p>
+                            <p>Data: ${separacao[0]}</p>
+                            <p>Hora: ${separacao[1]}</p>
                           </div>
                         </div>
                       </div>
-                      <div class="cont-informacao">
-                        <div class="alinhar-info">
-                          <p>Status: ${alerta}</p>
-                          <p>Data: ${separacao[0]}</p>
-                          <p>Hora: ${separacao[1]}</p>
-                        </div>
-                      </div>
                     </div>
-                  </div>
-                  `
+                    `
+                  }  
               }
             }); 
         } else {

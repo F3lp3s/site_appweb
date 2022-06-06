@@ -160,6 +160,7 @@ a {
 
 .historico-nav .text-historico p{
   font-size: 1.1vw;
+  color: #f1f1f1;
 }
 
 .cont-text .gestao-nav{
@@ -252,19 +253,440 @@ a {
 
 .filtro{
   grid-area: filtro;
-  background-color: aqua;
+  /* background-color: aqua; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .filtroInfo{
-  
+  width: 70%;
+  height: 40%;
+  color: #f1f1f1;
+  background-color: #2b2b2b;
+  font-size: 1.3vw;
+  border-radius: 0.5vw;
+  box-shadow: 0.5vw 0.7vh 5px #000;
 }
 
 .infoMaquinas{
   grid-area: infoMaquinas;
-  background-color: pink;
+  overflow-y: scroll;
+}
+
+.equipamento{
+  width: 97%;
+}
+
+.equipamento h3{
+  margin: 0;
+}
+
+.tipo-maquina{
+  font-size: 2vw;
+  margin: 3% 0 0 0;
+}
+
+.maquina{
+  height: 15vh;
+  background-image: linear-gradient(330deg,#171717 65%, #11138a 120%);
+  grid-column: span 3;
+  padding: 1%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 0.3fr 1fr ;
+  box-shadow: 0.5vw 0.5vw 5px #000;
+
+}
+
+.maquina .hardware{
+  grid-column: span 1;
+  font-size: 1.1vw;
+  margin: -3% 0 0 0;
+  /* height: 1%; */
+}
+
+.maquina .info-estatisticas{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.maquina .info-estatisticas.borda{
+  border-right: 0.1vw solid #123582;
+  margin-right: 7%;
+}
+
+.info-estatisticas .cpu{
+  width: 50%;
+  text-align: center;
+}
+
+.status{
+  grid-column: span 1;
+}
+
+.grafico{
+  width: 50%;
+  height: 82%;
+  float: left;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.alerta{
+  border-radius: 55%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 31%;
+  position: relative;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin{
+  then { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.cont-numero{
+  width: 85%;
+height: 85%;
+border-radius: 50%;
+background-color: #191919;;
+display: flex;
+position: absolute;
+bottom: 7.4%; left: 7.4%;
+align-items: center;
+justify-content: center;
+animation: stop 2s linear infinite reverse;
+}
+
+@keyframes stop{
+  then { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.metrica{
+  font-size: 1.3vw;
+  margin: 0;
+}
+
+.status{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+}
+
+.status .acompanhamento{
+  font-size: 1.5vw;
+  margin-bottom: 4%;
+}
+
+.status p{
+  font-size: 1vw;
 }
 
 .lista{
   grid-area: lista;
-  background-color: greenyellow;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.listaMaquinas{
+  width: 90%;
+  height: 97%;
+  background-image: linear-gradient(120deg ,#171717 50%, #11138a 120%);
+  border-radius: 0.5vw;
+  box-shadow: 0.5vw 1vh 5px #000;
+}
+
+.listaMaquinas .critico{
+  width: 100%;
+  height: 48%;
+  padding: 1% 0 0 2%;
+}
+
+.listaMaquinas .moderado{
+  width: 100%;
+  height: 47%;
+  padding: 1% 0 0 2%;
+}
+
+.listaMaquinas .linksMaquinas{
+  width: 97%;
+  height: 90%;
+  overflow-y: scroll;
+}
+
+.listaMaquinas hr{
+  width: 80%;
+  border: 0.1vh solid #2d2fb6;
+}
+
+.listaMaquinas h3{
+  margin: 0;
+  text-decoration: underline;
+  font-size: 1.5vw;
+}
+
+::-webkit-scrollbar {
+  width: 0.5vw;
+}
+
+::-webkit-scrollbar-track {
+  background: #000; 
+  border-radius: 1vw;
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: #f1f1f1; 
+  border-radius: 1vw;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #f1f1f1; 
+}
+
+
+@media only screen and (max-width: 700px) {
+  .sidebar .cont-text {
+    grid-template-columns: 0.2fr 1fr 1fr 0.3fr;
+  }
+  
+  .info-alerta{
+    height: 70%;
+    font-size: 100%;
+  }
+  .info-alerta .numero-alerta{
+    width: 100%;
+    height: 20%;
+  }
+  .numero-alerta .cor-alerta{
+    padding: 12%;
+  }
+  .cont-numero p {
+    font-size: 1.4vw;
+  }
+  .info-alerta .cont-informacao{
+    width: 100%;
+    height: 50%;
+    text-align: center;
+    margin-top: 5%;
+  }
+  .inicio-nav .text-home p{
+    font-size: 2vw;
+  }.status-nav .text-status p{
+    font-size: 2vw;
+  }
+  .historico-nav .text-historico p{
+    font-size: 2vw;
+  }
+  .gestao-nav .text-gestao p{
+    font-size: 1.8vw;
+  }
+  .sair-nav .text-sair p{
+    font-size: 2vw;
+  }
+
+  .titulo h1{
+    font-size: 4vw;
+  }
+
+  .titulo p{
+    font-size: 2vw
+  }
+
+  .tipo-maquina{
+    font-size: 2.3vw;
+  }
+
+  .maquina .hardware{
+    font-size: 1.5vw;
+  }
+
+  .alerta{
+    padding: 40%;
+  }
+
+  .cont-numero p{
+    font-size: 1.7vw;
+  }
+
+  .filtroInfo{
+    font-size: 1.6vw;
+  }
+
+  .listaMaquinas h3{
+    font-size: 1.8vw;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .container{
+    height: 150vh;
+    grid-template-columns: 0.1fr 1fr 1fr 0.1fr;
+    grid-template-rows: 0.1fr 0.3fr 0.5fr 0.5fr 0.7fr 1fr;
+    grid-template-areas: 
+    "navbar navbar         navbar         navbar"
+    "titulo titulo         filtro         filtro"
+    ".      infoMaquinas   infoMaquinas   .     "
+    ".      infoMaquinas   infoMaquinas   .     "
+    ".      infoMaquinas   infoMaquinas   .     "
+    ".      lista          lista          .     ";
+  }
+
+  .sidebar{
+    background-image: linear-gradient(150deg ,#171717 50%, #11138a 120%);
+    grid-area: sidebar;
+    box-shadow: 0.9vw 0 5px #000;
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    z-index: 1;
+  }
+
+  .cont-img .aba{
+    position: absolute;
+    display: block;
+    width: 15%;
+    height: 6.5%;
+    top: 0%; left: 2%;
+  }
+
+  @keyframes sair-side {
+    0% {right: 50%;}
+    100% {right: 115%;}
+  }
+
+  .aba .aba-estilo{
+    width: 80%;
+    height: 9%;
+    background-color: #f1f1f1;
+    margin-top: 20%;
+    border-radius: 10px;
+  }
+
+  .inicio-nav .icon-home img{
+    width:80%;
+  }
+  
+  .inicio-nav .text-home p{
+    font-size: 2.8vw;
+  }
+
+  .status-nav .icon-status img{
+    width:80%;
+  }
+
+  .status-nav .text-status p{
+    font-size: 2.8vw;
+  }
+
+  .historico-nav .icon-historico img{
+    width:80%;
+  }
+
+  .historico-nav .text-historico p{
+    font-size: 2.8vw;
+  }
+
+  .gestao-nav .icon-gestao img{
+    width:80%;
+  }
+  
+  .gestao-nav .text-gestao p{
+    font-size: 2.8vw;
+  }
+
+  .sair-nav .icon-sair img{
+    width:80%;
+  }
+
+  .sair-nav .text-sair p{
+    font-size: 2.8vw;
+  }
+
+  .navbar{
+    display: block;
+    grid-area: navbar;
+    background-color: #171717;
+    box-shadow: 0 1vh 1px #000;
+  }
+
+  .abrir-aba{
+    width: 7%;
+    height: 85%;
+    margin-left: 1%;
+    float: left;
+  }
+
+  .abrir-estilo{
+    width: 85%;
+    height: 10%;
+    background-color: #f1f1f1;
+    margin-top: 19%;
+    margin-left: 5%;
+    border-radius: 10px;
+  }
+
+  @keyframes entrar-side{
+    0% {right: 115%;}
+    100% {right: 50%;}
+  }
+
+  .navbar img{
+    width: 11%;
+    float: right;
+  }
+
+  .titulo h1{
+    font-size: 5vw;
+  }
+
+  .titulo p{
+    font-size: 2.7vw;
+  }
+
+  .filtroInfo{
+    font-size: 3vw;
+    width: 60%;
+    height: 30%;
+  }
+
+  .tipo-maquina{
+    font-size: 3vw;
+  }
+
+  .maquina .hardware{
+    font-size: 2.5vw;
+  }
+
+  .alerta{
+    padding: 48%;
+  }
+
+  .cont-numero p{
+    font-size: 2.6vw;
+  }
+
+  .status .acompanhamento{
+    font-size: 3vw;
+  }
+
+  .status p{
+    font-size: 2vw;
+  }
+
+  .listaMaquinas h3{
+    font-size: 2.8vw;
+  }
+
+  .linksMaquinas p {
+    font-size: 2.8vw;
+  }
 }
